@@ -4,8 +4,10 @@ echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet
   sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
 sudo apt-get update
 sudo apt-get install -y sing-box nginx python3 python3-pip python3-venv
+rm -rf /opt/venv/
 cd /opt && mkdir venv
 cd /opt/venv && python3 -m venv easy-sing-box
+rm -rf /opt/easy-sing-box/
 cd /opt && git clone https://github.com/zmlu/easy-sing-box.git
 cd /opt/easy-sing-box
 source /opt/venv/easy-sing-box/bin/activate
