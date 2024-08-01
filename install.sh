@@ -10,5 +10,9 @@ cd /opt/easy-sing-box
 source /opt/venv/easy-sing-box/bin/activate
 pip3 install -r requirements.txt
 rm -rf /var/www/html/
+rm -rf /etc/sing-box/
 python3 generate_config.py
+cp ./cert/cert.pem /etc/sing-box/
+cp ./cert/private.key /etc/sing-box/
+sudo systemctl enable sing-box
 sudo systemctl restart sing-box
