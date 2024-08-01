@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "localhost",
+        "*.local",
+        "sequoia.apple.com",
+        "seed-sequoia.siri.apple.com",
+        "push.apple.com",
+        "talk.google.com",
+        "mtalk.google.com",
+        "alt1-mtalk.google.com",
+        "alt2-mtalk.google.com",
+        "alt3-mtalk.google.com",
+        "alt4-mtalk.google.com",
+        "alt5-mtalk.google.com",
+        "alt6-mtalk.google.com",
+        "alt7-mtalk.google.com",
+        "alt8-mtalk.google.com",
+        "doh.pub",
+        "IP138.com",
+        "www.europapa.com",
+        "www.ihuada.com"
+      ]
+    },
+    {
+      "domain_keyword": [
+        "baidu"
+      ]
+    },
+    {
+      "domain_suffix": [
+        "zmlu.me",
+        "banmiya.com",
+        "seon.io"
+      ]
+    },
+    {
+      "ip_cidr": [
+        "119.29.29.29/32",
+        "223.5.5.5/32"
+      ]
+    },
+    {
+      "process_name": [
+        "java",
+        "WeChat",
+        "QQ",
+        "softwareupdated"
+      ]
+    },
+    {
+      "source_ip_cidr": [
+        "10.0.0.0/8",
+        "17.0.0.0/8",
+        "192.168.0.0/16",
+        "fc00::/7",
+        "fe80::/10"
+      ]
+    }
+  ]
+}

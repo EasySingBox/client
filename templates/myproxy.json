@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "cloudflare-dns.com",
+        "twilio.com",
+        "peerjs.com",
+        "stunprotocol.org",
+        "mozilla.com",
+        "nextcloud.com",
+        "ipinfo.ip"
+      ]
+    },
+    {
+      "domain_keyword": [
+        "microsoft",
+        "linkedin",
+        "github",
+        "pikpak",
+        "duolingo",
+        "google",
+        "leetcode"
+      ]
+    },
+    {
+      "domain_suffix": [
+        "battle.net",
+        "googleapis.cn",
+        "githubusercontent.com",
+        "linkedin.com",
+        "browserleaks.com",
+        "github.com",
+        "mypikpak.com",
+        "ulivetv.net",
+        "ipinfo.io",
+        "office.net"
+      ]
+    },
+    {
+      "ip_cidr": [
+        "1.1.1.1/32",
+        "8.8.8.8/32"
+      ]
+    },
+    {
+      "package_name": [
+        "com.android.vending",
+        "com.netflix.mediaclient",
+        "com.ibkr.gt.app",
+        "atws.ap",
+        "com.avuscapital.trading212",
+        "com.tradingview.tradingviewapp",
+        "com.amazon.mShop.android.shopping",
+        "com.coinbase.android",
+        "com.linkedin.android",
+        "de.number26.android",
+        "org.zwanoo.android.speedtest",
+        "com.paypal.android.p2pmobile",
+        "com.zhiliaoapp.musically",
+        "com.twitter.android",
+        "com.bybit.app",
+        "com.duolingo",
+        "com.blizzard.wtcg.hearthstone",
+        "org.fdroid.fdroid"
+      ]
+    },
+    {
+      "process_name": [
+        "jacobtest"
+      ]
+    },
+    {
+      "source_ip_cidr": [
+        "8.8.4.0/24"
+      ]
+    }
+  ]
+}
