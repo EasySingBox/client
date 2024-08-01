@@ -6,7 +6,7 @@ sudo apt-get update
 sudo apt-get install -y sing-box nginx python3 python3-pip python3-venv
 cd /opt && mkdir venv
 cd /opt/venv && python3 -m venv easy-sing-box
-cd /opt && git clone git@github.com:zmlu/easy-sing-box.git
+cd /opt && git clone https://github.com/zmlu/easy-sing-box.git
 cd /opt/easy-sing-box
 source /opt/venv/easy-sing-box/bin/activate
 pip3 install -r requirements.txt
