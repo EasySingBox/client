@@ -6,7 +6,7 @@ cd /opt && mkdir venv
 cd /opt/venv && python3 -m venv easy-sing-box
 rm -rf /opt/easy-sing-box/
 cd /opt && git clone https://github.com/zmlu/easy-sing-box.git
-cd /opt/easy-sing-box
+cd /opt/easy-sing-box || exit
 source /opt/venv/easy-sing-box/bin/activate
 pip3 install -r requirements.txt
 rm -rf /var/www/html/
