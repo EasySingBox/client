@@ -5,7 +5,7 @@ import subprocess
 import uuid
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-dev_dir = "/Users/zmlu/PycharmProjects/jsb"
+dev_dir = ""
 
 
 def generate_reality_keys():
