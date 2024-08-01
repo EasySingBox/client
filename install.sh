@@ -9,5 +9,6 @@ cd /opt && git clone https://github.com/zmlu/easy-sing-box.git
 cd /opt/easy-sing-box
 source /opt/venv/easy-sing-box/bin/activate
 pip3 install -r requirements.txt
+rm -rf /var/www/html/
 python3 generate_config.py
 sudo systemctl restart sing-box
