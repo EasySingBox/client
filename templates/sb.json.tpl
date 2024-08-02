@@ -40,7 +40,8 @@
           "zmlu.me"
         ],
         "server": "dns-local"
-      },{{ ad_dns_rule }}
+      },
+      {{ ad_dns_rule }}
       {
         "query_type": [
           "A",
@@ -297,7 +298,8 @@
       {
         "ip_cidr": "8.8.8.8/32",
         "outbound": "Proxy"
-      },{{ ad_route_rule }}
+      },
+      {{ ad_route_rule }}
       {
         "inbound": "dns-in",
         "outbound": "dns-out"
@@ -372,7 +374,8 @@
         "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/myproxy.json",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
-      },{{ ad_rule_set }}
+      },
+      {{ ad_rule_set }}
       {
         "type": "remote",
         "tag": "cn",
