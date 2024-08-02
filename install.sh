@@ -12,8 +12,8 @@ pip3 install -r requirements.txt
 rm -rf /var/www/html/
 rm -rf /etc/sing-box/
 python3 generate_config.py
-cp ./cert/cert.pem /etc/sing-box/
-cp ./cert/private.key /etc/sing-box/
+cp /opt/easy-sing-box/cert/cert.pem /etc/sing-box/cert.pem
+cp /opt/easy-sing-box/cert/private.key /etc/sing-box/private.key
 sysctl -w net.core.rmem_max=16777216
 sysctl -w net.core.wmem_max=16777216
 sudo systemctl enable sing-box
