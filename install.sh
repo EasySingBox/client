@@ -18,4 +18,3 @@ sysctl -w net.core.rmem_max=16777216
 sysctl -w net.core.wmem_max=16777216
 sudo systemctl enable sing-box
 sudo systemctl restart sing-box
-bash <(curl -fsSL https://github.com/zmlu/easy-sing-box/raw/main/bbr.sh)
