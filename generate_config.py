@@ -6,8 +6,8 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 import random
 import uuid
 
-dev_dir = "/Users/zmlu/Developer/github/easy-sing-box/dist"
-
+# dev_dir = "/Users/zmlu/Developer/github/easy-sing-box/dist"
+dev_dir = ""
 
 def get_ip():
     curl_out = subprocess.check_output(['curl', '-4', 'ip.p3terx.com'])
