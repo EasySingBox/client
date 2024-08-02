@@ -11,6 +11,7 @@
       "listen_port": {{ h2_port }},
       "sniff": true,
       "sniff_override_destination": true,
+      "ignore_client_bandwidth": true,
       "users": [
         {
           "password": "{{ password }}"
