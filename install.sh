@@ -1,9 +1,40 @@
-sudo apt-get install -y nginx python3 python3-pip python3-venv
-bash <(curl -fsSL https://github.com/team-cloudchaser/tempest/raw/main/install/singbox.sh)
-bash <(curl -fsSL https://github.com/team-cloudchaser/tempest/raw/main/install/xray.sh)
+nginx="/usr/sbin/nginx"
+if [ -e "$nginx" ]; then
+    echo "nginx 已存在，跳过安装..."
+else
+    echo "安装 nginx..."
+    sudo apt-get install -y nginx
+fi
+
+python3="/usr/bin/python3"
+if [ -e "$python3" ]; then
+    echo "python 已存在，跳过安装..."
+else
+    echo "安装 python3 python3-pip python3-venv..."
+    sudo apt-get install -y python3 python3-pip python3-venv
+fi
+
+singbox="/usr/bin/sing-box"
+if [ -e "$singbox" ]; then
+    echo "sing-box 已存在，跳过安装..."
+else
+    echo "安装 sing-box..."
+    bash <(curl -Ls https://github.com/team-cloudchaser/tempest/raw/main/install/singbox.sh)
+fi
+
+xray="/usr/bin/xray"
+if [ -e "$xray" ]; then
+    echo "xray 已存在，跳过安装..."
+else
+    echo "安装 xray..."
+    bash <(curl -Ls https://github.com/team-cloudchaser/tempest/raw/main/install/xray.sh)
+fi
+
+echo "重置 venv..."
 rm -rf /opt/venv/
 cd /opt && mkdir venv
 cd /opt/venv && python3 -m venv easy-sing-box
+echo "重置 easy-sing-box..."
 rm -rf /opt/easy-sing-box/
 cd /opt && git clone https://github.com/zmlu/easy-sing-box.git
 cd /opt/easy-sing-box || exit
