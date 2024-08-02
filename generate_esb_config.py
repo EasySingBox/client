@@ -62,8 +62,8 @@ def generate_esb_config():
     esb_config['public_key'] = public_key
     esb_config['private_key'] = private_key
 
-    project_dir = os.getcwd()
-    config_file = f'~/esb.config'
+    project_dir = "/root"
+    config_file = f'/root/esb.config'
     if not os.path.exists(project_dir):
         os.makedirs(project_dir)
     with open(config_file, 'w') as write_f:
