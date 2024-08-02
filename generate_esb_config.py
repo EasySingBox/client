@@ -62,10 +62,8 @@ def generate_esb_config():
     esb_config['public_key'] = public_key
     esb_config['private_key'] = private_key
 
-    project_dir = "/root"
     config_file = f'/root/esb.config'
-    if not os.path.exists(project_dir):
-        os.makedirs(project_dir)
+    # config_file = os.getcwd() + f'/esb.config'
     with open(config_file, 'w') as write_f:
         write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 

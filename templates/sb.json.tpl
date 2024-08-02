@@ -40,11 +40,7 @@
           "zmlu.me"
         ],
         "server": "dns-local"
-      },
-      {
-        "rule_set": "ads",
-        "server": "dns-block"
-      },
+      },{{ ad_dns_rule }}
       {
         "query_type": [
           "A",
@@ -301,11 +297,7 @@
       {
         "ip_cidr": "8.8.8.8/32",
         "outbound": "Proxy"
-      },
-      {
-        "rule_set": "ads",
-        "outbound": "block"
-      },
+      },{{ ad_route_rule }}
       {
         "inbound": "dns-in",
         "outbound": "dns-out"
@@ -380,7 +372,7 @@
         "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/myproxy.json",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
-      },
+      },{{ ad_rule_set }}
       {
         "type": "remote",
         "tag": "cn",
@@ -450,14 +442,6 @@
         "tag": "apple-cn",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/apple-cn.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
-      },
-      {
-        "type": "remote",
-        "tag": "ads",
-        "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/ads.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       }

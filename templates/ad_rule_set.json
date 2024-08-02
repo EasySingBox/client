@@ -1,0 +1,8 @@
+{
+  "type": "remote",
+  "tag": "ads",
+  "format": "binary",
+  "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/ads.srs",
+  "download_detour": "direct",
+  "update_interval": "24h0m0s"
+}
