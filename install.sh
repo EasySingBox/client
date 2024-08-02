@@ -1,7 +1,7 @@
 sudo apt-get install -y nginx python3 python3-pip python3-venv
 bash <(curl -Ls https://github.com/team-cloudchaser/tempest/raw/main/install/singbox.sh)
 bash <(curl -Ls https://github.com/team-cloudchaser/tempest/raw/main/install/xray.sh)
-bash <(curl -fsSL https://github.com/zmlu/easy-sing-box/raw/main/bbr.sh)
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/bbr.sh)
 rm -rf /opt/venv/
 cd /opt && mkdir venv
 cd /opt/venv && python3 -m venv easy-sing-box
