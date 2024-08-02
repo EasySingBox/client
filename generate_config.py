@@ -8,12 +8,11 @@ dev_dir = ""
 # dev_dir = "/Users/zmlu/Developer/github/easy-sing-box/dist"
 
 def get_ip():
-    curl_out = subprocess.check_output(['curl', '-4', 'ip.p3terx.com'])
+    curl_out = subprocess.check_output(['curl', '-s', '-4', 'ip.p3terx.com'])
     data_str = curl_out.decode('utf-8')
     ipv4_pattern = r'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
     ipv4_match = re.search(ipv4_pattern, data_str, re.MULTILINE)
     ipv4_address = ipv4_match.group(1) if ipv4_match else None
-    print(f'IPv4 address: {ipv4_address}')
     return ipv4_address
 
 
@@ -28,7 +27,6 @@ if __name__ == '__main__':
         data = json.load(file)
 
     server_ip = get_ip()
-    print(f'server_ip: {server_ip}')
     reality_sid = data.get('reality_sid', '195a5279')
     private_key = data.get('private_key', 'YGxXYp61X9avMHFZpr-8-c1EMkpGjorM_2dT9dtCFnA')
     public_key = data.get('public_key', 'O6X2ekOXimzYUQIYAItVNup2LG0ukZHYdnhBDifvfHA')
