@@ -17,5 +17,6 @@ sysctl -w net.core.rmem_max=16777216
 sysctl -w net.core.wmem_max=16777216
 clear
 python3 generate_config.py
-sudo systemctl enable sing-box
-sudo systemctl restart sing-box
+systemctl enable sing-box
+systemctl restart sing-box
+systemctl restart nginx
