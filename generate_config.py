@@ -83,5 +83,5 @@ if __name__ == '__main__':
     os.system("cp ./templates/mydirect.json " + nginx_www_dir)
     os.system("cp ./templates/myproxy.json " + nginx_www_dir)
 
-    print(f'sing-box client config download url:\n http://{server_ip}/{www_dir_random_id}/sb.json')
-    print(f'sing-box noad client config download url:\n http://{server_ip}/{www_dir_random_id}/sb-noad.json')
+    print(f'sing-box 客户端文件下载地址:\n http://{server_ip}/{www_dir_random_id}/sb.json')
+    print(f'sing-box 去广告版 客户端文件下载地址:\n http://{server_ip}/{www_dir_random_id}/sb-noad.json')
