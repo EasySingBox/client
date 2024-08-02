@@ -153,6 +153,8 @@
         "com.thestore.main",
         "com.huawei.smarthome",
         "com.tmri.app.main",
+        "com.anjuke.android.app",
+        "com.lianjia.beike",
         "com.server.auditor.ssh.client"
       ],
       "stack": "gvisor",
@@ -282,10 +284,6 @@
     "rules": [
       {
         "port": 22,
-        "outbound": "direct"
-      },
-      {
-        "ip_cidr": "1.12.12.12/32",
         "outbound": "direct"
       },
       {
