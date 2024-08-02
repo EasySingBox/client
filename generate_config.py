@@ -98,7 +98,7 @@ if __name__ == '__main__':
         file.write(sb_json_content)
 
     with open(nginx_www_dir + "/sb-noad.json", 'w') as file:
-        file.write(sb_json_content)
+        file.write(sb_noad_json_content)
 
     with open(sing_box_config_dir + "/config.json", 'w') as file:
         file.write(sb_server_json_content)
