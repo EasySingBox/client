@@ -11,12 +11,12 @@ source /opt/venv/easy-sing-box/bin/activate
 pip3 install -r requirements.txt
 rm -rf /var/www/html/
 rm -rf /etc/sing-box/
-cp /opt/easy-sing-box/cert/cert.pem /etc/sing-box/cert.pem
-cp /opt/easy-sing-box/cert/private.key /etc/sing-box/private.key
 sysctl -w net.core.rmem_max=16777216
 sysctl -w net.core.wmem_max=16777216
 clear
 python3 generate_config.py
+cp /opt/easy-sing-box/cert/cert.pem /etc/sing-box/cert.pem
+cp /opt/easy-sing-box/cert/private.key /etc/sing-box/private.key
 systemctl enable sing-box
 systemctl restart sing-box
 systemctl restart nginx
