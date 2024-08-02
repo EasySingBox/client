@@ -21,7 +21,7 @@ def get_ip():
 
 if __name__ == '__main__':
     project_dir = os.getcwd()
-    config_file = f'{project_dir}/esb.config'
+    config_file = f'~/esb.config'
 
     if not os.path.exists(config_file):
         os.system("python3 generate_esb_config.py")
