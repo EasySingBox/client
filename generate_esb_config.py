@@ -41,6 +41,7 @@ def generate_esb_config():
     reality_sid = generate_reality_sid()
     h2_port, tuic_port, reality_port = generate_port()
     password = str(uuid.uuid4())
+    www_dir_random_id = ''.join(random.sample(uuid.uuid4().hex, 6))
 
     print(f'password: {password}')
     print(f'h2_port: {h2_port}')
@@ -49,15 +50,18 @@ def generate_esb_config():
     print(f'reality_pbk: {public_key}')
     print(f'reality_private_key: {private_key}')
     print(f'reality_sid: {reality_sid}')
+    print(f'www_dir_random_id: {www_dir_random_id}')
 
     esb_config = {}
-    esb_config['reality_sid'] = reality_sid
-    esb_config['private_key'] = private_key
-    esb_config['public_key'] = public_key
+    esb_config['www_dir_random_id'] = www_dir_random_id
     esb_config['password'] = password
     esb_config['h2_port'] = h2_port
     esb_config['tuic_port'] = tuic_port
     esb_config['reality_port'] = reality_port
+    esb_config['reality_sid'] = reality_sid
+    esb_config['public_key'] = public_key
+    esb_config['private_key'] = private_key
+
     project_dir = os.getcwd()
     config_file = f'{project_dir}/esb.config'
     if not os.path.exists(project_dir):

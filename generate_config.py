@@ -31,20 +31,20 @@ if __name__ == '__main__':
 
     server_ip = get_ip()
     print(f'server_ip: {server_ip}')
-    reality_sid = data.get('reality_sid', 1234)
-    private_key = data.get('private_key', 1234)
-    public_key = data.get('public_key', 1234)
-    password = data.get('password', 1234)
-    h2_port = data.get('h2_port', 1234)
-    tuic_port = data.get('tuic_port', 1234)
-    reality_port = data.get('reality_port', 1234)
+    reality_sid = data.get('reality_sid', '195a5279')
+    private_key = data.get('private_key', 'YGxXYp61X9avMHFZpr-8-c1EMkpGjorM_2dT9dtCFnA')
+    public_key = data.get('public_key', 'O6X2ekOXimzYUQIYAItVNup2LG0ukZHYdnhBDifvfHA')
+    password = data.get('password', '1efe3c53-133f-4b2d-b70f-888a52a49a15')
+    h2_port = data.get('h2_port', 17931)
+    tuic_port = data.get('tuic_port', 57510)
+    reality_port = data.get('reality_port', 37986)
+    www_dir_random_id = data.get('www_dir_random_id', 'a66c7e')
 
     env = Environment(
         loader=PackageLoader("generate_config"),
         autoescape=select_autoescape()
     )
 
-    www_dir_random_id = ''.join(random.sample(uuid.uuid4().hex, 6))
     nginx_www_dir = dev_dir + "/var/www/html/" + www_dir_random_id
 
     sb_json_tpl = env.get_template("sb.json.tpl")
