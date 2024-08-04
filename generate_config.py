@@ -93,3 +93,4 @@ if __name__ == '__main__':
 
     print(f'sing-box 客户端文件下载地址:\nhttp://{server_ip}/{www_dir_random_id}/sb.json')
     print(f'sing-box 去广告版 客户端文件下载地址:\nhttp://{server_ip}/{www_dir_random_id}/sb-noad.json')
+    print(f'sing-box 国内版 客户端文件下载地址:\nhttp://{server_ip}/{www_dir_random_id}/sb-cn.json')
