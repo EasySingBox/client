@@ -58,6 +58,11 @@ if __name__ == '__main__':
                                               ad_dns_rule=ad_dns_rule, ad_route_rule=ad_route_rule,
                                               ad_rule_set=ad_rule_set)
 
+    sb_cn_json_tpl = env.get_template("sb-cn.json.tpl")
+    sb_cn_json_content = sb_cn_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
+                                         reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
+                                         tuic_port=tuic_port)
+
     sb_server_json_tpl = env.get_template("sb-server.json.tpl")
     sb_server_json_content = sb_server_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                                        reality_sid=reality_sid, reality_private_key=private_key,
@@ -75,6 +80,9 @@ if __name__ == '__main__':
 
     with open(nginx_www_dir + "/sb-noad.json", 'w') as file:
         file.write(json.dumps(json.loads(sb_noad_json_content), indent=2, ensure_ascii=False))
+
+    with open(nginx_www_dir + "/sb-cn.json", 'w') as file:
+        file.write(json.dumps(json.loads(sb_cn_json_content), indent=2, ensure_ascii=False))
 
     with open(sing_box_config_dir + "/config.json", 'w') as file:
         file.write(json.dumps(json.loads(sb_server_json_content), indent=2, ensure_ascii=False))
