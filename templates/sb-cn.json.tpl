@@ -20,7 +20,7 @@
     ],
     "rules": [
       {
-        "query_type": "PTR",
+        "query_type": ["PTR", "AAAA"],
         "server": "dns-block"
       },
       {
@@ -33,8 +33,7 @@
       {{ ad_dns_rule }}
       {
         "query_type": [
-          "A",
-          "AAAA"
+          "A"
         ],
         "rule_set": [
           "netflix",
@@ -46,11 +45,11 @@
       }
     ],
     "final": "dns-local",
+    "strategy": "ipv4_only",
     "reverse_mapping": true,
     "fakeip": {
       "enabled": true,
-      "inet4_range": "240.0.0.0/4",
-      "inet6_range": "5f00::/16"
+      "inet4_range": "240.0.0.0/4"
     },
     "independent_cache": true
   },
@@ -59,7 +58,6 @@
       "type": "tun",
       "tag": "tun-in",
       "inet4_address": "172.18.0.1/30",
-      "inet6_address": "2001:db8:1::1/126",
       "auto_route": true,
       "strict_route": true,
       "inet4_route_exclude_address": [
