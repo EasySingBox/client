@@ -1,7 +1,7 @@
 ## easy-sing-box
 
 ### OS
-Ubuntu 22+
+Ubuntu 20+
 
 ### 安装 & 更新
 
