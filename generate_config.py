@@ -46,22 +46,24 @@ if __name__ == '__main__':
     ad_dns_rule = env.get_template("ad_dns_rule.json").render() + ","
     ad_route_rule = env.get_template("ad_route_rule.json").render() + ","
     ad_rule_set = env.get_template("ad_rule_set.json").render() + ","
+    exclude_package = env.get_template("exclude_package.tpl").render() + ","
+    exclude_package = re.sub(r'#.*', '', exclude_package) # 删除注释
 
     sb_json_tpl = env.get_template("sb.json.tpl")
     sb_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                          reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                         tuic_port=tuic_port, www_dir_random_id=www_dir_random_id)
+                                         tuic_port=tuic_port, www_dir_random_id=www_dir_random_id, exclude_package=exclude_package)
 
     sb_noad_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                               reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
                                               tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
                                               ad_dns_rule=ad_dns_rule, ad_route_rule=ad_route_rule,
-                                              ad_rule_set=ad_rule_set)
+                                              ad_rule_set=ad_rule_set, exclude_package=exclude_package)
 
     sb_cn_json_tpl = env.get_template("sb-cn.json.tpl")
     sb_cn_json_content = sb_cn_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                          reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                         tuic_port=tuic_port)
+                                         tuic_port=tuic_port, exclude_package=exclude_package)
 
     sb_server_json_tpl = env.get_template("sb-server.json.tpl")
     sb_server_json_content = sb_server_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,

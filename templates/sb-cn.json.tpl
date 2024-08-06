@@ -69,6 +69,9 @@
         "fc00::/7",
         "fe80::/10"
       ],
+      "exclude_package": [
+        {{ exclude_package }}
+      ],
       "stack": "gvisor",
       "platform": {
         "http_proxy": {
