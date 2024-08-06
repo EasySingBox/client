@@ -68,15 +68,4 @@ rm -rf /var/www/html/
 rm -rf /etc/sing-box/
 sysctl -w net.core.rmem_max=16777216 > /dev/null 2>&1
 sysctl -w net.core.wmem_max=16777216 > /dev/null 2>&1
-clear
 python3 generate_config.py
-cp /opt/easy-sing-box/cert/cert.pem /etc/sing-box/cert.pem
-cp /opt/easy-sing-box/cert/private.key /etc/sing-box/private.key
-echo "重启 sing-box..."
-systemctl start sing-box
-systemctl restart sing-box
-systemctl enable sing-box
-echo "重启 nginx..."
-systemctl start nginx
-systemctl restart nginx
-systemctl enable nginx
