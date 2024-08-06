@@ -1,3 +1,29 @@
+#!/bin/bash
+
+# 检查是否为root下运行
+[[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
+
+# 判断系统并安装依赖
+SYSTEM=$(cat /etc/os-release | grep '^ID=' | awk -F '=' '{print $2}' | tr -d '"')
+case $SYSTEM in
+  "debian"|"ubuntu")
+    package_install="apt-get install -y"
+    ;;
+  "centos"|"oracle"|"rhel")
+    package_install="yum install -y"
+    ;;
+  "fedora"|"rocky"|"almalinux")
+    package_install="dnf install -y"
+    ;;
+  "alpine")
+    package_install="apk add"
+    ;;
+  *)
+    echo -e '\033[1;35m暂不支持的系统！\033[0m'
+    exit 1
+    ;;
+esac
+
 nginx="/usr/sbin/nginx"
 python3="/usr/bin/python3"
 singbox="/usr/bin/sing-box"
@@ -6,13 +32,13 @@ if [ -e "$nginx" ]; then
     echo "nginx 已存在，跳过安装..."
 else
     echo "安装 nginx..."
-    sudo apt-get install -y nginx
+    $package_install nginx
 fi
 if [ -e "$python3" ]; then
     echo "python 已存在，跳过安装..."
 else
     echo "安装 python3 python3-pip python3-venv..."
-    sudo apt-get install -y python3 python3-pip python3-venv
+    $package_install python3 python3-pip python3-venv
 fi
 if [ -e "$singbox" ]; then
     echo "sing-box 已存在，跳过安装..."
@@ -47,7 +73,10 @@ python3 generate_config.py
 cp /opt/easy-sing-box/cert/cert.pem /etc/sing-box/cert.pem
 cp /opt/easy-sing-box/cert/private.key /etc/sing-box/private.key
 echo "重启 sing-box..."
-systemctl enable sing-box
+systemctl start sing-box
 systemctl restart sing-box
+systemctl enable sing-box
 echo "重启 nginx..."
+systemctl start nginx
 systemctl restart nginx
+systemctl enable nginx

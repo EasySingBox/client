@@ -93,6 +93,14 @@ if __name__ == '__main__':
     os.system("cp ./templates/mydirect.json " + nginx_www_dir)
     os.system("cp ./templates/myproxy.json " + nginx_www_dir)
 
-    print(f'sing-box 客户端文件下载地址:\nhttp://{server_ip}/{www_dir_random_id}/sb.json')
-    print(f'sing-box 去广告版 客户端文件下载地址:\nhttp://{server_ip}/{www_dir_random_id}/sb-noad.json')
-    print(f'sing-box 国内版 客户端文件下载地址:\nhttp://{server_ip}/{www_dir_random_id}/sb-cn.json')
+    os.system(f'echo -e "\e[1;33msing-box 客户端文件下载地址\033[0m"')
+    os.system(f'echo -e "\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb.json\033[0m"')
+    os.system(f'echo ""')
+
+    os.system(f'echo -e "\e[1;33msing-box 去广告版 客户端文件下载地址\033[0m"')
+    os.system(f'echo -e "\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb-noad.json\033[0m"')
+    os.system(f'echo ""')
+
+    os.system(f'echo -e "\e[1;33msing-box 国内版 客户端文件下载地址\033[0m"')
+    os.system(f'echo -e "\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb-cn.json\033[0m"')
+    os.system(f'echo ""')

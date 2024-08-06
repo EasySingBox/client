@@ -1,8 +1,5 @@
 ## easy-sing-box
 
-### OS
-Ubuntu 20+
-
 ### 安装 & 更新
 
 ```shell
