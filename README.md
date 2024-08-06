@@ -19,8 +19,7 @@ chmod 755 /opt/bbr.sh
 
 ### Netflix解锁
 
-安装 安装 WARP socks5
-使用默认 socket5 端口 40000
+安装 WARP socks5，使用默认端口 40000
 
 ```shell
 bash <(curl -sSL https://raw.githubusercontent.com/zmlu/x-ui-scripts/main/install_warp_proxy.sh)
