@@ -12,7 +12,7 @@ bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh)
 ### 开启 bbr
 
 ```shell
-wget --no-check-certificate -O /opt/bbr.sh https://github.com/teddysun/across/raw/master/bbr.sh
+wget --no-check-certificate -O /opt/bbr.sh https://raw.githubusercontent.com/zmlu/across/master/bbr.sh
 chmod 755 /opt/bbr.sh
 /opt/bbr.sh
 ```
