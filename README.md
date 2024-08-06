@@ -3,7 +3,7 @@
 ### OS
 Ubuntu 22+
 
-### 安装
+### 安装 & 更新
 
 ```shell
 bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh)
