@@ -1,11 +1,12 @@
 import json
 import os
+import random
 import re
 import subprocess
+import uuid
 from jinja2 import Environment, PackageLoader, select_autoescape
+from generate_esb_config import generate_port, generate_reality_keys, generate_reality_sid
 
-dev_dir = ""
-# dev_dir = "/Users/zmlu/Developer/github/easy-sing-box/dist"
 
 def get_ip():
     curl_out = subprocess.check_output(['curl', '-s', '-4', 'ip.p3terx.com'])
@@ -27,32 +28,48 @@ if __name__ == '__main__':
         data = json.load(file)
 
     server_ip = get_ip()
-    reality_sid = data.get('reality_sid', '195a5279')
-    private_key = data.get('private_key', 'YGxXYp61X9avMHFZpr-8-c1EMkpGjorM_2dT9dtCFnA')
-    public_key = data.get('public_key', 'O6X2ekOXimzYUQIYAItVNup2LG0ukZHYdnhBDifvfHA')
-    password = data.get('password', '1efe3c53-133f-4b2d-b70f-888a52a49a15')
-    h2_port = data.get('h2_port', 17931)
-    tuic_port = data.get('tuic_port', 57510)
-    reality_port = data.get('reality_port', 37986)
-    www_dir_random_id = data.get('www_dir_random_id', 'a66c7e')
+    reality_sid = data.get('reality_sid', generate_reality_sid())
+    private_key_gen, public_key_gen = generate_reality_keys()
+    private_key = data.get('private_key', private_key_gen)
+    public_key = data.get('public_key', public_key_gen)
+    password = data.get('password', str(uuid.uuid4()))
+    h2_port_gen, tuic_port_gen, reality_port_gen = generate_port()
+    h2_port = data.get('h2_port', h2_port_gen)
+    tuic_port = data.get('tuic_port', tuic_port_gen)
+    reality_port = data.get('reality_port', reality_port_gen)
+    www_dir_random_id = data.get('www_dir_random_id', ''.join(random.sample(uuid.uuid4().hex, 6)))
+
+    esb_config = {}
+    esb_config['www_dir_random_id'] = www_dir_random_id
+    esb_config['password'] = password
+    esb_config['h2_port'] = h2_port
+    esb_config['tuic_port'] = tuic_port
+    esb_config['reality_port'] = reality_port
+    esb_config['reality_sid'] = reality_sid
+    esb_config['public_key'] = public_key
+    esb_config['private_key'] = private_key
+
+    with open(config_file, 'w') as write_f:
+        write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 
     env = Environment(
         loader=PackageLoader("generate_config"),
         autoescape=select_autoescape()
     )
 
-    nginx_www_dir = dev_dir + "/var/www/html/" + www_dir_random_id
+    nginx_www_dir = "/var/www/html/" + www_dir_random_id
 
     ad_dns_rule = env.get_template("ad_dns_rule.json").render() + ","
     ad_route_rule = env.get_template("ad_route_rule.json").render() + ","
     ad_rule_set = env.get_template("ad_rule_set.json").render() + ","
     exclude_package = env.get_template("exclude_package.tpl").render() + ","
-    exclude_package = re.sub(r'#.*', '', exclude_package) # 删除注释
+    exclude_package = re.sub(r'#.*', '', exclude_package)  # 删除注释
 
     sb_json_tpl = env.get_template("sb.json.tpl")
     sb_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                          reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                         tuic_port=tuic_port, www_dir_random_id=www_dir_random_id, exclude_package=exclude_package)
+                                         tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
+                                         exclude_package=exclude_package)
 
     sb_noad_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                               reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
@@ -62,8 +79,8 @@ if __name__ == '__main__':
 
     sb_cn_json_tpl = env.get_template("sb-cn.json.tpl")
     sb_cn_json_content = sb_cn_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
-                                         reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                         tuic_port=tuic_port, exclude_package=exclude_package)
+                                               reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
+                                               tuic_port=tuic_port, exclude_package=exclude_package)
 
     sb_server_json_tpl = env.get_template("sb-server.json.tpl")
     sb_server_json_content = sb_server_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
@@ -73,7 +90,7 @@ if __name__ == '__main__':
     if not os.path.exists(nginx_www_dir):
         os.makedirs(nginx_www_dir)
 
-    sing_box_config_dir = dev_dir + "/etc/sing-box"
+    sing_box_config_dir = "/etc/sing-box"
     if not os.path.exists(sing_box_config_dir):
         os.makedirs(sing_box_config_dir)
 
