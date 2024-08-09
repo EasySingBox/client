@@ -71,15 +71,6 @@
           "private_key": "{{ reality_private_key }}",
           "short_id": "{{ reality_sid }}"
         }
-      },
-      "multiplex": {
-        "enabled": true,
-        "padding": true,
-        "brutal": {
-          "enabled": true,
-          "up_mbps": 1024,
-          "down_mbps": 1024
-        }
       }
     }
   ],

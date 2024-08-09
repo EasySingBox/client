@@ -28,7 +28,6 @@ nginx="/usr/sbin/nginx"
 python3="/usr/bin/python3"
 singbox="/usr/bin/sing-box"
 xray="/usr/bin/xray"
-dkms="/usr/sbin/dkms"
 if [ -e "$nginx" ]; then
     echo "nginx 已存在，跳过安装..."
 else
@@ -52,12 +51,6 @@ if [ -e "$xray" ]; then
 else
     echo "安装 xray..."
     bash <(curl -Ls https://github.com/team-cloudchaser/tempest/raw/main/install/xray.sh)
-fi
-if [ -e "$dkms" ]; then
-    echo "tcp-brutal 已存在，跳过安装..."
-else
-    echo "安装 tcp-brutal..."
-    bash <(curl -fsSL https://tcp.hy2.sh/)
 fi
 echo "重置 venv..."
 rm -rf /opt/venv/

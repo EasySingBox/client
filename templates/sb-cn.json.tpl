@@ -180,18 +180,6 @@
         },
         "server_name": "www.yahoo.com",
         "insecure": true
-      },
-      "multiplex": {
-        "enabled": true,
-        "protocol": "h2mux",
-        "max_connections": 4,
-        "min_streams": 4,
-        "padding": true,
-        "brutal": {
-          "enabled": true,
-          "up_mbps": 200,
-          "down_mbps": 500
-        }
       }
     },
     {
