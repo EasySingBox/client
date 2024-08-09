@@ -27,7 +27,6 @@ esac
 nginx="/usr/sbin/nginx"
 python3="/usr/bin/python3"
 singbox="/usr/bin/sing-box"
-xray="/usr/bin/xray"
 if [ -e "$nginx" ]; then
     echo "nginx 已存在，跳过安装..."
 else
@@ -44,13 +43,12 @@ if [ -e "$singbox" ]; then
     echo "sing-box 已存在，跳过安装..."
 else
     echo "安装 sing-box..."
-    bash <(curl -Ls https://github.com/team-cloudchaser/tempest/raw/main/install/singbox.sh)
-fi
-if [ -e "$xray" ]; then
-    echo "xray 已存在，跳过安装..."
-else
-    echo "安装 xray..."
-    bash <(curl -Ls https://github.com/team-cloudchaser/tempest/raw/main/install/xray.sh)
+    sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
+    sudo chmod a+r /etc/apt/keyrings/sagernet.asc
+    echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *" | \
+      sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
+    sudo apt-get update
+    sudo apt-get install sing-box
 fi
 echo "重置 venv..."
 rm -rf /opt/venv/

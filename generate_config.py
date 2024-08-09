@@ -5,7 +5,7 @@ import re
 import subprocess
 import uuid
 from jinja2 import Environment, PackageLoader, select_autoescape
-from generate_esb_config import generate_port, generate_reality_keys, generate_reality_sid
+from generate_esb_config import generate_port, generate_reality_keys, generate_reality_sid, generate_password
 
 
 def get_ip():
@@ -31,7 +31,8 @@ if __name__ == '__main__':
     private_key_gen, public_key_gen = generate_reality_keys()
     private_key = data.get('private_key', private_key_gen)
     public_key = data.get('public_key', public_key_gen)
-    password = data.get('password', str(uuid.uuid4()))
+    password_gen = generate_password()
+    password = data.get('password', password_gen)
     h2_port_gen, tuic_port_gen, reality_port_gen = generate_port()
     h2_port = data.get('h2_port', h2_port_gen)
     tuic_port = data.get('tuic_port', tuic_port_gen)

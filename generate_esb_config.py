@@ -7,11 +7,10 @@ import uuid
 
 
 def generate_reality_keys():
-    xray_out = subprocess.check_output(['xray', 'x25519'])
+    xray_out = subprocess.check_output(['sing-box', 'generate', 'reality-keypair'])
     data_str = xray_out.decode('utf-8')
-    print(f'xray_out: {xray_out}')
-    private_key_pattern = r'Private key: ([\w-]+)'
-    public_key_pattern = r'Public key: ([\w-]+)'
+    private_key_pattern = r'PrivateKey: ([\w-]+)'
+    public_key_pattern = r'PublicKey: ([\w-]+)'
     private_key_match = re.search(private_key_pattern, data_str)
     public_key_match = re.search(public_key_pattern, data_str)
     private_key = private_key_match.group(1) if private_key_match else 'wKpQJg3pYNmHIdYNfcgkOpkuDRjBu_HtT5AILoKIlnA'
@@ -20,7 +19,13 @@ def generate_reality_keys():
 
 
 def generate_reality_sid():
-    openssl_out = subprocess.check_output(['openssl', 'rand', '-hex', '4'])
+    openssl_out = subprocess.check_output(['sing-box', 'generate', 'rand', '4', '--hex'])
+    data_str = openssl_out.decode('utf-8')
+    data_str = ''.join(data_str.splitlines())
+    return data_str
+
+def generate_password():
+    openssl_out = subprocess.check_output(['sing-box', 'generate', 'uuid'])
     data_str = openssl_out.decode('utf-8')
     data_str = ''.join(data_str.splitlines())
     return data_str
@@ -40,7 +45,7 @@ def generate_esb_config():
     private_key, public_key = generate_reality_keys()
     reality_sid = generate_reality_sid()
     h2_port, tuic_port, reality_port = generate_port()
-    password = str(uuid.uuid4())
+    password = generate_password()
     www_dir_random_id = ''.join(random.sample(uuid.uuid4().hex, 6))
 
     print(f'password: {password}')
