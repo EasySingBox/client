@@ -166,7 +166,7 @@
       "server": "{{ server_ip }}",
       "server_port": {{ reality_port }},
       "uuid": "{{ password }}",
-      "flow": "xtls-rprx-vision",
+      "flow": "",
       "tls": {
         "enabled": true,
         "utls": {
@@ -181,18 +181,18 @@
         "server_name": "www.yahoo.com",
         "insecure": true
       },
+      "packet_encoding": "xudp",
       "multiplex": {
         "enabled": true,
         "protocol": "h2mux",
-        "max_connections": 4,
+        "max_connections": 1,
         "min_streams": 4,
         "padding": true,
         "brutal": {
           "enabled": true,
-          "up_mbps": 200,
-          "down_mbps": 500
+          "up_mbps": 1024,
+          "down_mbps": 1024
         }
-      }
     },
     {
       "type": "direct",

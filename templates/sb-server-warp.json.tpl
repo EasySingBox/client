@@ -54,9 +54,8 @@
       "sniff_override_destination": true,
       "users": [
         {
-          "name": "",
           "uuid": "{{ password }}",
-          "flow": "xtls-rprx-vision"
+          "flow": ""
         }
       ],
       "tls": {
