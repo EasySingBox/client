@@ -77,8 +77,8 @@
         "padding": true,
         "brutal": {
           "enabled": true,
-          "up_mbps": 1024,
-          "down_mbps": 1024
+          "up_mbps": 500,
+          "down_mbps": 500
         }
       }
     }
