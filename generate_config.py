@@ -107,9 +107,6 @@ if __name__ == '__main__':
         file.write(json.dumps(json.loads(sb_cn_json_content), indent=2, ensure_ascii=False))
 
     with open(sing_box_config_dir + "/config.json", 'w') as file:
-        file.write(json.dumps(json.loads(sb_server_json_content), indent=2, ensure_ascii=False))
-
-    with open(sing_box_config_dir + "/config_warp.json", 'w') as file:
         file.write(json.dumps(json.loads(sb_server_warp_json_content), indent=2, ensure_ascii=False))
 
     os.system("cp ./templates/echemi.json " + nginx_www_dir)
