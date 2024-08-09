@@ -193,6 +193,7 @@
           "up_mbps": 1024,
           "down_mbps": 1024
         }
+      }
     },
     {
       "type": "direct",
