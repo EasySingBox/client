@@ -85,6 +85,10 @@ if __name__ == '__main__':
     sb_server_json_content = sb_server_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                                        reality_sid=reality_sid, reality_private_key=private_key,
                                                        tuic_port=tuic_port)
+    sb_server_warp_json_tpl = env.get_template("sb-server-warp.json.tpl")
+    sb_server_warp_json_content = sb_server_warp_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
+                                                       reality_sid=reality_sid, reality_private_key=private_key,
+                                                       tuic_port=tuic_port)
 
     if not os.path.exists(nginx_www_dir):
         os.makedirs(nginx_www_dir)
@@ -104,6 +108,9 @@ if __name__ == '__main__':
 
     with open(sing_box_config_dir + "/config.json", 'w') as file:
         file.write(json.dumps(json.loads(sb_server_json_content), indent=2, ensure_ascii=False))
+
+    with open(sing_box_config_dir + "/config_warp.json", 'w') as file:
+        file.write(json.dumps(json.loads(sb_server_warp_json_content), indent=2, ensure_ascii=False))
 
     os.system("cp ./templates/echemi.json " + nginx_www_dir)
     os.system("cp ./templates/mydirect.json " + nginx_www_dir)
