@@ -7,7 +7,7 @@
     "servers": [
       {
         "tag": "dns-remote",
-        "address": "8.8.8.8",
+        "address": "https://8.8.8.8/dns-query",
         "detour": "Proxy"
       },
       {
@@ -16,7 +16,7 @@
       },
       {
         "tag": "dns-china",
-        "address": "8.8.8.8",
+        "address": "https://8.8.8.8/dns-query",
         "detour": "Proxy",
         "client_subnet": "42.194.8.0"
       },
