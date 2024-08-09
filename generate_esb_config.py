@@ -63,7 +63,6 @@ def generate_esb_config():
     esb_config['private_key'] = private_key
 
     config_file = f'/root/esb.config'
-    # config_file = os.getcwd() + f'/esb.config'
     with open(config_file, 'w') as write_f:
         write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 

@@ -19,7 +19,6 @@ def get_ip():
 
 if __name__ == '__main__':
     config_file = f'/root/esb.config'
-    # config_file = os.getcwd() + f'/esb.config'
 
     if not os.path.exists(config_file):
         os.system("python3 generate_esb_config.py")
