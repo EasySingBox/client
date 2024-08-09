@@ -81,11 +81,10 @@ if __name__ == '__main__':
                                                reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
                                                tuic_port=tuic_port, exclude_package=exclude_package)
 
-    # sb_server_json_tpl = env.get_template("sb-server.json.tpl")
-    # sb_server_json_content = sb_server_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
-    #                                                    reality_sid=reality_sid, reality_private_key=private_key,
-    #                                                    tuic_port=tuic_port)
-
+    sb_server_json_tpl = env.get_template("sb-server.json.tpl")
+    sb_server_json_content = sb_server_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
+                                                       reality_sid=reality_sid, reality_private_key=private_key,
+                                                       tuic_port=tuic_port)
     sb_server_warp_json_tpl = env.get_template("sb-server-warp.json.tpl")
     sb_server_warp_json_content = sb_server_warp_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                                        reality_sid=reality_sid, reality_private_key=private_key,
