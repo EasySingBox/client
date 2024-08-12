@@ -61,9 +61,6 @@
         "rule_set": [
           "private",
           "privateip",
-          "applications",
-          "bilibili",
-          "apple-cn",
           "cn",
           "cnip",
           "mydirect"
@@ -275,8 +272,6 @@
       {
         "protocol": "stun",
         "rule_set": [
-          "bilibili",
-          "apple-cn",
           "cn",
           "cnip",
           "mydirect"
@@ -297,12 +292,9 @@
       },
       {
         "rule_set": [
-          "applications",
           "private",
           "privateip",
           "echemi",
-          "bilibili",
-          "apple-cn",
           "cn",
           "cnip",
           "mydirect"
@@ -381,30 +373,6 @@
         "tag": "privateip",
         "format": "binary",
         "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/privateip.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
-      },
-      {
-        "type": "remote",
-        "tag": "bilibili",
-        "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/bilibili.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
-      },
-      {
-        "type": "remote",
-        "tag": "applications",
-        "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/applications.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
-      },
-      {
-        "type": "remote",
-        "tag": "apple-cn",
-        "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/apple-cn.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       }
