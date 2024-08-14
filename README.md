@@ -4,6 +4,9 @@
 
 ```shell
 bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh)
+
+#all warp
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh) warp
 ```
 
 ### 开启 bbr
