@@ -1,3 +1,15 @@
+"com.xiaomi.youpin", #小米有品
+"com.mi.car.mobile", #小米汽车
+"com.xiaomi.hm.health", #Zepp Life
+"com.mi.health", #小米运动健康
+"com.tencent.lolm", #英雄联盟手游
+"org.localsend.localsend_app", #LocalSend
+"com.bankcomm.maidanba", #买单吧
+"com.spdbccc.app", #浦大喜奔
+"cn.gov.tax.its", #个人所得税
+"com.homelink.android", #链家
+"com.wudaokou.hippo", #盒马
+"com.miui.weather2", #小米天气
 "com.lucky.luckyclient", #瑞幸咖啡
 "com.umetrip.android.msky.app", #航旅纵横
 "com.xiaomi.smarthome", #米家
@@ -20,6 +32,7 @@
 "com.tencent.mobileqq", #QQ
 "com.tencent.qqmusic", #QQ音乐
 "com.tencent.mm", #微信
+"com.tencent.wework", #企业微信
 "com.tencent.weread", #微信读书
 "com.tencent.tmgp.sgame", #王者荣耀
 "com.tencent.karaoke", #全民K歌
