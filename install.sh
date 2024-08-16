@@ -24,39 +24,9 @@ case $SYSTEM in
     ;;
 esac
 
-nginx="/usr/sbin/nginx"
-python3="/usr/bin/python3"
-singbox="/usr/bin/sing-box"
-dkms="/usr/sbin/dkms"
-if [ -e "$nginx" ]; then
-    echo "nginx 已存在，跳过安装..."
-else
-    echo "安装 nginx..."
-    $package_install nginx
-fi
-if [ -e "$python3" ]; then
-    echo "python 已存在，跳过安装..."
-else
-    echo "安装 python3 python3-pip python3-venv..."
-    $package_install python3 python3-pip python3-venv
-fi
-if [ -e "$singbox" ]; then
-    echo "sing-box 已存在，跳过安装..."
-else
-    echo "安装 sing-box..."
-    sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
-    sudo chmod a+r /etc/apt/keyrings/sagernet.asc
-    echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *" | \
-      sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
-    sudo apt-get update
-    sudo apt-get install sing-box
-fi
-if [ -e "$dkms" ]; then
-    echo "tcp-brutal 已存在，跳过安装..."
-else
-    echo "安装 tcp-brutal..."
-    bash <(curl -fsSL https://tcp.hy2.sh/)
-fi
+$package_install nginx python3 python3-pip python3-venv
+bash <(curl -fsSL https://tcp.hy2.sh/)
+bash <(curl -Ls https://github.com/team-cloudchaser/tempest/raw/main/install/singbox.sh)
 echo "重置 venv..."
 rm -rf /opt/venv/
 cd /opt && mkdir venv
