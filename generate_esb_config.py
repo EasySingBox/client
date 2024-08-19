@@ -13,7 +13,8 @@ def get_ip_info():
     ip = ip_infp.get('ip')
     country = ip_infp.get('country')
     organization = ip_infp.get('asOrganization')
-    return ip, country, organization
+    vps_org = organization + " - " + country
+    return ip, vps_org
 
 
 def generate_reality_keys():
@@ -53,22 +54,27 @@ def generate_port():
 
 
 def generate_esb_config():
+    server_ip, vps_org = get_ip_info()
     private_key, public_key = generate_reality_keys()
     reality_sid = generate_reality_sid()
     h2_port, tuic_port, reality_port = generate_port()
     password = generate_password()
     www_dir_random_id = ''.join(random.sample(uuid.uuid4().hex, 6))
 
-    print(f'password: {password}')
-    print(f'h2_port: {h2_port}')
-    print(f'tuic_port: {tuic_port}')
-    print(f'reality_port: {reality_port}')
-    print(f'reality_pbk: {public_key}')
-    print(f'reality_private_key: {private_key}')
-    print(f'reality_sid: {reality_sid}')
-    print(f'www_dir_random_id: {www_dir_random_id}')
+    # print(f'server_ip: {server_ip}')
+    # print(f'vps_org: {vps_org}')
+    # print(f'password: {password}')
+    # print(f'h2_port: {h2_port}')
+    # print(f'tuic_port: {tuic_port}')
+    # print(f'reality_port: {reality_port}')
+    # print(f'reality_pbk: {public_key}')
+    # print(f'reality_private_key: {private_key}')
+    # print(f'reality_sid: {reality_sid}')
+    # print(f'www_dir_random_id: {www_dir_random_id}')
 
     esb_config = {}
+    esb_config['server_ip'] = server_ip
+    esb_config['vps_org'] = vps_org
     esb_config['www_dir_random_id'] = www_dir_random_id
     esb_config['password'] = password
     esb_config['h2_port'] = h2_port

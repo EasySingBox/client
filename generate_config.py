@@ -18,8 +18,9 @@ if __name__ == '__main__':
     with open(config_file, 'r') as file:
         data = json.load(file)
 
-    server_ip, country, organization = get_ip_info()
-    node_name_suffix = "(" + organization + " - " + country + ")"
+    server_ip_gen, vps_org_gen = get_ip_info()
+    server_ip = data.get('server_ip', server_ip_gen)
+    vps_org = data.get('vps_org', vps_org_gen)
     reality_sid = data.get('reality_sid', generate_reality_sid())
     private_key_gen, public_key_gen = generate_reality_keys()
     private_key = data.get('private_key', private_key_gen)
@@ -33,6 +34,8 @@ if __name__ == '__main__':
     www_dir_random_id = data.get('www_dir_random_id', ''.join(random.sample(uuid.uuid4().hex, 6)))
 
     esb_config = {}
+    esb_config['server_ip'] = server_ip
+    esb_config['vps_org'] = vps_org
     esb_config['www_dir_random_id'] = www_dir_random_id
     esb_config['password'] = password
     esb_config['h2_port'] = h2_port
@@ -61,13 +64,13 @@ if __name__ == '__main__':
     sb_json_tpl = env.get_template("sb.json.tpl")
     sb_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                          reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                         node_name_suffix = node_name_suffix,
+                                         vps_org = vps_org,
                                          tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
                                          exclude_package=exclude_package)
 
     sb_noad_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                               reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                              node_name_suffix = node_name_suffix,
+                                              vps_org = vps_org,
                                               tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
                                               ad_dns_rule=ad_dns_rule, ad_route_rule=ad_route_rule,
                                               ad_rule_set=ad_rule_set, exclude_package=exclude_package)
@@ -75,7 +78,7 @@ if __name__ == '__main__':
     sb_cn_json_tpl = env.get_template("sb-cn.json.tpl")
     sb_cn_json_content = sb_cn_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                                reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                               node_name_suffix = node_name_suffix,
+                                               vps_org = vps_org,
                                                tuic_port=tuic_port, exclude_package=exclude_package)
 
     if not os.path.exists(nginx_www_dir):
