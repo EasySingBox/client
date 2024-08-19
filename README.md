@@ -46,6 +46,9 @@ awk -f <(wget -O - https://dl.xanmod.org/check_x86-64_psabi.sh)
 #安装内核
 sudo apt install linux-xanmod-edge-x64v3
 
+#重启
+reboot
+
 #查看所有内核
 dpkg --list | egrep -i --color 'linux-image|linux-headers'
 
