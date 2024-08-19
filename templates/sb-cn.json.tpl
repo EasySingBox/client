@@ -122,15 +122,15 @@
       "tag": "Proxy",
       "type": "selector",
       "outbounds": [
-        "h2",
-        "tuic",
-        "reality"
+        "h2 {{ node_name_suffix }}",
+        "tuic {{ node_name_suffix }}",
+        "reality {{ node_name_suffix }}"
       ],
       "interrupt_exist_connections": true
     },
     {
       "type": "hysteria2",
-      "tag": "h2",
+      "tag": "h2 {{ node_name_suffix }}",
       "server": "{{ server_ip }}",
       "server_port": {{ h2_port }},
       "obfs": {},
@@ -146,7 +146,7 @@
     },
     {
       "type": "tuic",
-      "tag": "tuic",
+      "tag": "tuic {{ node_name_suffix }}",
       "server": "{{ server_ip }}",
       "server_port": {{ tuic_port }},
       "uuid": "{{ password }}",
@@ -162,7 +162,7 @@
     },
     {
       "type": "vless",
-      "tag": "reality",
+      "tag": "reality {{ node_name_suffix }}",
       "server": "{{ server_ip }}",
       "server_port": {{ reality_port }},
       "uuid": "{{ password }}",

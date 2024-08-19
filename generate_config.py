@@ -6,17 +6,8 @@ import subprocess
 import sys
 import uuid
 from jinja2 import Environment, PackageLoader, select_autoescape
-from generate_esb_config import generate_port, generate_reality_keys, generate_reality_sid, generate_password
-
-
-def get_ip():
-    curl_out = subprocess.check_output(['curl', '-s', '-4', 'ip.p3terx.com'])
-    data_str = curl_out.decode('utf-8')
-    ipv4_pattern = r'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
-    ipv4_match = re.search(ipv4_pattern, data_str, re.MULTILINE)
-    ipv4_address = ipv4_match.group(1) if ipv4_match else None
-    return ipv4_address
-
+from generate_esb_config import generate_port, generate_reality_keys, generate_reality_sid, generate_password, \
+    get_ip_info
 
 if __name__ == '__main__':
     config_file = f'/root/esb.config'
@@ -27,7 +18,8 @@ if __name__ == '__main__':
     with open(config_file, 'r') as file:
         data = json.load(file)
 
-    server_ip = get_ip()
+    server_ip, country, organization = get_ip_info()
+    node_name_suffix = "(" + organization + " - " + country + ")"
     reality_sid = data.get('reality_sid', generate_reality_sid())
     private_key_gen, public_key_gen = generate_reality_keys()
     private_key = data.get('private_key', private_key_gen)
@@ -69,11 +61,13 @@ if __name__ == '__main__':
     sb_json_tpl = env.get_template("sb.json.tpl")
     sb_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                          reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
+                                         node_name_suffix = node_name_suffix,
                                          tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
                                          exclude_package=exclude_package)
 
     sb_noad_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                               reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
+                                              node_name_suffix = node_name_suffix,
                                               tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
                                               ad_dns_rule=ad_dns_rule, ad_route_rule=ad_route_rule,
                                               ad_rule_set=ad_rule_set, exclude_package=exclude_package)
@@ -81,6 +75,7 @@ if __name__ == '__main__':
     sb_cn_json_tpl = env.get_template("sb-cn.json.tpl")
     sb_cn_json_content = sb_cn_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                                reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
+                                               node_name_suffix = node_name_suffix,
                                                tuic_port=tuic_port, exclude_package=exclude_package)
 
     if not os.path.exists(nginx_www_dir):

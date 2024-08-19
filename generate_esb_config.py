@@ -6,6 +6,16 @@ import subprocess
 import uuid
 
 
+def get_ip_info():
+    curl_out = subprocess.check_output(['curl', '-s', '-4', 'ip.network/more'])
+    data_str = curl_out.decode('utf-8')
+    ip_infp = json.loads(data_str)
+    ip = ip_infp.get('ip')
+    country = ip_infp.get('country')
+    organization = ip_infp.get('asOrganization')
+    return ip, country, organization
+
+
 def generate_reality_keys():
     xray_out = subprocess.check_output(['sing-box', 'generate', 'reality-keypair'])
     data_str = xray_out.decode('utf-8')
@@ -23,6 +33,7 @@ def generate_reality_sid():
     data_str = openssl_out.decode('utf-8')
     data_str = ''.join(data_str.splitlines())
     return data_str
+
 
 def generate_password():
     openssl_out = subprocess.check_output(['sing-box', 'generate', 'uuid'])
