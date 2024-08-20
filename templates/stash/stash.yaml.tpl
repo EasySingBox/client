@@ -120,7 +120,10 @@ proxies:
 proxy-groups:
   - name: Proxy
     type: select
-    include-all: true
+    proxies:
+      - 'h2 ({{ vps_org }})'
+      - 'tuic ({{ vps_org }})'
+      - Auto
   - name: Auto
     interval: 120
     lazy: true
