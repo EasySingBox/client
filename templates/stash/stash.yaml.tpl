@@ -12,7 +12,6 @@ dns:
   follow-rule: true
   ipv6: false
   default-nameserver:
-    - 185.222.222.222
     - 119.29.29.29
     - system
   nameserver:
