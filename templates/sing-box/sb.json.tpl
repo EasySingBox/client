@@ -316,7 +316,7 @@
         "type": "remote",
         "tag": "echemi",
         "format": "source",
-        "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/echemi.json",
+        "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/sb_echemi.json",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
@@ -324,7 +324,7 @@
         "type": "remote",
         "tag": "mydirect",
         "format": "source",
-        "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/mydirect.json",
+        "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/sb_mydirect.json",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
@@ -332,7 +332,7 @@
         "type": "remote",
         "tag": "myproxy",
         "format": "source",
-        "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/myproxy.json",
+        "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/sb_myproxy.json",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },

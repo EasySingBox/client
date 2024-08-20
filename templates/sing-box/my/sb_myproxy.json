@@ -2,17 +2,6 @@
   "version": 1,
   "rules": [
     {
-      "domain": [
-        "cloudflare-dns.com",
-        "twilio.com",
-        "peerjs.com",
-        "stunprotocol.org",
-        "mozilla.com",
-        "nextcloud.com",
-        "ipinfo.ip"
-      ]
-    },
-    {
       "domain_keyword": [
         "microsoft",
         "linkedin",
@@ -27,14 +16,18 @@
       "domain_suffix": [
         "battle.net",
         "googleapis.cn",
-        "githubusercontent.com",
-        "linkedin.com",
         "browserleaks.com",
-        "github.com",
         "mypikpak.com",
         "ulivetv.net",
         "ipinfo.io",
-        "office.net"
+        "office.net",
+        "cloudflare-dns.com",
+        "twilio.com",
+        "peerjs.com",
+        "stunprotocol.org",
+        "mozilla.com",
+        "nextcloud.com",
+        "ipinfo.ip"
       ]
     },
     {
@@ -63,16 +56,6 @@
         "com.duolingo",
         "com.blizzard.wtcg.hearthstone",
         "org.fdroid.fdroid"
-      ]
-    },
-    {
-      "process_name": [
-        "jacobtest"
-      ]
-    },
-    {
-      "source_ip_cidr": [
-        "8.8.4.0/24"
       ]
     }
   ]

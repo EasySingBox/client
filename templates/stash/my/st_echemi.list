@@ -1,0 +1,13 @@
+DOMAIN-KEYWORD,echemi
+DOMAIN,static-www.echemi.co
+DOMAIN,sso.dev.echemi.cc
+DOMAIN,www.echemi.co
+DOMAIN,koko.echemi.com
+DOMAIN,jps.echemi.com
+DOMAIN,www.echemi.top
+DOMAIN-SUFFIX,echemi.co
+DOMAIN-SUFFIX,echemi.cc
+DOMAIN-SUFFIX,echemi.net
+DOMAIN-SUFFIX,echemi.com
+DOMAIN-SUFFIX,echemi.top
+IP-CIDR,8.218.59.124/32

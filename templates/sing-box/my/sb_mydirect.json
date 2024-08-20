@@ -4,7 +4,6 @@
     {
       "domain": [
         "localhost",
-        "*.local",
         "sequoia.apple.com",
         "seed-sequoia.siri.apple.com",
         "push.apple.com",
@@ -33,7 +32,8 @@
       "domain_suffix": [
         "zmlu.me",
         "banmiya.com",
-        "seon.io"
+        "seon.io",
+        "local"
       ]
     },
     {
