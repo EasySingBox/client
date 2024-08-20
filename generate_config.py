@@ -146,12 +146,14 @@ def generate_stash():
     with open(nginx_www_dir + "/st.yaml", 'w') as file:
         file.write(stash_yaml_content)
 
-    os.system("cp ./templates/stash/my/st_echemi.json " + nginx_www_dir)
-    os.system("cp ./templates/stash/my/st_mydirect.json " + nginx_www_dir)
-    os.system("cp ./templates/stash/my/st_myproxy.json " + nginx_www_dir)
+    os.system("cp ./templates/stash/my/st_echemi.list " + nginx_www_dir)
+    os.system("cp ./templates/stash/my/st_mydirect.list " + nginx_www_dir)
+    os.system("cp ./templates/stash/my/st_myproxy.list " + nginx_www_dir)
 
 
 if __name__ == '__main__':
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id = check_config_file()
+
     generate_singbox_server()
     generate_singbox()
     generate_stash()
