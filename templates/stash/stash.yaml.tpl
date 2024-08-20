@@ -17,6 +17,9 @@ dns:
     - system
   nameserver:
     - https://8.8.8.8/dns-query
+    - https://doh.pub/dns-query
+    - system
+  skip-cert-verify: true
   fake-ip-filter:
     - '*.lan'
     - '*.linksys.com'
@@ -63,13 +66,14 @@ dns:
     - '*.xiami.com'
     - '+.music.migu.cn'
     - '+.srv.nintendo.net'
+    - '*.n.n.srv.nintendo.net'
     - '+.stun.playstation.net'
     - 'xbox.*.*.microsoft.com'
-    - '+.xboxlive.com'
+    - '*.*.xboxlive.com'
     - 'localhost.ptlogin2.qq.com'
     - 'proxy.golang.org'
     - 'lens.l.google.com'
-    - '*.mcdn.bilibilivideo.cn'
+    - '*.mcdn.bilivideo.cn'
     - '*.qq.com'
     - '+.stun.*.*'
     - '+.stun.*.*.*'
