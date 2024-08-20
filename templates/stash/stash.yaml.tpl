@@ -1,12 +1,12 @@
 mode: rule
 ipv6: false
-proxy-providers: {}
 log-level: error
 subscribe-url: http://{{ server_ip }}/{{www_dir_random_id}}/st.yaml
 
 script:
   shortcuts:
     quic: network == 'udp' and dst_port == 443
+    udp-cn: network == 'udp' and geoip(dst_ip if dst_ip != '' else resolve_ip(host)) == 'CN'
 
 dns:
   follow-rule: true
@@ -133,17 +133,17 @@ rule-providers:
     behavior: classical
     format: text
     interval: 86400
-    url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_echemi.text
+    url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_echemi.list
   mydirect:
     behavior: classical
     format: text
     interval: 86400
-    url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_mydirect.text
+    url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_mydirect.list
   myproxy:
     behavior: classical
     format: text
     interval: 86400
-    url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_myproxy.text
+    url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_myproxy.list
   cn:
     behavior: domain
     format: text
@@ -176,6 +176,8 @@ rule-providers:
     url: https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/privateip.list
 
 rules:
+  - SCRIPT,udp-cn,DIRECT
+  - SCRIPT,quic,REJECT
   - IP-CIDR,127.0.0.0/8,DIRECT
   - SRC-IP-CIDR,192.168.0.0/16,DIRECT
   - DST-PORT,22,DIRECT
