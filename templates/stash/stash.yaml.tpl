@@ -180,10 +180,10 @@ rule-providers:
 
 rules:
   - SCRIPT,udp-cn,DIRECT
-  - SCRIPT,quic,REJECT
-  - IP-CIDR,{{ server_ip }}/32,DIRECT
-  - IP-CIDR,127.0.0.0/8,DIRECT
-  - SRC-IP-CIDR,192.168.0.0/16,DIRECT
+  - SCRIPT,quic,Proxy
+  - IP-CIDR,{{ server_ip }}/32,DIRECT,no-resolve
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - SRC-IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
   - DST-PORT,22,DIRECT
   - IP-CIDR,119.29.29.29/32,DIRECT,no-resolve
   - IP-CIDR,8.8.8.8/32,Proxy,no-resolve
