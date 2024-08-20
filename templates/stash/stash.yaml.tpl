@@ -181,7 +181,7 @@ rule-providers:
 rules:
   - SCRIPT,udp-cn,DIRECT
   - SCRIPT,quic,REJECT
-  - IP-CIDR,{{ server_ip }},DIRECT
+  - IP-CIDR,{{ server_ip }}/32,DIRECT
   - IP-CIDR,127.0.0.0/8,DIRECT
   - SRC-IP-CIDR,192.168.0.0/16,DIRECT
   - DST-PORT,22,DIRECT
