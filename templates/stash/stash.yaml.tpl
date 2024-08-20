@@ -191,13 +191,13 @@ rules:
   - IP-CIDR,119.29.29.29/32,DIRECT,no-resolve
   - IP-CIDR,8.8.8.8/32,Proxy,no-resolve
   - RULE-SET,netflix,Proxy
-  - RULE-SET,netflixip,Proxy
+  - RULE-SET,netflixip,Proxy,no-resolve
   - RULE-SET,myproxy,Proxy
-  - RULE-SET,privateip,DIRECT
+  - RULE-SET,privateip,DIRECT,no-resolve
   - RULE-SET,private,DIRECT
   - RULE-SET,echemi,DIRECT
   - RULE-SET,cn,DIRECT
-  - RULE-SET,cnip,DIRECT
+  - RULE-SET,cnip,DIRECT,no-resolve
   - RULE-SET,mydirect,DIRECT
   - MATCH,Proxy
 
