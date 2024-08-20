@@ -10,4 +10,4 @@ DOMAIN-SUFFIX,echemi.cc
 DOMAIN-SUFFIX,echemi.net
 DOMAIN-SUFFIX,echemi.com
 DOMAIN-SUFFIX,echemi.top
-IP-CIDR,8.218.59.124/32
+IP-CIDR,8.218.59.124/32,no-resolve
