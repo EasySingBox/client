@@ -1,3 +1,4 @@
+DST-PORT,22
 DOMAIN,localhost
 DOMAIN,sequoia.apple.com
 DOMAIN,seed-sequoia.siri.apple.com
@@ -21,8 +22,6 @@ DOMAIN-SUFFIX,zmlu.me
 DOMAIN-SUFFIX,banmiya.com
 DOMAIN-SUFFIX,seon.io
 DOMAIN-SUFFIX,local
-IP-CIDR,119.29.29.29/32
-IP-CIDR,223.5.5.5/32
 PROCESS-NAME,java
 PROCESS-NAME,WeChat
 PROCESS-NAME,QQ
@@ -32,3 +31,5 @@ SRC-IP-CIDR,17.0.0.0/8,no-resolve
 SRC-IP-CIDR,192.168.0.0/16,no-resolve
 SRC-IP-CIDR6,fc00::/7,no-resolve
 SRC-IP-CIDR6,fe80::/10,no-resolve
+IP-CIDR,119.29.29.29/32,no-resolve
+IP-CIDR,223.5.5.5/32,no-resolve
