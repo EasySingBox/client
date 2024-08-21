@@ -140,6 +140,11 @@ rule-providers:
     format: text
     interval: 86400
     url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_echemi.list
+  st_apple:
+    behavior: classical
+    format: text
+    interval: 86400
+    url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_apple.list
   mydirect:
     behavior: classical
     format: text
@@ -182,6 +187,10 @@ rule-providers:
     url: https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/privateip.list
 
 rules:
+  - RULE-SET,st_apple,Proxy
+  - RULE-SET,netflix,Proxy
+  - RULE-SET,netflixip,Proxy,no-resolve
+  - RULE-SET,myproxy,Proxy
   - SCRIPT,udp-cn,DIRECT
   - SCRIPT,quic,Proxy
   - IP-CIDR,{{ server_ip }}/32,DIRECT,no-resolve
@@ -190,9 +199,6 @@ rules:
   - DST-PORT,22,DIRECT
   - IP-CIDR,119.29.29.29/32,DIRECT,no-resolve
   - IP-CIDR,8.8.8.8/32,Proxy,no-resolve
-  - RULE-SET,netflix,Proxy
-  - RULE-SET,netflixip,Proxy,no-resolve
-  - RULE-SET,myproxy,Proxy
   - RULE-SET,privateip,DIRECT,no-resolve
   - RULE-SET,private,DIRECT
   - RULE-SET,echemi,DIRECT

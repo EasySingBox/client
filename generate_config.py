@@ -147,6 +147,7 @@ def generate_stash():
         file.write(stash_yaml_content)
 
     os.system("cp ./templates/stash/my/st_echemi.list " + nginx_www_dir)
+    os.system("cp ./templates/stash/my/st_apple.list " + nginx_www_dir)
     os.system("cp ./templates/stash/my/st_mydirect.list " + nginx_www_dir)
     os.system("cp ./templates/stash/my/st_myproxy.list " + nginx_www_dir)
 
