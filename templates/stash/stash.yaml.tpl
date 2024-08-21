@@ -11,13 +11,10 @@ script:
 dns:
   follow-rule: true
   ipv6: false
-  default-nameserver:
-    - 119.29.29.29
-    - system
+  default-nameserver: null
   nameserver:
-    - https://8.8.8.8/dns-query
-    - https://doh.pub/dns-query
-    - system
+    - https://1.1.1.1/dns-query
+    - http3://1.1.1.1/dns-query
   skip-cert-verify: true
   fake-ip-filter:
     - '*.lan'
