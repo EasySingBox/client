@@ -121,7 +121,7 @@ proxies:
     version: 5
 
 proxy-groups:
-  - name: Proxy
+  - name: PROXY
     type: select
     proxies:
       - 'h2 ({{ vps_org }})'
