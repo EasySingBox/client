@@ -187,25 +187,25 @@ rule-providers:
     url: https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/privateip.list
 
 rules:
-  - RULE-SET,st_apple,Proxy
-  - RULE-SET,netflix,Proxy
-  - RULE-SET,netflixip,Proxy,no-resolve
-  - RULE-SET,myproxy,Proxy
+  - RULE-SET,st_apple,PROXY
+  - RULE-SET,netflix,PROXY
+  - RULE-SET,netflixip,PROXY,no-resolve
+  - RULE-SET,myproxy,PROXY
   - SCRIPT,udp-cn,DIRECT
-  - SCRIPT,quic,Proxy
+  - SCRIPT,quic,PROXY
   - IP-CIDR,{{ server_ip }}/32,DIRECT,no-resolve
   - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
   - SRC-IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
   - DST-PORT,22,DIRECT
   - IP-CIDR,119.29.29.29/32,DIRECT,no-resolve
-  - IP-CIDR,8.8.8.8/32,Proxy,no-resolve
+  - IP-CIDR,8.8.8.8/32,PROXY,no-resolve
   - RULE-SET,privateip,DIRECT,no-resolve
   - RULE-SET,private,DIRECT
   - RULE-SET,echemi,DIRECT
   - RULE-SET,cn,DIRECT
   - RULE-SET,cnip,DIRECT,no-resolve
   - RULE-SET,mydirect,DIRECT
-  - MATCH,Proxy
+  - MATCH,PROXY
 
 http:
   url-rewrite:
