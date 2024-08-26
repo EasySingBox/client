@@ -44,6 +44,12 @@
         "server": "dns-block"
       },
       {
+        "package_name": [
+          {{ exclude_package }}
+        ],
+        "server": "dns-local"
+      },
+      {
         "domain": [
           "airwallex.cc",
           "zmlu.me"
@@ -108,9 +114,6 @@
       "inet6_route_exclude_address": [
         "fc00::/7",
         "fe80::/10"
-      ],
-      "exclude_package": [
-        {{ exclude_package }}
       ],
       "stack": "gvisor",
       "platform": {
@@ -258,6 +261,12 @@
         "domain": [
           "airwallex.cc",
           "zmlu.me"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "package_name": [
+          {{ exclude_package }}
         ],
         "outbound": "direct"
       },
