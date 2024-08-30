@@ -1,3 +1,4 @@
+"com.sunboxsoft.charge.institute", #中油好客e站
 "com.xiaomi.youpin", #小米有品
 "com.mi.car.mobile", #小米汽车
 "com.xiaomi.hm.health", #Zepp Life
