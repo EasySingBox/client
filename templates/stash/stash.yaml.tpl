@@ -85,7 +85,12 @@ dns:
   nameserver-policy:
     'ruleset:cn': system
     'ruleset:mydirect': system
-    'ruleset:echemi': system
+    'file.echemi.co': 119.29.29.29
+    'static-www.echemi.co': 119.29.29.29
+
+hosts:
+  'www.echemi.co': 8.218.59.124
+  'www.echemi.top': 8.218.59.124
 
 proxies:
   - alpn:
