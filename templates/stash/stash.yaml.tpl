@@ -16,7 +16,9 @@ dns:
     - 45.11.45.11
     - system
   nameserver:
-    - https://1.1.1.1/dns-query
+    - https://185.222.222.222/dns-query
+    - tls://45.11.45.11:853
+    - system
   skip-cert-verify: true
   fake-ip-filter:
     - '*.lan'
@@ -81,15 +83,12 @@ dns:
     - '+.echemi.*.*'
     - '+.echemi.*.*.*'
   nameserver-policy:
-    'ruleset:cn': 119.29.29.29
-    'ruleset:mydirect': 119.29.29.29
-    +.echemi.cc: 192.168.0.1
-    +.echemi.co: 192.168.0.1
-    +.echemi.com: 192.168.0.1
-    +.echemi.net: 192.168.0.1
-    +.echemi.top: 192.168.0.1
+    'ruleset:cn': system
+    'ruleset:mydirect': system
 
 hosts:
+  chemical.echemi.co: 8.218.59.124
+  static-www.echemi.co: 8.218.59.124
   www.echemi.co: 8.218.59.124
   www.echemi.top: 8.218.59.124
 
