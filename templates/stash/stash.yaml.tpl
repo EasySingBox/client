@@ -79,6 +79,9 @@ dns:
     - '+.stun.*.*.*'
     - '+.stun.*.*.*.*'
     - '+.stun.*.*.*.*.*'
+    - '+.echemi.*'
+    - '+.echemi.*.*'
+    - '+.echemi.*.*.*'
   nameserver-policy:
     'ruleset:cn': system
     'ruleset:mydirect': system
