@@ -9,7 +9,7 @@ script:
     udp-cn: network == 'udp' and geoip(dst_ip if dst_ip != '' else resolve_ip(host)) == 'CN'
 
 dns:
-  follow-rule: true
+  follow-rule: false
   ipv6: false
   default-nameserver:
     - 185.222.222.222
