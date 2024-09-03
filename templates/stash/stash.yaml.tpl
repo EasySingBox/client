@@ -9,14 +9,18 @@ script:
     udp-cn: network == 'udp' and geoip(dst_ip if dst_ip != '' else resolve_ip(host)) == 'CN'
 
 dns:
-  follow-rule: false
+  follow-rule: true
   ipv6: false
   default-nameserver:
     - 185.222.222.222
     - 45.11.45.11
-    - 45.90.28.242
+    - 119.29.29.29
+    - system
   nameserver:
-    - https://dns.nextdns.io/5784f8
+    - https://dns.google/dns-query
+    - https://cloudflare-dns.com/dns-query
+    - https://doh.pub/dns-query
+    - system
   skip-cert-verify: true
   fake-ip-filter:
     - '*.lan'
