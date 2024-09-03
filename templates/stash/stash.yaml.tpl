@@ -14,13 +14,10 @@ dns:
   default-nameserver:
     - 185.222.222.222
     - 45.11.45.11
-    - 119.29.29.29
-    - system
   nameserver:
     - https://dns.google/dns-query
     - https://cloudflare-dns.com/dns-query
     - https://doh.pub/dns-query
-    - system
   skip-cert-verify: true
   fake-ip-filter:
     - '*.lan'
@@ -85,10 +82,10 @@ dns:
     - '+.echemi.*.*'
     - '+.echemi.*.*.*'
   nameserver-policy:
-    'ruleset:cn': system
-    'ruleset:mydirect': system
-    'file.echemi.co': 119.29.29.29
-    'static-www.echemi.co': 119.29.29.29
+    'ruleset:cn': https://doh.pub/dns-query
+    'ruleset:mydirect': https://doh.pub/dns-query
+    'file.echemi.co': https://doh.pub/dns-query
+    'static-www.echemi.co': https://doh.pub/dns-query
 
 hosts:
   'www.echemi.co': 8.218.59.124
