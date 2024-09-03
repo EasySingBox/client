@@ -16,8 +16,8 @@ dns:
     - 45.11.45.11
     - system
   nameserver:
-    - https://185.222.222.222/dns-query
-    - tls://45.11.45.11:853
+    - https://8.8.8.8/dns-query
+    - https://119.29.29.29/dns-query
     - system
   skip-cert-verify: true
   fake-ip-filter:
