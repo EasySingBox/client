@@ -193,7 +193,7 @@ rules:
   - RULE-SET,netflix,PROXY
   - RULE-SET,netflixip,PROXY,no-resolve
   - RULE-SET,myproxy,PROXY
-  - SCRIPT,quic,PROXY
+  - SCRIPT,quic,REJECT
   - IP-CIDR,{{ server_ip }}/32,DIRECT,no-resolve
   - RULE-SET,privateip,DIRECT
   - RULE-SET,private,DIRECT
