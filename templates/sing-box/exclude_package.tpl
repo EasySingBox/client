@@ -55,7 +55,6 @@
 "com.sdu.didi.psnger", #滴滴出行
 "com.netease.cloudmusic", #网易云音乐
 "com.ximalaya.ting.android", #喜马拉雅
-"com.xingin.xhs", #小红书
 "com.alicloud.databox", #阿里云盘
 "com.jd.jrapp", #京东金融
 "com.umpay.qingdaonfc", #琴岛通
