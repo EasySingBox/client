@@ -261,6 +261,12 @@
         "outbound": "direct"
       },
       {
+        "process_path": [
+          "/Applications/Microsoft Remote Desktop.app/Contents/MacOS/Microsoft Remote Desktop"
+        ],
+        "outbound": "direct"
+      },
+      {
         "domain": [
           "airwallex.cc",
           "zmlu.me"
