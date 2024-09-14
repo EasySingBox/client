@@ -262,7 +262,9 @@
       },
       {
         "process_path": [
-          "/Applications/Microsoft Remote Desktop.app/Contents/MacOS/Microsoft Remote Desktop"
+          "/Applications/Microsoft Remote Desktop.app/Contents/MacOS/Microsoft Remote Desktop",
+          "/Applications/Windows App Preview.app/Contents/MacOS/Windows App Preview",
+          "/Applications/Windows App Preview.app/Contents/MacOS/Windows App"
         ],
         "outbound": "direct"
       },
