@@ -73,4 +73,7 @@
 "com.tmri.app.main", #交管12123
 "com.anjuke.android.app", #安居客
 "com.lianjia.beike", #贝壳找房
-"com.server.auditor.ssh.client" #Termius
+"com.server.auditor.ssh.client", #Termius
+"com.ifast.gb", #iFast
+"com.ocbc.mobile", #OCBC SG
+"com.transferwise.android" #Wise
