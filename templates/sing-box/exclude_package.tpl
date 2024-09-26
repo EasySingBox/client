@@ -1,3 +1,4 @@
+"com.tencent.letsgo", #元梦之星
 "com.tencent.mm", #微信
 "com.xingin.xhs", #小红书
 "com.sunboxsoft.charge.institute", #中油好客e站
@@ -74,6 +75,7 @@
 "com.anjuke.android.app", #安居客
 "com.lianjia.beike", #贝壳找房
 "com.server.auditor.ssh.client", #Termius
+"com.binance.dev", #Binance
 "com.ifast.gb", #iFast
 "com.ifast.fsm", #FSM One
 "com.ocbc.mobile", #OCBC SG
