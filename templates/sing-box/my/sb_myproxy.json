@@ -27,6 +27,7 @@
         "stunprotocol.org",
         "mozilla.com",
         "nextcloud.com",
+        "xm.com",
         "ipinfo.ip"
       ]
     },
@@ -56,7 +57,11 @@
         "com.duolingo",
         "com.blizzard.wtcg.hearthstone",
         "org.fdroid.fdroid",
-        "com.skype.raider"
+        "com.skype.raider",
+        "com.blockchain.exchange",
+        "piuk.blockchain.android",
+        "org.toshi",
+        "com.xm.webapp"
       ]
     }
   ]
