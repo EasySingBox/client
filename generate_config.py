@@ -93,6 +93,7 @@ def generate_singbox_server():
 def generate_singbox():
     server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id = check_config_file()
 
+    random_suffix = ''.join(random.sample(uuid.uuid4().hex, 6))
     ad_dns_rule = env.get_template("/sing-box/ad_dns_rule.json").render() + ","
     ad_route_rule = env.get_template("/sing-box/ad_route_rule.json").render() + ","
     ad_rule_set = env.get_template("/sing-box/ad_rule_set.json").render() + ","
@@ -102,16 +103,18 @@ def generate_singbox():
     sb_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                          reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
                                          vps_org=vps_org, tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
-                                         exclude_package=exclude_package)
+                                         exclude_package=exclude_package, random_suffix=random_suffix)
     sb_noad_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                               reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
                                               vps_org=vps_org, tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
                                               ad_dns_rule=ad_dns_rule, ad_route_rule=ad_route_rule,
-                                              ad_rule_set=ad_rule_set, exclude_package=exclude_package)
+                                              ad_rule_set=ad_rule_set, exclude_package=exclude_package,
+                                              random_suffix=random_suffix)
     sb_cn_json_tpl = env.get_template("/sing-box/sb-cn.json.tpl")
     sb_cn_json_content = sb_cn_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                                reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                               vps_org=vps_org, tuic_port=tuic_port, exclude_package=exclude_package)
+                                               vps_org=vps_org, tuic_port=tuic_port, exclude_package=exclude_package,
+                                               random_suffix=random_suffix)
 
     nginx_www_dir = "/var/www/html/" + www_dir_random_id
     if not os.path.exists(nginx_www_dir):

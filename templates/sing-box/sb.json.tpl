@@ -69,7 +69,11 @@
         "rewrite_ttl": 1
       },
       {
-        "rule_set": "echemi",
+        "rule_set": [
+          "echemi{{ random_suffix }}",
+          "cn",
+          "mydirect{{ random_suffix }}"
+        ],
         "server": "dns-local"
       },
       {
@@ -297,7 +301,7 @@
         "rule_set": [
           "cn",
           "cnip",
-          "mydirect"
+          "mydirect{{ random_suffix }}"
         ],
         "outbound": "direct"
       },
@@ -309,7 +313,7 @@
         "rule_set": [
           "netflix",
           "netflixip",
-          "myproxy"
+          "myproxy{{ random_suffix }}"
         ],
         "outbound": "Proxy"
       },
@@ -317,10 +321,10 @@
         "rule_set": [
           "private",
           "privateip",
-          "echemi",
+          "echemi{{ random_suffix }}",
           "cn",
           "cnip",
-          "mydirect"
+          "mydirect{{ random_suffix }}"
         ],
         "outbound": "direct"
       }
@@ -328,7 +332,7 @@
     "rule_set": [
       {
         "type": "remote",
-        "tag": "echemi",
+        "tag": "echemi{{ random_suffix }}",
         "format": "source",
         "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/sb_echemi.json",
         "download_detour": "direct",
@@ -336,7 +340,7 @@
       },
       {
         "type": "remote",
-        "tag": "mydirect",
+        "tag": "mydirect{{ random_suffix }}",
         "format": "source",
         "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/sb_mydirect.json",
         "download_detour": "direct",
@@ -344,7 +348,7 @@
       },
       {
         "type": "remote",
-        "tag": "myproxy",
+        "tag": "myproxy{{ random_suffix }}",
         "format": "source",
         "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/sb_myproxy.json",
         "download_detour": "direct",
