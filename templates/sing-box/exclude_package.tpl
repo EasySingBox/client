@@ -1,3 +1,4 @@
+"com.luqiao.tunneltone", #隧e通
 "com.tencent.letsgo", #元梦之星
 "com.tencent.mm", #微信
 "com.xingin.xhs", #小红书
