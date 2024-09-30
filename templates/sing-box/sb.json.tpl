@@ -82,7 +82,7 @@
           "privateip",
           "cn",
           "cnip",
-          "mydirect"
+          "mydirect{{ random_suffix }}"
         ],
         "server": "dns-china"
       },
