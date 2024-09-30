@@ -28,6 +28,8 @@
         "mozilla.com",
         "nextcloud.com",
         "xm.com",
+        "moomoo.com",
+        "sg.moomoo.com",
         "ipinfo.ip"
       ]
     },
@@ -61,6 +63,7 @@
         "com.blockchain.exchange",
         "piuk.blockchain.android",
         "org.toshi",
+        "com.moomoo.trade",
         "com.xm.webapp"
       ]
     }
