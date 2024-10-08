@@ -359,7 +359,7 @@
         "type": "remote",
         "tag": "cn",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cn.srs",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cn.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
@@ -367,7 +367,7 @@
         "type": "remote",
         "tag": "cnip",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cnip.srs",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cnip.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
@@ -375,7 +375,7 @@
         "type": "remote",
         "tag": "netflix",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
@@ -383,7 +383,7 @@
         "type": "remote",
         "tag": "netflixip",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
@@ -391,7 +391,7 @@
         "type": "remote",
         "tag": "private",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/private.srs",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/private.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
@@ -399,7 +399,7 @@
         "type": "remote",
         "tag": "privateip",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/privateip.srs",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/privateip.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       }

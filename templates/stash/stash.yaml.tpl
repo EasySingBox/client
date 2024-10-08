@@ -159,32 +159,32 @@ rule-providers:
     behavior: domain
     format: text
     interval: 86400
-    url: https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/cn.list
+    url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/cn.list
   cnip:
     behavior: ipcidr
     format: text
     interval: 86400
-    url: https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/cnip.list
+    url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/cnip.list
   netflix:
     behavior: domain
     format: text
     interval: 86400
-    url: https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/netflix.list
+    url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/netflix.list
   netflixip:
     behavior: ipcidr
     format: text
     interval: 86400
-    url: https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/netflixip.list
+    url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/netflixip.list
   private:
     behavior: domain
     format: text
     interval: 86400
-    url: https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/private.list
+    url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/private.list
   privateip:
     behavior: ipcidr
     format: text
     interval: 86400
-    url: https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@clash-ruleset/privateip.list
+    url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/privateip.list
 
 rules:
   - SCRIPT,udp-cn,DIRECT

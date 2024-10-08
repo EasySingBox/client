@@ -288,7 +288,7 @@
         "type": "remote",
         "tag": "netflix",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
@@ -296,7 +296,7 @@
         "type": "remote",
         "tag": "netflixip",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
@@ -305,7 +305,7 @@
         "type": "remote",
         "tag": "proxy",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/proxy.srs",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/proxy.srs",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       }
