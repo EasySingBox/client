@@ -76,8 +76,4 @@
 "com.anjuke.android.app", #安居客
 "com.lianjia.beike", #贝壳找房
 "com.server.auditor.ssh.client", #Termius
-"com.binance.dev", #Binance
-"com.ifast.gb", #iFast
-"com.ifast.fsm", #FSM One
-"com.ocbc.mobile", #OCBC SG
-"com.transferwise.android" #Wise
+"com.binance.dev" #Binance

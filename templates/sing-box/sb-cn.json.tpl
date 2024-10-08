@@ -256,6 +256,31 @@
           "proxy"
         ],
         "outbound": "Proxy"
+      },
+      {
+        "package_name": [
+          "com.android.vending",
+          "com.netflix.mediaclient",
+          "com.ibkr.gt.app",
+          "atws.ap",
+          "com.avuscapital.trading212",
+          "com.tradingview.tradingviewapp",
+          "com.amazon.mShop.android.shopping",
+          "com.coinbase.android",
+          "com.linkedin.android",
+          "de.number26.android",
+          "com.transferwise.android",
+          "org.zwanoo.android.speedtest",
+          "com.paypal.android.p2pmobile",
+          "com.zhiliaoapp.musically",
+          "com.twitter.android",
+          "com.skype.raider",
+          "org.toshi",
+          "com.ocbc.mobile",
+          "com.moomoo.trade",
+          "com.xm.webapp"
+        ],
+        "outbound": "Proxy"
       }
     ],
     "rule_set": [
