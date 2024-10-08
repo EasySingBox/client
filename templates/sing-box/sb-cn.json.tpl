@@ -253,32 +253,8 @@
         "rule_set": [
           "netflix",
           "netflixip",
+          "myproxy{{ random_suffix }}",
           "proxy"
-        ],
-        "outbound": "Proxy"
-      },
-      {
-        "package_name": [
-          "com.android.vending",
-          "com.netflix.mediaclient",
-          "com.ibkr.gt.app",
-          "atws.ap",
-          "com.avuscapital.trading212",
-          "com.tradingview.tradingviewapp",
-          "com.amazon.mShop.android.shopping",
-          "com.coinbase.android",
-          "com.linkedin.android",
-          "de.number26.android",
-          "com.transferwise.android",
-          "org.zwanoo.android.speedtest",
-          "com.paypal.android.p2pmobile",
-          "com.zhiliaoapp.musically",
-          "com.twitter.android",
-          "com.skype.raider",
-          "org.toshi",
-          "com.ocbc.mobile",
-          "com.moomoo.trade",
-          "com.xm.webapp"
         ],
         "outbound": "Proxy"
       }
@@ -297,6 +273,14 @@
         "tag": "netflixip",
         "format": "binary",
         "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs",
+        "download_detour": "direct",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "myproxy{{ random_suffix }}",
+        "format": "source",
+        "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/sb_myproxy.json",
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
