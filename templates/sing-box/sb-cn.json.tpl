@@ -10,6 +10,11 @@
         "address": "local"
       },
       {
+        "tag": "dns-remote",
+        "address": "https://8.8.8.8/dns-query",
+        "detour": "Proxy"
+      },
+      {
         "tag": "dns-fakeip",
         "address": "fakeip"
       },
@@ -37,11 +42,17 @@
         ],
         "rule_set": [
           "netflix",
-          "netflixip",
-          "proxy"
+          "netflixip"
         ],
         "server": "dns-fakeip",
         "rewrite_ttl": 1
+      },
+      {
+        "rule_set": [
+          "myproxy{{ random_suffix }}",
+          "proxy"
+        ],
+        "server": "dns-remote"
       }
     ],
     "final": "dns-local",
