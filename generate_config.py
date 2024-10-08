@@ -113,7 +113,8 @@ def generate_singbox():
     sb_cn_json_tpl = env.get_template("/sing-box/sb-cn.json.tpl")
     sb_cn_json_content = sb_cn_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                                reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                               vps_org=vps_org, tuic_port=tuic_port, exclude_package=exclude_package,
+                                               vps_org=vps_org, tuic_port=tuic_port,
+                                               www_dir_random_id=www_dir_random_id, exclude_package=exclude_package,
                                                random_suffix=random_suffix)
 
     nginx_www_dir = "/var/www/html/" + www_dir_random_id
