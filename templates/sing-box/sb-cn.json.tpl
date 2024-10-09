@@ -252,6 +252,7 @@
       {
         "protocol": "stun",
         "rule_set": [
+          "myproxy{{ random_suffix }}",
           "proxy"
         ],
         "outbound": "Proxy"
