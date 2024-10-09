@@ -77,54 +77,54 @@
 "com.server.auditor.ssh.client", #Termius
 "com.eastmoney.android.choice", #Choice数据
 "com.coloros.soundrecorder", #录音机
-"com.redteamobile.roaming",
-"com.coloros.backuprestore",
-"com.heytap.music",
-"com.coloros.calendar",
-"cn.wps.moffice.lite",
-"com.coloros.calculator",
-"andes.oplus.documentsreader",
-"com.oneplus.member",
-"com.netease.dwrg.nearme.gamecenter",
-"com.ifreegroup.moesim",
-"com.xiaomi.mico",
-"com.coloros.favorite",
-"com.qq.qcloud",
-"com.tencent.map",
-"com.coloros.filemanager",
-"com.coloros.alarmclock",
-"com.coloros.weather2",
-"com.heytap.health",
-"com.coloros.compass2",
-"com.sdjictec.qdmetro",
-"tv.danmaku.bili",
-"com.oneplus.bbs",
-"com.unionpay.tsmservice",
-"com.coloros.familyguard",
-"com.ct.client",
-"com.thestore.main",
-"cn.cyberIdentity.certification",
-"com.oplus.consumerIRApp",
-"com.coloros.shortcuts",
-"com.coloros.translate",
-"com.heytap.book",
-"cn.caocaokeji.user",
-"com.finshell.wallet",
-"com.oplus.play",
-"com.oppo.store",
-"com.sohu.inputmethod.sogouoem",
-"com.wolai.flutter_app",
-"com.ai.obc.cbn.app",
-"com.nearme.gamecenter",
-"com.oplus.melody",
-"com.heytap.themestore",
-"com.coloros.note",
-"com.sf.activity",
-"com.heytap.yoli",
-"com.oneplus.brickmode",
-"com.clover.daysmatter",
-"com.oplus.games",
-"com.xueqiu.android",
-"cn.com.hkgt.gasapp",
-"com.mfcloudcalculate.networkdisk",
-"com.rpms.uaandroid"
+"com.redteamobile.roaming", #
+"com.coloros.backuprestore", #
+"com.heytap.music", #
+"com.coloros.calendar", #
+"cn.wps.moffice.lite", #
+"com.coloros.calculator", #
+"andes.oplus.documentsreader", #
+"com.oneplus.member", #
+"com.netease.dwrg.nearme.gamecenter", #
+"com.ifreegroup.moesim", #
+"com.xiaomi.mico", #
+"com.coloros.favorite", #
+"com.qq.qcloud", #
+"com.tencent.map", #
+"com.coloros.filemanager", #
+"com.coloros.alarmclock", #
+"com.coloros.weather2", #
+"com.heytap.health", #
+"com.coloros.compass2", #
+"com.sdjictec.qdmetro", #
+"tv.danmaku.bili", #
+"com.oneplus.bbs", #
+"com.unionpay.tsmservice", #
+"com.coloros.familyguard", #
+"com.ct.client", #
+"com.thestore.main", #
+"cn.cyberIdentity.certification", #
+"com.oplus.consumerIRApp", #
+"com.coloros.shortcuts", #
+"com.coloros.translate", #
+"com.heytap.book", #
+"cn.caocaokeji.user", #
+"com.finshell.wallet", #
+"com.oplus.play", #
+"com.oppo.store", #
+"com.sohu.inputmethod.sogouoem", #
+"com.wolai.flutter_app", #
+"com.ai.obc.cbn.app", #
+"com.nearme.gamecenter", #
+"com.oplus.melody", #
+"com.heytap.themestore", #
+"com.coloros.note", #
+"com.sf.activity", #
+"com.heytap.yoli", #
+"com.oneplus.brickmode", #
+"com.clover.daysmatter", #
+"com.oplus.games", #
+"com.xueqiu.android", #
+"cn.com.hkgt.gasapp", #
+"com.mfcloudcalculate.networkdisk", #
+"com.rpms.uaandroid" #
