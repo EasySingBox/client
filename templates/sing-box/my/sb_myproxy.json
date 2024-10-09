@@ -42,6 +42,7 @@
     {
       "package_name": [
         "com.android.vending",
+        "org.telegram.messenger",
         "com.netflix.mediaclient",
         "com.ibkr.gt.app",
         "atws.ap",
@@ -51,6 +52,8 @@
         "com.coinbase.android",
         "com.linkedin.android",
         "de.number26.android",
+        "com.binance.dev",
+        "com.onepassword.android",
         "com.transferwise.android",
         "org.zwanoo.android.speedtest",
         "com.paypal.android.p2pmobile",
