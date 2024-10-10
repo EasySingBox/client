@@ -150,14 +150,6 @@
       "listen_port": 7890,
       "sniff": true,
       "sniff_override_destination": true
-    },
-    {
-      "type": "direct",
-      "tag": "dns-in",
-      "listen": "127.0.0.1",
-      "listen_port": 1053,
-      "sniff": true,
-      "sniff_override_destination": true
     }
   ],
   "outbounds": [
@@ -269,10 +261,6 @@
         "outbound": "Proxy"
       },
       {{ ad_route_rule }}
-      {
-        "inbound": "dns-in",
-        "outbound": "dns-out"
-      },
       {
         "protocol": "dns",
         "port": [

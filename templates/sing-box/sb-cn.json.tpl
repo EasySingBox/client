@@ -7,7 +7,9 @@
     "servers": [
       {
         "tag": "dns-local",
-        "address": "local"
+        "address": "https://8.8.8.8/dns-query",
+        "detour": "Proxy",
+        "client_subnet": "42.194.8.0"
       },
       {
         "tag": "dns-remote",
@@ -109,14 +111,6 @@
       "tag": "mixed-in",
       "listen": "127.0.0.1",
       "listen_port": 7890,
-      "sniff": true,
-      "sniff_override_destination": true
-    },
-    {
-      "type": "direct",
-      "tag": "dns-in",
-      "listen": "127.0.0.1",
-      "listen_port": 1053,
       "sniff": true,
       "sniff_override_destination": true
     }
@@ -230,10 +224,6 @@
         "outbound": "Proxy"
       },
       {{ ad_route_rule }}
-      {
-        "inbound": "dns-in",
-        "outbound": "dns-out"
-      },
       {
         "protocol": "dns",
         "port": [
