@@ -1,8 +1,16 @@
 {
   "type": "remote",
-  "tag": "ads",
+  "tag": "easylistchina{{ random_suffix }}",
   "format": "binary",
-  "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/ads.srs",
-  "download_detour": "direct",
+  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/easylistchina.srs",
+  "download_detour": "Proxy",
+  "update_interval": "24h0m0s"
+},
+{
+  "type": "remote",
+  "tag": "AdGuardDNSfilter{{ random_suffix }}",
+  "format": "binary",
+  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/filter.srs",
+  "download_detour": "Proxy",
   "update_interval": "24h0m0s"
 }

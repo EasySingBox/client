@@ -94,9 +94,9 @@ def generate_singbox():
     server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id = check_config_file()
 
     random_suffix = ''.join(random.sample(uuid.uuid4().hex, 6))
-    ad_dns_rule = env.get_template("/sing-box/ad_dns_rule.json").render() + ","
-    ad_route_rule = env.get_template("/sing-box/ad_route_rule.json").render() + ","
-    ad_rule_set = env.get_template("/sing-box/ad_rule_set.json").render() + ","
+    ad_dns_rule = env.get_template("/sing-box/ad_dns_rule.json").render(random_suffix=random_suffix) + ","
+    ad_route_rule = env.get_template("/sing-box/ad_route_rule.json").render(random_suffix=random_suffix) + ","
+    ad_rule_set = env.get_template("/sing-box/ad_rule_set.json").render(random_suffix=random_suffix) + ","
     exclude_package = env.get_template("/sing-box/exclude_package.tpl").render() + ","
     exclude_package = re.sub(r'#.*', '', exclude_package)
     sb_json_tpl = env.get_template("/sing-box/sb.json.tpl")

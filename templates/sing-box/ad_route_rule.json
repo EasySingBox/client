@@ -1,4 +1,7 @@
 {
-  "rule_set": "ads",
+  "rule_set": [
+    "easylistchina{{ random_suffix }}",
+    "AdGuardDNSfilter{{ random_suffix }}"
+  ],
   "outbound": "block"
 }
