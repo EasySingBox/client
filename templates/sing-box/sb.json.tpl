@@ -49,13 +49,6 @@
         ],
         "server": "dns-local"
       },
-      {
-        "domain": [
-          "airwallex.cc",
-          "zmlu.me"
-        ],
-        "server": "dns-local"
-      },
       {{ ad_dns_rule }}
       {
         "query_type": [
@@ -273,14 +266,10 @@
         "outbound": "direct"
       },
       {
-        "domain": [
-          "airwallex.cc",
-          "zmlu.me"
+        "ip_cidr": [
+          "1.1.1.1/32",
+          "8.8.8.8/32"
         ],
-        "outbound": "direct"
-      },
-      {
-        "ip_cidr": "8.8.8.8/32",
         "outbound": "Proxy"
       },
       {{ ad_route_rule }}
