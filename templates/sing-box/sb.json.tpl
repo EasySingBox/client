@@ -258,14 +258,6 @@
         "outbound": "direct"
       },
       {
-        "process_path": [
-          "/Applications/Microsoft Remote Desktop.app/Contents/MacOS/Microsoft Remote Desktop",
-          "/Applications/Windows App Preview.app/Contents/MacOS/Windows App Preview",
-          "/Applications/Windows App Preview.app/Contents/MacOS/Windows App"
-        ],
-        "outbound": "direct"
-      },
-      {
         "ip_cidr": [
           "1.1.1.1/32",
           "8.8.8.8/32"
