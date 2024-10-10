@@ -13,4 +13,20 @@
   "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/filter.srs",
   "download_detour": "Proxy",
   "update_interval": "24h0m0s"
+},
+{
+  "type": "remote",
+  "tag": "antiadblockfilters{{ random_suffix }}",
+  "format": "binary",
+  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/antiadblockfilters.srs",
+  "download_detour": "Proxy",
+  "update_interval": "24h0m0s"
+},
+{
+  "type": "remote",
+  "tag": "easyprivacy{{ random_suffix }}",
+  "format": "binary",
+  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/easyprivacy.srs",
+  "download_detour": "Proxy",
+  "update_interval": "24h0m0s"
 }
