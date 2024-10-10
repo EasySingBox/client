@@ -28,6 +28,13 @@
         "query_type": ["PTR", "AAAA"],
         "server": "dns-block"
       },
+      {
+        "domain": [
+          "airwallex.cc",
+          "zmlu.me"
+        ],
+        "server": "dns-local"
+      },
       {{ ad_dns_rule }}
       {
         "query_type": [
@@ -219,10 +226,14 @@
         "outbound": "direct"
       },
       {
-        "ip_cidr": [
-          "1.1.1.1/32",
-          "8.8.8.8/32"
+        "domain": [
+          "airwallex.cc",
+          "zmlu.me"
         ],
+        "outbound": "direct"
+      },
+      {
+        "ip_cidr": "8.8.8.8/32",
         "outbound": "Proxy"
       },
       {{ ad_route_rule }}

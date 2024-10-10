@@ -49,6 +49,13 @@
         ],
         "server": "dns-local"
       },
+      {
+        "domain": [
+          "airwallex.cc",
+          "zmlu.me"
+        ],
+        "server": "dns-local"
+      },
       {{ ad_dns_rule }}
       {
         "query_type": [
@@ -258,10 +265,22 @@
         "outbound": "direct"
       },
       {
-        "ip_cidr": [
-          "1.1.1.1/32",
-          "8.8.8.8/32"
+        "process_path": [
+          "/Applications/Microsoft Remote Desktop.app/Contents/MacOS/Microsoft Remote Desktop",
+          "/Applications/Windows App Preview.app/Contents/MacOS/Windows App Preview",
+          "/Applications/Windows App Preview.app/Contents/MacOS/Windows App"
         ],
+        "outbound": "direct"
+      },
+      {
+        "domain": [
+          "airwallex.cc",
+          "zmlu.me"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "ip_cidr": "8.8.8.8/32",
         "outbound": "Proxy"
       },
       {{ ad_route_rule }}
