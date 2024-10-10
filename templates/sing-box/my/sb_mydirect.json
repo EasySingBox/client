@@ -55,12 +55,13 @@
       ]
     },
     {
-      "process_name": [
-        "java",
-        "WeChat",
-        "WeType",
-        "QQ",
-        "Longbridge Pro"
+      "process_path_regex": [
+        ".*JavaVirtualMachines.+",
+        "Longbridge.+",
+        "Windows App.+",
+        "QQ.+",
+        "WeChat.+",
+        "WeType.+"
       ]
     },
     {
