@@ -55,12 +55,13 @@
       ]
     },
     {
-      "process_name": [
-        "java",
-        "WeChat",
-        "QQ",
-        "softwareupdated",
-        "Microsoft Remote Desktop"
+      "process_path_regex": [
+        ".*JavaVirtualMachines.+",
+        "Longbridge.+",
+        "Windows App.+",
+        "QQ.+",
+        "WeChat.+",
+        "WeType.+"
       ]
     },
     {
