@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "rules": [
     {
       "domain": [
@@ -61,7 +61,10 @@
         "Windows App.+",
         "QQ.+",
         "WeChat.+",
-        "WeType.+"
+        "WeType.+",
+        "WeiyunResona.+",
+        "Weiyun.+",
+        "GTDataHD.+"
       ]
     },
     {
