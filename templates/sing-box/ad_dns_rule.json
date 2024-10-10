@@ -3,7 +3,8 @@
     "easylistchina{{ random_suffix }}",
     "AdGuardDNSfilter{{ random_suffix }}",
     "antiadblockfilters{{ random_suffix }}",
-    "easyprivacy{{ random_suffix }}"
+    "easyprivacy{{ random_suffix }}",
+    "adblockplus{{ random_suffix }}"
   ],
   "server": "dns-block"
 }
