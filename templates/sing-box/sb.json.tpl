@@ -254,7 +254,11 @@
   "route": {
     "rules": [
       {
-        "port": 22,
+        "protocol": [
+          "dtls",
+          "ssh",
+          "rdp"
+        ],
         "outbound": "direct"
       },
       {
