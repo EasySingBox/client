@@ -63,15 +63,16 @@
     {
       "type": "tun",
       "tag": "tun-in",
-      "inet4_address": "172.18.0.1/30",
+      "address": [
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
       "auto_route": true,
       "strict_route": true,
-      "inet4_route_exclude_address": [
+      "route_exclude_address": [
         "10.0.0.0/8",
         "17.0.0.0/8",
-        "192.168.0.0/16"
-      ],
-      "inet6_route_exclude_address": [
+        "192.168.0.0/16",
         "fc00::/7",
         "fe80::/10"
       ],
