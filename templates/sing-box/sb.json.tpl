@@ -25,9 +25,7 @@
       },
       {
         "tag": "dns-china",
-        "address": "https://8.8.8.8/dns-query",
-        "detour": "Proxy",
-        "client_subnet": "42.194.8.0"
+        "address": "https://119.29.29.29/dns-query"
       },
       {
         "tag": "dns-fakeip",
@@ -41,12 +39,14 @@
     "rules": [
       {
         "query_type": ["PTR", "AAAA"],
-        "server": "dns-block"
+        "action": "reject",
+        "method": "drop"
       },
       {
         "package_name": [
           {{ exclude_package }}
         ],
+        "action": "route",
         "server": "dns-local"
       },
       {{ ad_dns_rule }}
@@ -58,8 +58,8 @@
           "netflix",
           "netflixip"
         ],
-        "server": "dns-fakeip",
-        "rewrite_ttl": 1
+        "action": "route",
+        "server": "dns-fakeip"
       },
       {
         "rule_set": [
@@ -83,8 +83,7 @@
         "query_type": [
           "A"
         ],
-        "server": "dns-fakeip",
-        "rewrite_ttl": 1
+        "server": "dns-fakeip"
       }
     ],
     "final": "dns-remote",
@@ -234,18 +233,20 @@
     {
       "type": "direct",
       "tag": "direct"
-    },
-    {
-      "type": "block",
-      "tag": "block"
-    },
-    {
-      "type": "dns",
-      "tag": "dns-out"
     }
   ],
   "route": {
     "rules": [
+      {
+        "inbound": "mixed-in",
+        "action": "resolve",
+        "strategy": "prefer_ipv4"
+      },
+      {
+        "inbound": "mixed-in",
+        "action": "sniff",
+        "timeout": "1s"
+      }
       {
         "protocol": [
           "dtls",
@@ -268,7 +269,7 @@
           53,
           853
         ],
-        "outbound": "dns-out"
+        "action": "dns-hijack"
       },
       {
         "protocol": "stun",

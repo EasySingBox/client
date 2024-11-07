@@ -7,9 +7,7 @@
     "servers": [
       {
         "tag": "dns-local",
-        "address": "https://8.8.8.8/dns-query",
-        "detour": "Proxy",
-        "client_subnet": "42.194.8.0"
+        "address": "https://119.29.29.29/dns-query"
       },
       {
         "tag": "dns-remote",
