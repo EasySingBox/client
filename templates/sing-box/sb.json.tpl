@@ -269,7 +269,7 @@
           53,
           853
         ],
-        "action": "dns-hijack"
+        "action": "hijack-dns"
       },
       {
         "protocol": "stun",
