@@ -246,7 +246,7 @@
         "inbound": "mixed-in",
         "action": "sniff",
         "timeout": "1s"
-      }
+      },
       {
         "protocol": [
           "dtls",
