@@ -38,11 +38,6 @@
     ],
     "rules": [
       {
-        "query_type": ["PTR", "AAAA"],
-        "action": "reject",
-        "method": "drop"
-      },
-      {
         "package_name": [
           {{ exclude_package }}
         ],
