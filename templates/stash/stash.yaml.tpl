@@ -92,33 +92,31 @@ hosts:
   'www.echemi.top': 8.218.59.124
 
 proxies:
-  - alpn:
-      - h3
-    auth: {{ password }}
-    benchmark-url: http://www.apple.com/library/test/success.html
-    fast-open: false
-    name: h2 ({{ vps_org }})
-    port: {{ h2_port }}
-    server: {{ server_ip }}
-    servername: www.bing.com
-    skip-cert-verify: true
-    sni: www.bing.com
-    tls: true
+  - name: h2 ({{ vps_org }})
     type: hysteria2
-  - alpn:
-      - h3
-    benchmark-url: https://www.apple.com/library/test/success.html
-    name: tuic ({{ vps_org }})
-    password: {{ password }}
-    port: {{ tuic_port }}
     server: {{ server_ip }}
-    servername: www.bing.com
+    port: {{ h2_port }}
+    auth: {{ password }}
+    fast-open: true
+    sni: www.bing.com
+    skip-cert-verify: true
+    up-speed: 600
+    down-speed: 600
+    alpn:
+      - h3
+    tls: true
+  - name: tuic ({{ vps_org }})
+    type: tuic
+    server: {{ server_ip }}
+    port: {{ tuic_port }}
+    version: 5
+    uuid: {{ password }}
+    password: {{ password }}
     skip-cert-verify: true
     sni: www.bing.com
+    alpn:
+      - h3
     tls: true
-    type: tuic
-    uuid: {{ password }}
-    version: 5
 
 proxy-groups:
   - name: PROXY
