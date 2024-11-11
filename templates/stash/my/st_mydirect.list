@@ -6,9 +6,10 @@ DOMAIN-SUFFIX,zmlu.me
 DOMAIN-SUFFIX,banmiya.com
 DOMAIN-SUFFIX,local
 PROCESS-NAME,java
-PROCESS-NAME,WeChat
-PROCESS-NAME,WeType
-PROCESS-NAME,QQ
-PROCESS-NAME,Longbridge Pro
+PROCESS-PATH,/Applications/Weixin.app/Contents/MacOS/Weixin
+PROCESS-PATH,/Library/Input Methods/WeType.app/Contents/MacOS/WeType
+PROCESS-PATH,/Applications/QQ.app/Contents/MacOS/QQ
+PROCESS-PATH,/Applications/Longbridge Pro SG.app/Contents/MacOS/Longbridge Pro SG
+PROCESS-PATH,/Applications/Windows App Preview.app/Contents/MacOS/Windows App Beta
 IP-CIDR,119.29.29.29/32,no-resolve
 IP-CIDR,223.5.5.5/32,no-resolve
