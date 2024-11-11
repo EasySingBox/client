@@ -15,9 +15,7 @@ dns:
     - 185.222.222.222
     - 45.11.45.11
   nameserver:
-    - https://dns.google/dns-query
-    - https://cloudflare-dns.com/dns-query
-    - https://doh.pub/dns-query
+    - https://1.1.1.1/dns-query
   skip-cert-verify: true
   fake-ip-filter:
     - '*.lan'
@@ -82,10 +80,10 @@ dns:
     - '+.echemi.*.*'
     - '+.echemi.*.*.*'
   nameserver-policy:
-    'ruleset:cn': https://doh.pub/dns-query
-    'ruleset:mydirect': https://doh.pub/dns-query
-    'file.echemi.co': https://doh.pub/dns-query
-    'static-www.echemi.co': https://doh.pub/dns-query
+    'ruleset:cn': https://119.29.29.29/dns-query
+    'ruleset:mydirect': https://119.29.29.29/dns-query
+    'file.echemi.co': https://119.29.29.29/dns-query
+    'static-www.echemi.co': https://119.29.29.29/dns-query
 
 hosts:
   'www.echemi.co': 8.218.59.124
@@ -153,6 +151,11 @@ rule-providers:
     format: text
     interval: 86400
     url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_myproxy.list
+  microsoft-cn:
+    behavior: domain
+    format: text
+    interval: 86400
+    url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/microsoft-cn.list
   cn:
     behavior: domain
     format: text
@@ -191,6 +194,7 @@ rules:
   - RULE-SET,netflix,PROXY
   - RULE-SET,netflixip,PROXY,no-resolve
   - RULE-SET,myproxy,PROXY
+  - RULE-SET,microsoft-cn,PROXY
   - SCRIPT,quic,REJECT
   - IP-CIDR,{{ server_ip }}/32,DIRECT,no-resolve
   - RULE-SET,privateip,DIRECT

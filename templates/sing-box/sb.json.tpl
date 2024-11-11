@@ -16,15 +16,11 @@
     "servers": [
       {
         "tag": "dns-remote",
-        "address": "https://8.8.8.8/dns-query",
+        "address": "https://1.1.1.1/dns-query",
         "detour": "Proxy"
       },
       {
         "tag": "dns-local",
-        "address": "local"
-      },
-      {
-        "tag": "dns-china",
         "address": "https://119.29.29.29/dns-query"
       },
       {
@@ -58,21 +54,14 @@
       },
       {
         "rule_set": [
-          "echemi{{ random_suffix }}",
-          "cn",
-          "mydirect{{ random_suffix }}"
-        ],
-        "server": "dns-local"
-      },
-      {
-        "rule_set": [
           "private",
           "privateip",
+          "echemi{{ random_suffix }}",
           "cn",
           "cnip",
           "mydirect{{ random_suffix }}"
         ],
-        "server": "dns-china"
+        "server": "dns-local"
       },
       {
         "query_type": [
@@ -283,7 +272,8 @@
         "rule_set": [
           "netflix",
           "netflixip",
-          "myproxy{{ random_suffix }}"
+          "myproxy{{ random_suffix }}",
+          "microsoft-cn"
         ],
         "outbound": "Proxy"
       },
@@ -325,6 +315,14 @@
         "update_interval": "24h0m0s"
       },
       {{ ad_rule_set }}
+      {
+        "type": "remote",
+        "tag": "microsoft-cn",
+        "format": "binary",
+        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/microsoft-cn.srs",
+        "download_detour": "direct",
+        "update_interval": "24h0m0s"
+      },
       {
         "type": "remote",
         "tag": "cn",
