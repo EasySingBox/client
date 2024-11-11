@@ -1,10 +1,12 @@
 DST-PORT,22
 DOMAIN,www.europapa.com
 DOMAIN,www.ihuada.com
+DOMAIN,codeup.aliyun.com
 DOMAIN-KEYWORD,baidu
 DOMAIN-SUFFIX,zmlu.me
 DOMAIN-SUFFIX,banmiya.com
 DOMAIN-SUFFIX,local
+DOMAIN-SUFFIX,aliyun.com
 PROCESS-NAME,java
 PROCESS-PATH,/Applications/Weixin.app/Contents/MacOS/Weixin
 PROCESS-PATH,/Library/Input Methods/WeType.app/Contents/MacOS/WeType
