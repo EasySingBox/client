@@ -79,6 +79,7 @@ dns:
     - '+.echemi.*'
     - '+.echemi.*.*'
     - '+.echemi.*.*.*'
+    - 'codeup.aliyun.com'
   nameserver-policy:
     'ruleset:cn': https://119.29.29.29/dns-query
     'ruleset:mydirect': https://119.29.29.29/dns-query
