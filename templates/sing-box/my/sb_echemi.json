@@ -6,14 +6,20 @@
 				"static-www.echemi.co",
 				"sso.dev.echemi.cc",
 				"rabbitmq.dev.echemi.cc",
+				"mysql80.dev.echemi.cc",
+				"mysql57.dev.echemi.cc",
 				"www.echemi.co",
 				"koko.echemi.com",
 				"jps.echemi.com",
 				"www.echemi.top"
-			],
+			]
+		},
+		{
 			"domain_keyword": [
 				"echemi"
-			],
+			]
+		},
+		{
 			"domain_suffix": [
 				"+.echemi.co",
 				"+.echemi.cc",
@@ -21,9 +27,18 @@
 				"+.echemi.net",
 				"+.echemi.com",
 				"+.echemi.top"
-			],
+			]
+		},
+		{
 			"ip_cidr": [
 				"8.218.59.124/32"
+			]
+		},
+		{
+			"port": [
+				3306,
+				33306,
+				5672
 			]
 		}
 	]
