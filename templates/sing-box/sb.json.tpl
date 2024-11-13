@@ -128,17 +128,13 @@
             "alt8-mtalk.google.com"
           ]
         }
-      },
-      "sniff": true,
-      "sniff_override_destination": true
+      }
     },
     {
       "type": "mixed",
       "tag": "mixed-in",
       "listen": "127.0.0.1",
-      "listen_port": 7890,
-      "sniff": true,
-      "sniff_override_destination": true
+      "listen_port": 7890
     }
   ],
   "outbounds": [
@@ -166,9 +162,7 @@
         "alpn": [
           "h3"
         ]
-      },
-      "domain_strategy": "prefer_ipv4",
-      "network_strategy": "fallback"
+      }
     },
     {
       "type": "tuic",
@@ -184,9 +178,7 @@
         "alpn": [
           "h3"
         ]
-      },
-      "domain_strategy": "prefer_ipv4",
-      "network_strategy": "fallback"
+      }
     },
     {
       "type": "vless",
@@ -221,9 +213,7 @@
           "up_mbps": 1024,
           "down_mbps": 1024
         }
-      },
-      "domain_strategy": "prefer_ipv4",
-      "network_strategy": "fallback"
+      }
     },
     {
       "type": "direct",
@@ -233,19 +223,13 @@
   "route": {
     "rules": [
       {
-        "inbound": "mixed-in",
-        "action": "resolve",
-        "strategy": "prefer_ipv4"
+        "action": "route-options",
+        "domain_strategy": "ipv4_only"
       },
       {
         "inbound": "mixed-in",
         "action": "sniff",
         "timeout": "1s"
-      },
-      {
-        "inbound": "tun-in",
-        "action": "resolve",
-        "strategy": "prefer_ipv4"
       },
       {
         "inbound": "tun-in",
