@@ -3,6 +3,7 @@
 	"rules": [
 		{
 			"domain": [
+				"codeup.aliyun.com",
 				"static-www.echemi.co",
 				"sso.dev.echemi.cc",
 				"rabbitmq.dev.echemi.cc",
