@@ -13,7 +13,7 @@
     "servers": [
       {
         "tag": "dns-remote",
-        "address": "https://8.8.8.8/dns-query",
+        "address": "https://1.1.1.1/dns-query",
         "detour": "Proxy"
       },
       {
