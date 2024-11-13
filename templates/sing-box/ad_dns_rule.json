@@ -6,5 +6,6 @@
     "easyprivacy{{ random_suffix }}",
     "adblockplus{{ random_suffix }}"
   ],
-  "server": "dns-block"
+  "action": "reject",
+  "method": "drop"
 }

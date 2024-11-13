@@ -26,10 +26,6 @@
       {
         "tag": "dns-fakeip",
         "address": "fakeip"
-      },
-      {
-        "tag": "dns-block",
-        "address": "rcode://name_error"
       }
     ],
     "rules": [
@@ -222,10 +218,6 @@
   ],
   "route": {
     "rules": [
-      {
-        "action": "route-options",
-        "domain_strategy": "ipv4_only"
-      },
       {
         "inbound": "mixed-in",
         "action": "sniff",
