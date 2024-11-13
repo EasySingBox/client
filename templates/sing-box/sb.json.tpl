@@ -228,12 +228,27 @@
   "route": {
     "rules": [
       {
+        "query_type": ["PTR", "SVCB", "AAAA"],
+        "action": "reject",
+        "method": "drop"
+      },
+      {
         "inbound": "mixed-in",
         "action": "resolve",
         "strategy": "prefer_ipv4"
       },
       {
         "inbound": "mixed-in",
+        "action": "sniff",
+        "timeout": "1s"
+      },
+      {
+        "inbound": "tun-in",
+        "action": "resolve",
+        "strategy": "prefer_ipv4"
+      },
+      {
+        "inbound": "tun-in",
         "action": "sniff",
         "timeout": "1s"
       },
