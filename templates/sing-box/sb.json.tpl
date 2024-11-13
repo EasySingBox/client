@@ -1,12 +1,15 @@
 {
   "log": {
-    "level": "error",
+    "level": "warn",
     "timestamp": true
   },
   "experimental": {
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090"
+    },
     "cache_file": {
-      "enabled": false,
-      "store_fakeip": false
+      "enabled": true,
+      "store_fakeip": true
     }
   },
   "dns": {
