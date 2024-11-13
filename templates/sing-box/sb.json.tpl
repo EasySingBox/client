@@ -21,7 +21,7 @@
       },
       {
         "tag": "dns-local",
-        "address": "https://119.29.29.29/dns-query"
+        "address": "local"
       },
       {
         "tag": "dns-fakeip",
