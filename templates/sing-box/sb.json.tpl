@@ -161,7 +161,9 @@
         "alpn": [
           "h3"
         ]
-      }
+      },
+      "domain_strategy": "prefer_ipv4",
+      "network_strategy": "fallback"
     },
     {
       "type": "tuic",
@@ -177,7 +179,9 @@
         "alpn": [
           "h3"
         ]
-      }
+      },
+      "domain_strategy": "prefer_ipv4",
+      "network_strategy": "fallback"
     },
     {
       "type": "vless",
@@ -212,7 +216,9 @@
           "up_mbps": 1024,
           "down_mbps": 1024
         }
-      }
+      },
+      "domain_strategy": "prefer_ipv4",
+      "network_strategy": "fallback"
     },
     {
       "type": "direct",
