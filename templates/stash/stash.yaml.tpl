@@ -15,7 +15,7 @@ dns:
     - 185.222.222.222
     - 45.11.45.11
   nameserver:
-    - https://8.8.8.8/dns-query
+    - https://1.1.1.1/dns-query
     - system
   skip-cert-verify: true
   fake-ip-filter:
