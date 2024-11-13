@@ -95,9 +95,11 @@
       "version": "5"
     },
     {
-      "type": "direct",
+      "type": "socks",
       "tag": "socks-out-ipv4",
-      "detour": "socks-out",
+      "server": "127.0.0.1",
+      "server_port": 40000,
+      "version": "5"
       "domain_strategy": "ipv4_only"
     }
   ],
