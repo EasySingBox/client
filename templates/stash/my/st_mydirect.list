@@ -8,6 +8,7 @@ DOMAIN-SUFFIX,banmiya.com
 DOMAIN-SUFFIX,local
 DOMAIN-SUFFIX,aliyun.com
 PROCESS-NAME,java
+PROCESS-PATH,/Applications/Choice金融终端.app/Contents/MacOS/Choice金融终端
 PROCESS-PATH,/Applications/Weixin.app/Contents/MacOS/Weixin
 PROCESS-PATH,/Library/Input Methods/WeType.app/Contents/MacOS/WeType
 PROCESS-PATH,/Applications/QQ.app/Contents/MacOS/QQ
