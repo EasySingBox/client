@@ -63,15 +63,15 @@
       "process_path_regex": [
         ".*java.+",
         ".*JavaVirtualMachines.+",
-        "Longbridge.+",
-        "Windows App.+",
-        "QQ.+",
-        "Weixin.+",
-        "WeChat.+",
-        "WeChatAppEx.+",
-        "WeType.+",
-        "WeTypeSettings.+",
-        "GTDataHD.+"
+        ".*Longbridge.+",
+        ".*Windows App.+",
+        ".*QQ.+",
+        ".*Weixin.+",
+        ".*WeChat.+",
+        ".*WeChatAppEx.+",
+        ".*WeType.+",
+        ".*WeTypeSettings.+",
+        ".*GTDataHD.+"
       ]
     },
     {
