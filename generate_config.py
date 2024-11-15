@@ -165,33 +165,9 @@ def generate_stash():
     os.system("cp ./templates/stash/my/st_mydirect.list " + nginx_www_dir)
     os.system("cp ./templates/stash/my/st_myproxy.list " + nginx_www_dir)
 
-
-def generate_cloudflared():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
-    os.system(f"""
-    cat > /etc/systemd/system/cloudflared-proxy-dns.service << EOF
-[Unit]
-Description=DNS over HTTPS (DoH) proxy client
-Wants=network-online.target nss-lookup.target
-Before=nss-lookup.target
-
-[Service]
-AmbientCapabilities=CAP_NET_BIND_SERVICE
-CapabilityBoundingSet=CAP_NET_BIND_SERVICE
-DynamicUser=yes
-ExecStart=/usr/local/bin/cloudflared proxy-dns --upstream {client_sb_remote_dns}
-
-[Install]
-WantedBy=multi-user.target
-EOF""")
-    os.system('systemctl start cloudflared-proxy-dns')
-    os.system('systemctl restart cloudflared-proxy-dns')
-    os.system('systemctl enable cloudflared-proxy-dns')
-
 if __name__ == '__main__':
     server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
-    generate_cloudflared()
     generate_singbox_server()
     generate_singbox()
     generate_stash()
