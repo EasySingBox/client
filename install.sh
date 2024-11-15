@@ -5,16 +5,13 @@
 
 apt-get install -y nginx python3 python3-pip python3-venv
 bash <(curl -fsSL https://tcp.hy2.sh/)
-# install cloudflared and sing-box-beta
-sudo mkdir -p --mode=0755 /usr/share/keyrings
-curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
-echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared jammy main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+# sing-box-beta
 sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
 sudo chmod a+r /etc/apt/keyrings/sagernet.asc
 echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *" | \
   sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
 sudo apt-get update
-sudo apt-get install sing-box-beta cloudflared
+sudo apt-get install sing-box-beta
 echo "重置 venv..."
 rm -rf /opt/venv/
 cd /opt && mkdir venv
