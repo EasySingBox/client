@@ -3,36 +3,18 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
-# 判断系统并安装依赖
-SYSTEM=$(cat /etc/os-release | grep '^ID=' | awk -F '=' '{print $2}' | tr -d '"')
-case $SYSTEM in
-  "debian"|"ubuntu")
-    package_install="apt-get install -y"
-    ;;
-  "centos"|"oracle"|"rhel")
-    package_install="yum install -y"
-    ;;
-  "fedora"|"rocky"|"almalinux")
-    package_install="dnf install -y"
-    ;;
-  "alpine")
-    package_install="apk add"
-    ;;
-  *)
-    echo -e '\033[1;35m暂不支持的系统！\033[0m'
-    exit 1
-    ;;
-esac
-
-$package_install nginx python3 python3-pip python3-venv
+apt-get install -y nginx python3 python3-pip python3-venv
 bash <(curl -fsSL https://tcp.hy2.sh/)
-# sing-box-beta
+# install cloudflared and sing-box-beta
+sudo mkdir -p --mode=0755 /usr/share/keyrings
+curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared jammy main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
 sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
 sudo chmod a+r /etc/apt/keyrings/sagernet.asc
 echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *" | \
   sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
 sudo apt-get update
-sudo apt-get install sing-box-beta
+sudo apt-get install sing-box-beta cloudflared
 echo "重置 venv..."
 rm -rf /opt/venv/
 cd /opt && mkdir venv

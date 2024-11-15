@@ -14,7 +14,7 @@ def get_ip_info():
     country = ip_infp.get('country')
     organization = ip_infp.get('asOrganization')
     vps_org = organization + " - " + country
-    return ip, vps_org
+    return ip, vps_org, country
 
 
 def generate_reality_keys():
@@ -54,7 +54,7 @@ def generate_port():
 
 
 def generate_esb_config():
-    server_ip, vps_org = get_ip_info()
+    server_ip, vps_org, country = get_ip_info()
     private_key, public_key = generate_reality_keys()
     reality_sid = generate_reality_sid()
     h2_port, tuic_port, reality_port = generate_port()

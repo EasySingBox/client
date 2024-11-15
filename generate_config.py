@@ -23,7 +23,7 @@ def check_config_file():
     with open(config_file, 'r') as file:
         data = json.load(file)
 
-    server_ip_gen, vps_org_gen = get_ip_info()
+    server_ip_gen, vps_org_gen, country = get_ip_info()
     server_ip = data.get('server_ip', server_ip_gen)
     vps_org = data.get('vps_org', vps_org_gen)
     reality_sid = data.get('reality_sid', generate_reality_sid())
@@ -38,6 +38,10 @@ def check_config_file():
     reality_port = data.get('reality_port', reality_port_gen)
     www_dir_random_id = data.get('www_dir_random_id', ''.join(random.sample(uuid.uuid4().hex, 6)))
 
+    client_sb_remote_dns = "https://cloudflare-dns.com/dns-query"
+    if country == "DE":
+        client_sb_remote_dns = "https://doh-de.blahdns.com/dns-query"
+
     esb_config = {}
     esb_config['server_ip'] = server_ip
     esb_config['vps_org'] = vps_org
@@ -49,15 +53,16 @@ def check_config_file():
     esb_config['reality_sid'] = reality_sid
     esb_config['public_key'] = public_key
     esb_config['private_key'] = private_key
+    esb_config['client_sb_remote_dns'] = client_sb_remote_dns
 
     with open(config_file, 'w') as write_f:
         write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 
-    return server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id
+    return server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns
 
 
 def generate_singbox_server():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id = check_config_file()
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     sing_box_config_dir = "/etc/sing-box"
     if not os.path.exists(sing_box_config_dir):
@@ -104,7 +109,7 @@ def generate_singbox_server():
 
 
 def generate_singbox():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id = check_config_file()
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     random_suffix = ''.join(random.sample(uuid.uuid4().hex, 6))
     ad_dns_rule = env.get_template("/sing-box/ad_dns_rule.json").render(random_suffix=random_suffix) + ","
@@ -116,13 +121,14 @@ def generate_singbox():
     sb_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                          reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
                                          vps_org=vps_org, tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
-                                         exclude_package=exclude_package, random_suffix=random_suffix)
+                                         exclude_package=exclude_package, random_suffix=random_suffix,
+                                         client_sb_remote_dns=client_sb_remote_dns)
     sb_noad_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                               reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
                                               vps_org=vps_org, tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
                                               ad_dns_rule=ad_dns_rule, ad_route_rule=ad_route_rule,
                                               ad_rule_set=ad_rule_set, exclude_package=exclude_package,
-                                              random_suffix=random_suffix)
+                                              random_suffix=random_suffix, client_sb_remote_dns=client_sb_remote_dns)
 
     nginx_www_dir = "/var/www/html/" + www_dir_random_id
     if not os.path.exists(nginx_www_dir):
@@ -140,7 +146,7 @@ def generate_singbox():
 
 
 def generate_stash():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id = check_config_file()
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
     stash_yaml_tpl = env.get_template("/stash/stash.yaml.tpl")
     stash_yaml_content = stash_yaml_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
                                                reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
@@ -160,9 +166,32 @@ def generate_stash():
     os.system("cp ./templates/stash/my/st_myproxy.list " + nginx_www_dir)
 
 
-if __name__ == '__main__':
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id = check_config_file()
+def generate_cloudflared():
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    os.system(f"""
+    cat > /etc/systemd/system/cloudflared-proxy-dns.service << EOF
+[Unit]
+Description=DNS over HTTPS (DoH) proxy client
+Wants=network-online.target nss-lookup.target
+Before=nss-lookup.target
 
+[Service]
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+DynamicUser=yes
+ExecStart=/usr/local/bin/cloudflared proxy-dns --upstream {client_sb_remote_dns}
+
+[Install]
+WantedBy=multi-user.target
+EOF""")
+    os.system('systemctl start cloudflared-proxy-dns')
+    os.system('systemctl restart cloudflared-proxy-dns')
+    os.system('systemctl enable cloudflared-proxy-dns')
+
+if __name__ == '__main__':
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+
+    generate_cloudflared()
     generate_singbox_server()
     generate_singbox()
     generate_stash()

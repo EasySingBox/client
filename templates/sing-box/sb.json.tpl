@@ -16,7 +16,7 @@
     "servers": [
       {
         "tag": "dns-remote",
-        "address": "https://doh-de.blahdns.com/dns-query",
+        "address": "{{ client_sb_remote_dns }}",
         "address_resolver": "dns-resolver",
         "detour": "Proxy"
       },
