@@ -16,12 +16,17 @@
     "servers": [
       {
         "tag": "dns-remote",
-        "address": "https://1.1.1.1/dns-query",
+        "address": "https://dns.quad9.net/dns-query",
+        "address_resolver": "dns-resolver",
         "detour": "Proxy"
       },
       {
+        "tag": "dns-resolver",
+        "address": "9.9.9.9"
+      },
+      {
         "tag": "dns-local",
-        "address": "local"
+        "address": "219.146.1.66"
       },
       {
         "tag": "dns-fakeip",
@@ -29,11 +34,6 @@
       }
     ],
     "rules": [
-      {
-        "query_type": ["PTR", "SVCB", "AAAA"],
-        "action": "reject",
-        "method": "drop"
-      },
       {
         "package_name": [
           {{ exclude_package }}
@@ -44,7 +44,8 @@
       {{ ad_dns_rule }}
       {
         "query_type": [
-          "A"
+          "A",
+          "AAAA"
         ],
         "rule_set": [
           "netflix",
@@ -66,17 +67,18 @@
       },
       {
         "query_type": [
-          "A"
+          "A",
+          "AAAA"
         ],
         "server": "dns-fakeip"
       }
     ],
     "final": "dns-remote",
-    "strategy": "ipv4_only",
-    "reverse_mapping": true,
+    "strategy": "prefer_ipv4",
     "fakeip": {
       "enabled": true,
-      "inet4_range": "240.0.0.0/4"
+      "inet4_range": "240.0.0.0/4",
+      "inet6_range": "fc00::/18"
     },
     "independent_cache": true
   },
