@@ -16,7 +16,7 @@
     "servers": [
       {
         "tag": "dns-remote",
-        "address": "https://dns.google/dns-query",
+        "address": "https://doh-de.blahdns.com/dns-query",
         "address_resolver": "dns-resolver",
         "detour": "Proxy"
       },
@@ -28,7 +28,7 @@
       },
       {
         "tag": "dns-resolver",
-        "address": "8.8.8.8",
+        "address": "1.1.1.1",
         "detour": "Proxy"
       },
       {
