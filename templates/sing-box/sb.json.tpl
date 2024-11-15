@@ -321,56 +321,56 @@
         "type": "remote",
         "tag": "microsoft-cn",
         "format": "binary",
-        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/microsoft-cn.srs",
-        "download_detour": "direct",
+        "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/microsoft-cn.srs",
+        "download_detour": "Proxy",
         "update_interval": "24h0m0s"
       },
       {
         "type": "remote",
         "tag": "cn",
         "format": "binary",
-        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cn.srs",
-        "download_detour": "direct",
+        "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/cn.srs",
+        "download_detour": "Proxy",
         "update_interval": "24h0m0s"
       },
       {
         "type": "remote",
         "tag": "cnip",
         "format": "binary",
-        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/cnip.srs",
-        "download_detour": "direct",
+        "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/cnip.srs",
+        "download_detour": "Proxy",
         "update_interval": "24h0m0s"
       },
       {
         "type": "remote",
         "tag": "netflix",
         "format": "binary",
-        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs",
-        "download_detour": "direct",
+        "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/netflix.srs",
+        "download_detour": "Proxy",
         "update_interval": "24h0m0s"
       },
       {
         "type": "remote",
         "tag": "netflixip",
         "format": "binary",
-        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs",
-        "download_detour": "direct",
+        "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/netflixip.srs",
+        "download_detour": "Proxy",
         "update_interval": "24h0m0s"
       },
       {
         "type": "remote",
         "tag": "private",
         "format": "binary",
-        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/private.srs",
-        "download_detour": "direct",
+        "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/private.srs",
+        "download_detour": "Proxy",
         "update_interval": "24h0m0s"
       },
       {
         "type": "remote",
         "tag": "privateip",
         "format": "binary",
-        "url": "https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@sing-box-ruleset/privateip.srs",
-        "download_detour": "direct",
+        "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/privateip.srs",
+        "download_detour": "Proxy",
         "update_interval": "24h0m0s"
       }
     ],
