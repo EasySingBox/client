@@ -28,7 +28,7 @@
       },
       {
         "tag": "dns-resolver",
-        "address": "tls://8.8.8.8:853",
+        "address": "8.8.8.8",
         "detour": "Proxy"
       },
       {
