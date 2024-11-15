@@ -16,18 +16,20 @@
     "servers": [
       {
         "tag": "dns-remote",
-        "address": "https://dns.quad9.net/dns-query",
+        "address": "https://dns.google/dns-query",
         "address_resolver": "dns-resolver",
         "detour": "Proxy"
       },
       {
         "tag": "dns-local",
         "address": "https://doh.pub/dns-query",
-        "address_resolver": "dns-resolver"
+        "address_resolver": "dns-resolver",
+        "detour": "direct"
       },
       {
         "tag": "dns-resolver",
-        "address": "tls://1.12.12.12:853"
+        "address": "tls://8.8.8.8:853",
+        "detour": "Proxy"
       },
       {
         "tag": "dns-fakeip",
