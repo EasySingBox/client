@@ -258,7 +258,7 @@
         "action": "hijack-dns"
       },
       {
-        "protocol": "stun",
+        "protocol": "quic",
         "rule_set": [
           "cn",
           "cnip",
@@ -267,7 +267,7 @@
         "outbound": "direct"
       },
       {
-        "protocol": "stun",
+        "protocol": "quic",
         "outbound": "Proxy"
       },
       {
