@@ -21,12 +21,13 @@
         "detour": "Proxy"
       },
       {
-        "tag": "dns-resolver",
-        "address": "9.9.9.9"
+        "tag": "dns-local",
+        "address": "https://doh.pub/dns-query",
+        "address_resolver": "dns-resolver"
       },
       {
-        "tag": "dns-local",
-        "address": "219.146.1.66"
+        "tag": "dns-resolver",
+        "address": "tls://1.12.12.12:853"
       },
       {
         "tag": "dns-fakeip",
