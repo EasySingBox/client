@@ -44,11 +44,11 @@
     ],
     "rules": [
       {
-        "clash_mode": "Direct",
+        "clash_mode": "⬆️Direct",
         "server": "dns-local"
       },
       {
-        "clash_mode": "Global",
+        "clash_mode": "🌍Global",
         "server": "dns-remote"
       },
       {
@@ -159,7 +159,7 @@
       "outbounds": [
         "🤖Auto"
         "h2",
-        "h2-warp"
+        "h2-warp",
         "tuic",
         "reality"
       ],
@@ -309,11 +309,11 @@
   "route": {
     "rules": [
       {
-        "clash_mode": "Direct",
+        "clash_mode": "⬆️Direct",
         "outbound": "direct"
       },
       {
-        "clash_mode": "Global",
+        "clash_mode": "🌍Global",
         "outbound": "🚀Proxy"
       },
       {
