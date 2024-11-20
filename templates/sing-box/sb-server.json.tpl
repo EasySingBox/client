@@ -3,10 +3,32 @@
     "level": "warn",
     "timestamp": true
   },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns",
+        "address": "{{ client_sb_remote_dns }}",
+        "address_resolver": "dns-resolver",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-resolver",
+        "address": "1.1.1.1",
+        "detour": "direct"
+      }
+    ],
+    "rules": [
+      {
+        "outbound": "any",
+        "server": "dns"
+      }
+    ],
+    "independent_cache": true
+  },
   "inbounds": [
     {
       "type": "hysteria2",
-      "tag": "hy2-sb",
+      "tag": "hy2",
       "listen": "::",
       "listen_port": {{ h2_port }},
       "sniff": true,
@@ -35,7 +57,7 @@
     },
     {
       "type": "tuic",
-      "tag": "tuic5-sb",
+      "tag": "tuic5",
       "listen": "::",
       "listen_port": {{ tuic_port }},
       "sniff": true,
@@ -56,7 +78,7 @@
     },
     {
       "type": "vless",
-      "tag": "vless-sb",
+      "tag": "vless",
       "listen": "::",
       "listen_port": {{ reality_port }},
       "sniff": true,
@@ -106,6 +128,19 @@
   "route": {
     "rules": [
       {
+        "action": "sniff"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "protocol": [
+          "stun"
+        ],
+        "outbound": "direct"
+      },
+      {
         "rule_set": [
           "netflix",
           "netflixip"
@@ -113,9 +148,9 @@
         "outbound": "wgcf"
       },
       {
-        "inbound": "hy2-sb",
+        "inbound": "hy2",
         "auth_user": "user-wgcf",
-        "outbound": "wgcf"
+        "outbound": "direct"
       }
     ],
     "rule_set": [

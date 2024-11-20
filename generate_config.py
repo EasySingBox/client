@@ -81,7 +81,8 @@ def generate_singbox_server():
             reality_port=reality_port,
             reality_sid=reality_sid,
             reality_private_key=private_key,
-            tuic_port=tuic_port
+            tuic_port=tuic_port,
+            client_sb_remote_dns=client_sb_remote_dns
         )
         file.write(json.dumps(json.loads(sb_server_json_content), indent=2, ensure_ascii=False))
 
