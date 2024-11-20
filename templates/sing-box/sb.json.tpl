@@ -228,7 +228,7 @@
       },
       "tcp_fast_open": true,
       "udp_fragment": true,
-      "tcp_multi_path": true,
+      "tcp_multi_path": false,
       "domain_strategy": "ipv4_only"
     },
     {
