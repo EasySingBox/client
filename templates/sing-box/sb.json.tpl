@@ -157,7 +157,7 @@
       "obfs": {
         "type": "salamander",
         "password": "{{ h2_obfs_password }}"
-      }
+      },
       "password": "{{ password }}",
       "tls": {
         "enabled": true,
