@@ -153,11 +153,11 @@ rule-providers:
     format: text
     interval: 86400
     url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_myproxy.list
-  microsoft-cn:
-    behavior: domain
+  st_wechat:
+    behavior: classical
     format: text
     interval: 86400
-    url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/microsoft-cn.list
+    url: http://{{ server_ip }}/{{ www_dir_random_id }}/st_wechat.list
   cn:
     behavior: domain
     format: text
@@ -190,13 +190,13 @@ rule-providers:
     url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/privateip.list
 
 rules:
+  - RULE-SET,st_wechat,PROXY
   - SCRIPT,udp-cn,DIRECT
   - RULE-SET,mydirect,DIRECT,no-resolve
   - RULE-SET,st_apple,PROXY
   - RULE-SET,netflix,PROXY
   - RULE-SET,netflixip,PROXY,no-resolve
   - RULE-SET,myproxy,PROXY
-  - RULE-SET,microsoft-cn,PROXY
   - SCRIPT,quic,REJECT
   - IP-CIDR,{{ server_ip }}/32,DIRECT,no-resolve
   - RULE-SET,privateip,DIRECT

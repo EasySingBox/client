@@ -32,6 +32,8 @@ def check_config_file():
     public_key = data.get('public_key', public_key_gen)
     password_gen = generate_password()
     password = data.get('password', password_gen)
+    h2_obfs_password_gen = generate_password()
+    h2_obfs_password = data.get('h2_obfs_password', h2_obfs_password_gen)
     h2_port_gen, tuic_port_gen, reality_port_gen = generate_port()
     h2_port = data.get('h2_port', h2_port_gen)
     tuic_port = data.get('tuic_port', tuic_port_gen)
@@ -48,6 +50,7 @@ def check_config_file():
     esb_config['www_dir_random_id'] = www_dir_random_id
     esb_config['password'] = password
     esb_config['h2_port'] = h2_port
+    esb_config['h2_obfs_password'] = h2_obfs_password
     esb_config['tuic_port'] = tuic_port
     esb_config['reality_port'] = reality_port
     esb_config['reality_sid'] = reality_sid
@@ -58,11 +61,11 @@ def check_config_file():
     with open(config_file, 'w') as write_f:
         write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 
-    return server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns
+    return server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns
 
 
 def generate_singbox_server():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     sing_box_config_dir = "/etc/sing-box"
     if not os.path.exists(sing_box_config_dir):
@@ -81,6 +84,7 @@ def generate_singbox_server():
             sb_server_warp_json_content = env.get_template("/sing-box/sb-server-warp.json.tpl").render(
                 password=password,
                 h2_port=h2_port,
+                h2_obfs_password=h2_obfs_password,
                 reality_port=reality_port,
                 reality_sid=reality_sid,
                 reality_private_key=private_key,
@@ -90,6 +94,7 @@ def generate_singbox_server():
             sb_server_wg_json_content = env.get_template("/sing-box/sb-server-wg.json.tpl").render(
                 password=password,
                 h2_port=h2_port,
+                h2_obfs_password=h2_obfs_password,
                 reality_port=reality_port,
                 reality_sid=reality_sid,
                 reality_private_key=private_key,
@@ -109,7 +114,7 @@ def generate_singbox_server():
 
 
 def generate_singbox():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     random_suffix = ''.join(random.sample(uuid.uuid4().hex, 6))
     ad_dns_rule = env.get_template("/sing-box/ad_dns_rule.json").render(random_suffix=random_suffix) + ","
@@ -118,17 +123,39 @@ def generate_singbox():
     exclude_package = env.get_template("/sing-box/exclude_package.tpl").render() + ","
     exclude_package = re.sub(r'#.*', '', exclude_package)
     sb_json_tpl = env.get_template("/sing-box/sb.json.tpl")
-    sb_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
-                                         reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                         vps_org=vps_org, tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
-                                         exclude_package=exclude_package, random_suffix=random_suffix,
-                                         client_sb_remote_dns=client_sb_remote_dns)
-    sb_noad_json_content = sb_json_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
-                                              reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                              vps_org=vps_org, tuic_port=tuic_port, www_dir_random_id=www_dir_random_id,
-                                              ad_dns_rule=ad_dns_rule, ad_route_rule=ad_route_rule,
-                                              ad_rule_set=ad_rule_set, exclude_package=exclude_package,
-                                              random_suffix=random_suffix, client_sb_remote_dns=client_sb_remote_dns)
+    sb_json_content = sb_json_tpl.render(
+        password=password,
+        h2_port=h2_port,
+        h2_obfs_password=h2_obfs_password,
+        reality_port=reality_port,
+        reality_sid=reality_sid,
+        reality_pbk=public_key,
+        server_ip=server_ip,
+        vps_org=vps_org,
+        tuic_port=tuic_port,
+        www_dir_random_id=www_dir_random_id,
+        exclude_package=exclude_package,
+        random_suffix=random_suffix,
+        client_sb_remote_dns=client_sb_remote_dns
+    )
+    sb_noad_json_content = sb_json_tpl.render(
+        password=password,
+        h2_port=h2_port,
+        h2_obfs_password=h2_obfs_password,
+        reality_port=reality_port,
+        reality_sid=reality_sid,
+        reality_pbk=public_key,
+        server_ip=server_ip,
+        vps_org=vps_org,
+        tuic_port=tuic_port,
+        www_dir_random_id=www_dir_random_id,
+        ad_dns_rule=ad_dns_rule,
+        ad_route_rule=ad_route_rule,
+        ad_rule_set=ad_rule_set,
+        exclude_package=exclude_package,
+        random_suffix=random_suffix,
+        client_sb_remote_dns=client_sb_remote_dns
+    )
 
     nginx_www_dir = "/var/www/html/" + www_dir_random_id
     if not os.path.exists(nginx_www_dir):
@@ -143,15 +170,24 @@ def generate_singbox():
     os.system("cp ./templates/sing-box/my/sb_echemi.json " + nginx_www_dir)
     os.system("cp ./templates/sing-box/my/sb_mydirect.json " + nginx_www_dir)
     os.system("cp ./templates/sing-box/my/sb_myproxy.json " + nginx_www_dir)
+    os.system("cp ./templates/sing-box/my/sb_wechat.json " + nginx_www_dir)
 
 
 def generate_stash():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
     stash_yaml_tpl = env.get_template("/stash/stash.yaml.tpl")
-    stash_yaml_content = stash_yaml_tpl.render(password=password, h2_port=h2_port, reality_port=reality_port,
-                                               reality_sid=reality_sid, reality_pbk=public_key, server_ip=server_ip,
-                                               vps_org=vps_org, tuic_port=tuic_port,
-                                               www_dir_random_id=www_dir_random_id)
+    stash_yaml_content = stash_yaml_tpl.render(
+        password=password,
+        h2_port=h2_port,
+        h2_obfs_password=h2_obfs_password,
+        reality_port=reality_port,
+        reality_sid=reality_sid,
+        reality_pbk=public_key,
+        server_ip=server_ip,
+        vps_org=vps_org,
+        tuic_port=tuic_port,
+        www_dir_random_id=www_dir_random_id
+    )
 
     nginx_www_dir = "/var/www/html/" + www_dir_random_id
     if not os.path.exists(nginx_www_dir):
@@ -166,7 +202,7 @@ def generate_stash():
     os.system("cp ./templates/stash/my/st_myproxy.list " + nginx_www_dir)
 
 if __name__ == '__main__':
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     generate_singbox_server()
     generate_singbox()

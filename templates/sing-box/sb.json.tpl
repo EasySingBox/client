@@ -154,7 +154,10 @@
       "tag": "h2 ({{ vps_org }})",
       "server": "{{ server_ip }}",
       "server_port": {{ h2_port }},
-      "obfs": {},
+      "obfs": {
+        "type": "salamander",
+        "password": "{{ h2_obfs_password }}"
+      }
       "password": "{{ password }}",
       "tls": {
         "enabled": true,
@@ -275,7 +278,7 @@
           "netflix",
           "netflixip",
           "myproxy{{ random_suffix }}",
-          "microsoft-cn"
+          "mywechat{{ random_suffix }}"
         ],
         "outbound": "Proxy"
       },
@@ -316,15 +319,15 @@
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
-      {{ ad_rule_set }}
       {
         "type": "remote",
-        "tag": "microsoft-cn",
-        "format": "binary",
-        "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/microsoft-cn.srs",
-        "download_detour": "Proxy",
+        "tag": "mywechat{{ random_suffix }}",
+        "format": "source",
+        "url": "http://{{ server_ip }}/{{ www_dir_random_id }}/sb_wechat.json",
+        "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
+      {{ ad_rule_set }}
       {
         "type": "remote",
         "tag": "cn",

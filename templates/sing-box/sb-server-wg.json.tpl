@@ -22,6 +22,10 @@
         "alpn": "h3",
         "certificate_path": "/etc/sing-box/cert.pem",
         "key_path": "/etc/sing-box/private.key"
+      },
+      "obfs": {
+        "type": "salamander",
+        "password": "{{ h2_obfs_password }}"
       }
     },
     {
