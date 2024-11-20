@@ -12,6 +12,8 @@ echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet
   sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
 sudo apt-get update
 sudo apt-get install sing-box-beta
+echo "重置 warp..."
+bash <(curl -fsSL git.io/warp.sh) x
 echo "重置 venv..."
 rm -rf /opt/venv/
 cd /opt && mkdir venv
