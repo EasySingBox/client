@@ -23,9 +23,10 @@ def check_config_file():
     with open(config_file, 'r') as file:
         data = json.load(file)
 
-    server_ip_gen, vps_org_gen, country = get_ip_info()
+    server_ip_gen, vps_org_gen, country_gen = get_ip_info()
     server_ip = data.get('server_ip', server_ip_gen)
     vps_org = data.get('vps_org', vps_org_gen)
+    country = data.get('country', country_gen)
     reality_sid = data.get('reality_sid', generate_reality_sid())
     private_key_gen, public_key_gen = generate_reality_keys()
     private_key = data.get('private_key', private_key_gen)
@@ -47,6 +48,7 @@ def check_config_file():
     esb_config = {}
     esb_config['server_ip'] = server_ip
     esb_config['vps_org'] = vps_org
+    esb_config['country'] = country
     esb_config['www_dir_random_id'] = www_dir_random_id
     esb_config['password'] = password
     esb_config['h2_port'] = h2_port
@@ -61,11 +63,11 @@ def check_config_file():
     with open(config_file, 'w') as write_f:
         write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 
-    return server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns
+    return server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns
 
 
 def generate_singbox_server():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     sing_box_config_dir = "/etc/sing-box"
     if not os.path.exists(sing_box_config_dir):
@@ -117,7 +119,11 @@ def generate_singbox_server():
 
 
 def generate_singbox():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+
+    server_arg = ""
+    if len(sys.argv) > 1:
+        server_arg = sys.argv[1]
 
     random_suffix = ''.join(random.sample(uuid.uuid4().hex, 6))
     ad_dns_rule = env.get_template("/sing-box/ad_dns_rule.json").render(random_suffix=random_suffix) + ","
@@ -135,6 +141,8 @@ def generate_singbox():
         reality_pbk=public_key,
         server_ip=server_ip,
         vps_org=vps_org,
+        country=country,
+        server_arg=server_arg,
         tuic_port=tuic_port,
         www_dir_random_id=www_dir_random_id,
         exclude_package=exclude_package,
@@ -150,6 +158,8 @@ def generate_singbox():
         reality_pbk=public_key,
         server_ip=server_ip,
         vps_org=vps_org,
+        country=country,
+        server_arg=server_arg,
         tuic_port=tuic_port,
         www_dir_random_id=www_dir_random_id,
         ad_dns_rule=ad_dns_rule,
@@ -177,7 +187,7 @@ def generate_singbox():
 
 
 def generate_stash():
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
     stash_yaml_tpl = env.get_template("/stash/stash.yaml.tpl")
     stash_yaml_content = stash_yaml_tpl.render(
         password=password,
@@ -205,7 +215,7 @@ def generate_stash():
     os.system("cp ./templates/stash/my/st_myproxy.list " + nginx_www_dir)
 
 if __name__ == '__main__':
-    server_ip, vps_org, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     generate_singbox_server()
     generate_singbox()

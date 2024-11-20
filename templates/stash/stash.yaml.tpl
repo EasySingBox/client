@@ -92,7 +92,7 @@ hosts:
   'www.echemi.top': 8.218.59.124
 
 proxies:
-  - name: h2 ({{ vps_org }})
+  - name: h2
     type: hysteria2
     server: {{ server_ip }}
     port: {{ h2_port }}
@@ -105,7 +105,7 @@ proxies:
     alpn:
       - h3
     tls: true
-  - name: tuic ({{ vps_org }})
+  - name: tuic
     type: tuic
     server: {{ server_ip }}
     port: {{ tuic_port }}
@@ -122,8 +122,8 @@ proxy-groups:
   - name: PROXY
     type: select
     proxies:
-      - 'h2 ({{ vps_org }})'
-      - 'tuic ({{ vps_org }})'
+      - 'h2'
+      - 'tuic'
       - Auto
   - name: Auto
     interval: 120

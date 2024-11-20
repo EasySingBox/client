@@ -1,5 +1,4 @@
 import json
-import os
 import random
 import re
 import subprocess
@@ -10,11 +9,10 @@ def get_ip_info():
     curl_out = subprocess.check_output(['curl', '-s', '-4', 'ip.network/more'])
     data_str = curl_out.decode('utf-8')
     ip_infp = json.loads(data_str)
-    ip = ip_infp.get('ip')
+    server_ip = ip_infp.get('ip')
     country = ip_infp.get('country')
-    organization = ip_infp.get('asOrganization')
-    vps_org = organization + " - " + country
-    return ip, vps_org, country
+    vps_org = ip_infp.get('asOrganization')
+    return server_ip, vps_org, country
 
 
 def generate_reality_keys():
@@ -63,6 +61,7 @@ def generate_esb_config():
 
     # print(f'server_ip: {server_ip}')
     # print(f'vps_org: {vps_org}')
+    # print(f'country: {country}')
     # print(f'password: {password}')
     # print(f'h2_port: {h2_port}')
     # print(f'tuic_port: {tuic_port}')
@@ -75,6 +74,7 @@ def generate_esb_config():
     esb_config = {}
     esb_config['server_ip'] = server_ip
     esb_config['vps_org'] = vps_org
+    esb_config['country'] = country
     esb_config['www_dir_random_id'] = www_dir_random_id
     esb_config['password'] = password
     esb_config['h2_port'] = h2_port

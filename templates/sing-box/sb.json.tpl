@@ -25,7 +25,7 @@
         "tag": "dns-remote",
         "address": "{{ client_sb_remote_dns }}",
         "address_resolver": "dns-resolver",
-        "detour": "Proxy"
+        "detour": "🚀Proxy"
       },
       {
         "tag": "dns-local",
@@ -35,7 +35,7 @@
       {
         "tag": "dns-resolver",
         "address": "1.1.1.1",
-        "detour": "Proxy"
+        "detour": "🚀Proxy"
       },
       {
         "tag": "dns-fakeip",
@@ -48,7 +48,7 @@
         "server": "dns-local"
       },
       {
-        "clash_mode": "{{ vps_org }}",
+        "clash_mode": "Global",
         "server": "dns-remote"
       },
       {
@@ -154,15 +154,35 @@
   ],
   "outbounds": [
     {
-      "tag": "Proxy",
+      "tag": "🚀Proxy",
       "type": "selector",
+      "outbounds": [
+        "🤖Auto"
+        "h2",
+        "h2-warp"
+        "tuic",
+        "reality"
+      ],
+      "interrupt_exist_connections": true
+    },
+    {
+      "tag": "🤖Auto",
+      "type": "urltest",
       "outbounds": [
         "h2",
         "tuic",
-        "reality",
-        "h2-warp"
+        "reality"
       ],
       "interrupt_exist_connections": true
+    },
+    {
+      "tag": "ℹ️Info",
+      "type": "selector",
+      "outbounds": [
+        "{{ vps_org }}"
+        "{{ country }}",
+        "arg: {{ server_arg }}"
+      ]
     },
     {
       "type": "hysteria2",
@@ -272,6 +292,18 @@
     {
       "type": "direct",
       "tag": "direct"
+    },
+    {
+      "type": "direct",
+      "tag": "{{ vps_org }}"
+    }
+    {
+      "type": "direct",
+      "tag": "{{ country }}"
+    }
+    {
+      "type": "direct",
+      "tag": "arg: {{ server_arg }}"
     }
   ],
   "route": {
@@ -281,8 +313,8 @@
         "outbound": "direct"
       },
       {
-        "clash_mode": "{{ vps_org }}",
-        "outbound": "Proxy"
+        "clash_mode": "Global",
+        "outbound": "🚀Proxy"
       },
       {
         "inbound": "mixed-in",
@@ -307,7 +339,7 @@
           "1.1.1.1/32",
           "8.8.8.8/32"
         ],
-        "outbound": "Proxy"
+        "outbound": "🚀Proxy"
       },
       {{ ad_route_rule }}
       {
@@ -329,7 +361,7 @@
       },
       {
         "protocol": "quic",
-        "outbound": "Proxy"
+        "outbound": "🚀Proxy"
       },
       {
         "rule_set": [
@@ -338,7 +370,7 @@
           "myproxy{{ random_suffix }}",
           "mywechat{{ random_suffix }}"
         ],
-        "outbound": "Proxy"
+        "outbound": "🚀Proxy"
       },
       {
         "rule_set": [
@@ -391,7 +423,7 @@
         "tag": "cn",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/cn.srs",
-        "download_detour": "Proxy",
+        "download_detour": "🚀Proxy",
         "update_interval": "24h0m0s"
       },
       {
@@ -399,7 +431,7 @@
         "tag": "cnip",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/cnip.srs",
-        "download_detour": "Proxy",
+        "download_detour": "🚀Proxy",
         "update_interval": "24h0m0s"
       },
       {
@@ -407,7 +439,7 @@
         "tag": "netflix",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/netflix.srs",
-        "download_detour": "Proxy",
+        "download_detour": "🚀Proxy",
         "update_interval": "24h0m0s"
       },
       {
@@ -415,7 +447,7 @@
         "tag": "netflixip",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/netflixip.srs",
-        "download_detour": "Proxy",
+        "download_detour": "🚀Proxy",
         "update_interval": "24h0m0s"
       },
       {
@@ -423,7 +455,7 @@
         "tag": "private",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/private.srs",
-        "download_detour": "Proxy",
+        "download_detour": "🚀Proxy",
         "update_interval": "24h0m0s"
       },
       {
@@ -431,11 +463,11 @@
         "tag": "privateip",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/privateip.srs",
-        "download_detour": "Proxy",
+        "download_detour": "🚀Proxy",
         "update_interval": "24h0m0s"
       }
     ],
-    "final": "Proxy",
+    "final": "🚀Proxy",
     "auto_detect_interface": true,
     "override_android_vpn": true
   }
