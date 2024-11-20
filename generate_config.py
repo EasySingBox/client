@@ -101,12 +101,15 @@ def generate_singbox_server():
                 tuic_port=tuic_port)
             file.write(json.dumps(json.loads(sb_server_wg_json_content), indent=2, ensure_ascii=False))
         if not is_warp and not is_wg:
-            sb_server_json_content = env.get_template("/sing-box/sb-server.json.tpl").render(password=password,
-                                                                                             h2_port=h2_port,
-                                                                                             reality_port=reality_port,
-                                                                                             reality_sid=reality_sid,
-                                                                                             reality_private_key=private_key,
-                                                                                             tuic_port=tuic_port)
+            sb_server_json_content = env.get_template("/sing-box/sb-server.json.tpl").render(
+                password=password,
+                h2_port=h2_port,
+                h2_obfs_password=h2_obfs_password,
+                reality_port=reality_port,
+                reality_sid=reality_sid,
+                reality_private_key=private_key,
+                tuic_port=tuic_port
+            )
             file.write(json.dumps(json.loads(sb_server_json_content), indent=2, ensure_ascii=False))
 
     os.system("cp /opt/easy-sing-box/cert/cert.pem /etc/sing-box/cert.pem")
