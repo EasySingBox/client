@@ -77,7 +77,7 @@
       }
     ],
     "final": "dns-remote",
-    "strategy": "prefer_ipv4",
+    "strategy": "ipv4_only",
     "fakeip": {
       "enabled": true,
       "inet4_range": "240.0.0.0/4",
@@ -166,7 +166,11 @@
         "alpn": [
           "h3"
         ]
-      }
+      },
+      "tcp_fast_open": true,
+      "udp_fragment": true,
+      "tcp_multi_path": false,
+      "domain_strategy": "ipv4_only"
     },
     {
       "type": "tuic",
@@ -182,7 +186,11 @@
         "alpn": [
           "h3"
         ]
-      }
+      },
+      "tcp_fast_open": true,
+      "udp_fragment": true,
+      "tcp_multi_path": false,
+      "domain_strategy": "ipv4_only"
     },
     {
       "type": "vless",
@@ -217,7 +225,11 @@
           "up_mbps": 1024,
           "down_mbps": 1024
         }
-      }
+      },
+      "tcp_fast_open": true,
+      "udp_fragment": true,
+      "tcp_multi_path": true,
+      "domain_strategy": "ipv4_only"
     },
     {
       "type": "direct",
