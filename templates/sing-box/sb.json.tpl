@@ -5,7 +5,14 @@
   },
   "experimental": {
     "clash_api": {
-      "external_controller": "127.0.0.1:9090"
+      "external_controller": "127.0.0.1:9090",
+      "access_control_allow_origin": [
+        "http://127.0.0.1",
+        "https://yacd.metacubex.one",
+        "http://yacd.haishan.me"
+        "https://metacubex.github.io"
+      ],
+      "access_control_allow_private_network": true
     },
     "cache_file": {
       "enabled": true,
@@ -22,8 +29,7 @@
       },
       {
         "tag": "dns-local",
-        "address": "https://doh.pub/dns-query",
-        "address_resolver": "dns-resolver",
+        "address": "119.29.29.29",
         "detour": "direct"
       },
       {
@@ -37,6 +43,14 @@
       }
     ],
     "rules": [
+      {
+        "clash_mode": "Direct",
+        "server": "dns-local"
+      },
+      {
+        "clash_mode": "{{ vps_org }}",
+        "server": "dns-remote"
+      },
       {
         "package_name": [
           {{ exclude_package }}
@@ -143,16 +157,16 @@
       "tag": "Proxy",
       "type": "selector",
       "outbounds": [
-        "h2 ({{ vps_org }})",
-        "tuic ({{ vps_org }})",
-        "reality ({{ vps_org }})",
-        "h2-warp ({{ vps_org }})"
+        "h2",
+        "tuic",
+        "reality",
+        "h2-warp"
       ],
       "interrupt_exist_connections": true
     },
     {
       "type": "hysteria2",
-      "tag": "h2 ({{ vps_org }})",
+      "tag": "h2",
       "server": "{{ server_ip }}",
       "server_port": {{ h2_port }},
       "obfs": {
@@ -175,7 +189,7 @@
     },
     {
       "type": "hysteria2",
-      "tag": "h2-warp ({{ vps_org }})",
+      "tag": "h2-warp",
       "server": "{{ server_ip }}",
       "server_port": {{ h2_port }},
       "obfs": {
@@ -198,7 +212,7 @@
     },
     {
       "type": "tuic",
-      "tag": "tuic ({{ vps_org }})",
+      "tag": "tuic",
       "server": "{{ server_ip }}",
       "server_port": {{ tuic_port }},
       "uuid": "{{ password }}",
@@ -218,7 +232,7 @@
     },
     {
       "type": "vless",
-      "tag": "reality ({{ vps_org }})",
+      "tag": "reality",
       "server": "{{ server_ip }}",
       "server_port": {{ reality_port }},
       "uuid": "{{ password }}",
@@ -262,6 +276,14 @@
   ],
   "route": {
     "rules": [
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "{{ vps_org }}",
+        "outbound": "Proxy"
+      },
       {
         "inbound": "mixed-in",
         "action": "sniff",
