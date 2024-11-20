@@ -145,7 +145,8 @@
       "outbounds": [
         "h2 ({{ vps_org }})",
         "tuic ({{ vps_org }})",
-        "reality ({{ vps_org }})"
+        "reality ({{ vps_org }})",
+        "h2-warp ({{ vps_org }})"
       ],
       "interrupt_exist_connections": true
     },
@@ -159,6 +160,29 @@
         "password": "{{ h2_obfs_password }}"
       },
       "password": "{{ password }}",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.bing.com",
+        "insecure": true,
+        "alpn": [
+          "h3"
+        ]
+      },
+      "tcp_fast_open": true,
+      "udp_fragment": true,
+      "tcp_multi_path": false,
+      "domain_strategy": "ipv4_only"
+    },
+    {
+      "type": "hysteria2",
+      "tag": "h2-warp ({{ vps_org }})",
+      "server": "{{ server_ip }}",
+      "server_port": {{ h2_port }},
+      "obfs": {
+        "type": "salamander",
+        "password": "{{ h2_obfs_password }}"
+      },
+      "password": "{{ password }}-warp",
       "tls": {
         "enabled": true,
         "server_name": "www.bing.com",

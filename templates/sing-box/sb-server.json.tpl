@@ -14,7 +14,12 @@
       "ignore_client_bandwidth": true,
       "users": [
         {
+          "name": "user-jacob",
           "password": "{{ password }}"
+        },
+        {
+          "name": "user-wgcf",
+          "password": "{{ password }}-warp"
         }
       ],
       "tls": {
@@ -92,25 +97,10 @@
       "tag": "direct"
     },
     {
-      "type": "socks",
-      "tag": "socks-out",
-      "server": "127.0.0.1",
-      "server_port": 40000,
-      "version": "5"
+      "type": "direct",
+      "tag": "wgcf",
+      "routing_mark": 51888,
     },
-    {
-      "type": "vmess",
-      "tag": "netflix-unlock-lyz-sg-free",
-      "server": "media-sg-vmess01.tanainai.net",
-      "server_port": 8880,
-      "uuid": "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF",
-      "security": "none",
-      "alter_id": 0,
-      "transport": {
-        "type": "ws",
-        "path": "/favicon.ico?t=personal&token=xxfbthitps"
-      }
-    }
   ],
   "route": {
     "rules": [
@@ -119,7 +109,12 @@
           "netflix",
           "netflixip"
         ],
-        "outbound": "netflix-unlock-lyz-sg-free"
+        "outbound": "wgcf"
+      },
+      {
+        "inbound": "hy2-sb",
+        "auth_user": "user-wgcf",
+        "outbound": "wgcf"
       }
     ],
     "rule_set": [
