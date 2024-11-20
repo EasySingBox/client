@@ -373,7 +373,7 @@
           "echemi{{ random_suffix }}",
           "cn",
           "cnip",
-          "mydirect{{ random_suffix }}"
+          "mydirect{{ random_suffix }}",
           "mywechat{{ random_suffix }}"
         ],
         "outbound": "direct"
