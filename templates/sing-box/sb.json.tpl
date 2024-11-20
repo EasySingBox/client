@@ -180,8 +180,7 @@
       "type": "selector",
       "outbounds": [
         "{{ vps_org }}",
-        "{{ country }}",
-        "arg: {{ server_arg }}"
+        "{{ country }}"
       ]
     },
     {
@@ -300,10 +299,6 @@
     {
       "type": "direct",
       "tag": "{{ country }}"
-    },
-    {
-      "type": "direct",
-      "tag": "arg: {{ server_arg }}"
     }
   ],
   "route": {
