@@ -190,9 +190,9 @@ rule-providers:
     url: https://cdn.jsdmirror.com/gh/DustinWin/ruleset_geodata@clash-ruleset/privateip.list
 
 rules:
-  - RULE-SET,st_wechat,PROXY
   - SCRIPT,udp-cn,DIRECT
   - RULE-SET,mydirect,DIRECT,no-resolve
+  - RULE-SET,st_wechat,DIRECT,no-resolve
   - RULE-SET,st_apple,PROXY
   - RULE-SET,netflix,PROXY
   - RULE-SET,netflixip,PROXY,no-resolve

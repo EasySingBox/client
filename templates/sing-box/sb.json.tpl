@@ -362,8 +362,7 @@
         "rule_set": [
           "netflix",
           "netflixip",
-          "myproxy{{ random_suffix }}",
-          "mywechat{{ random_suffix }}"
+          "myproxy{{ random_suffix }}"
         ],
         "outbound": "🚀Proxy"
       },
@@ -375,6 +374,7 @@
           "cn",
           "cnip",
           "mydirect{{ random_suffix }}"
+          "mywechat{{ random_suffix }}"
         ],
         "outbound": "direct"
       }
