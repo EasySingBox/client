@@ -3,7 +3,7 @@
   "tag": "easylistchina{{ random_suffix }}",
   "format": "binary",
   "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/easylistchina.srs",
-  "download_detour": "Proxy",
+  "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 },
 {
@@ -11,7 +11,7 @@
   "tag": "AdGuardDNSfilter{{ random_suffix }}",
   "format": "binary",
   "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/filter.srs",
-  "download_detour": "Proxy",
+  "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 },
 {
@@ -19,7 +19,7 @@
   "tag": "antiadblockfilters{{ random_suffix }}",
   "format": "binary",
   "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/antiadblockfilters.srs",
-  "download_detour": "Proxy",
+  "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 },
 {
@@ -27,7 +27,7 @@
   "tag": "easyprivacy{{ random_suffix }}",
   "format": "binary",
   "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/easyprivacy.srs",
-  "download_detour": "Proxy",
+  "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 },
 {
@@ -35,6 +35,6 @@
   "tag": "adblockplus{{ random_suffix }}",
   "format": "binary",
   "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/filters.srs",
-  "download_detour": "Proxy",
+  "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 }
