@@ -26,4 +26,4 @@ pip3 install -r requirements.txt
 echo "开始生成配置..."
 rm -rf /var/www/html/
 rm -rf /etc/sing-box/
-python3 generate_config.py $1
+python3 generate_config.py

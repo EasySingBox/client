@@ -73,46 +73,17 @@ def generate_singbox_server():
     if not os.path.exists(sing_box_config_dir):
         os.makedirs(sing_box_config_dir)
 
-    is_warp = False
-    if len(sys.argv) > 1:
-        is_warp = sys.argv[1] == "warp"
-
-    is_wg = False
-    if len(sys.argv) > 1:
-        is_wg = sys.argv[1] == "wg"
-
     with open(sing_box_config_dir + "/config.json", 'w') as file:
-        if is_warp:
-            sb_server_warp_json_content = env.get_template("/sing-box/sb-server-warp.json.tpl").render(
-                password=password,
-                h2_port=h2_port,
-                h2_obfs_password=h2_obfs_password,
-                reality_port=reality_port,
-                reality_sid=reality_sid,
-                reality_private_key=private_key,
-                tuic_port=tuic_port)
-            file.write(json.dumps(json.loads(sb_server_warp_json_content), indent=2, ensure_ascii=False))
-        if is_wg:
-            sb_server_wg_json_content = env.get_template("/sing-box/sb-server-wg.json.tpl").render(
-                password=password,
-                h2_port=h2_port,
-                h2_obfs_password=h2_obfs_password,
-                reality_port=reality_port,
-                reality_sid=reality_sid,
-                reality_private_key=private_key,
-                tuic_port=tuic_port)
-            file.write(json.dumps(json.loads(sb_server_wg_json_content), indent=2, ensure_ascii=False))
-        if not is_warp and not is_wg:
-            sb_server_json_content = env.get_template("/sing-box/sb-server.json.tpl").render(
-                password=password,
-                h2_port=h2_port,
-                h2_obfs_password=h2_obfs_password,
-                reality_port=reality_port,
-                reality_sid=reality_sid,
-                reality_private_key=private_key,
-                tuic_port=tuic_port
-            )
-            file.write(json.dumps(json.loads(sb_server_json_content), indent=2, ensure_ascii=False))
+        sb_server_json_content = env.get_template("/sing-box/sb-server.json.tpl").render(
+            password=password,
+            h2_port=h2_port,
+            h2_obfs_password=h2_obfs_password,
+            reality_port=reality_port,
+            reality_sid=reality_sid,
+            reality_private_key=private_key,
+            tuic_port=tuic_port
+        )
+        file.write(json.dumps(json.loads(sb_server_json_content), indent=2, ensure_ascii=False))
 
     os.system("cp /opt/easy-sing-box/cert/cert.pem /etc/sing-box/cert.pem")
     os.system("cp /opt/easy-sing-box/cert/private.key /etc/sing-box/private.key")
