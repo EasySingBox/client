@@ -9,7 +9,7 @@
       "access_control_allow_origin": [
         "http://127.0.0.1",
         "https://yacd.metacubex.one",
-        "http://yacd.haishan.me"
+        "http://yacd.haishan.me",
         "https://metacubex.github.io"
       ],
       "access_control_allow_private_network": true
