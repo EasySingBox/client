@@ -100,7 +100,7 @@
       "type": "direct",
       "tag": "wgcf",
       "routing_mark": 51888,
-    },
+    }
   ],
   "route": {
     "rules": [
