@@ -99,7 +99,8 @@
     {
       "type": "direct",
       "tag": "wgcf",
-      "routing_mark": 51888
+      "routing_mark": 51888,
+      "domain_strategy": "ipv6_only"
     }
   ],
   "route": {
