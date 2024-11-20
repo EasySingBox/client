@@ -296,11 +296,11 @@
     {
       "type": "direct",
       "tag": "{{ vps_org }}"
-    }
+    },
     {
       "type": "direct",
       "tag": "{{ country }}"
-    }
+    },
     {
       "type": "direct",
       "tag": "arg: {{ server_arg }}"
