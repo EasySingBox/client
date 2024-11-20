@@ -99,12 +99,17 @@
       "version": "5"
     },
     {
-      "type": "socks",
-      "tag": "socks-out-ipv4",
-      "server": "127.0.0.1",
-      "server_port": 40000,
-      "version": "5",
-      "domain_strategy": "ipv4_only"
+      "type": "vmess",
+      "tag": "netflix-unlock-lyz-sg-free",
+      "server": "media-sg-vmess01.tanainai.net",
+      "server_port": 8880,
+      "uuid": "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF",
+      "security": "none",
+      "alter_id": 0,
+      "transport": {
+        "type": "ws",
+        "path": "/favicon.ico?t=personal&token=xxfbthitps"
+      }
     }
   ],
   "route": {
@@ -114,7 +119,7 @@
           "netflix",
           "netflixip"
         ],
-        "outbound": "socks-out-ipv4"
+        "outbound": "netflix-unlock-lyz-sg-free"
       }
     ],
     "rule_set": [
