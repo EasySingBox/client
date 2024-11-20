@@ -157,7 +157,7 @@
       "tag": "🚀Proxy",
       "type": "selector",
       "outbounds": [
-        "🤖Auto"
+        "🤖Auto",
         "h2",
         "h2-warp",
         "tuic",
