@@ -179,7 +179,7 @@
       "tag": "ℹ️Info",
       "type": "selector",
       "outbounds": [
-        "{{ vps_org }}"
+        "{{ vps_org }}",
         "{{ country }}",
         "arg: {{ server_arg }}"
       ]
