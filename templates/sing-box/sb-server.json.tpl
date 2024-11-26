@@ -23,7 +23,8 @@
         "server": "dns"
       }
     ],
-    "independent_cache": true
+    "independent_cache": true,
+    "strategy": "ipv4_only"
   },
   "inbounds": [
     {
@@ -116,7 +117,8 @@
   "outbounds": [
     {
       "type": "direct",
-      "tag": "direct"
+      "tag": "direct",
+      "domain_strategy": "ipv4_only"
     },
     {
       "type": "direct",
