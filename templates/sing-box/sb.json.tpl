@@ -119,7 +119,7 @@
       "exclude_package": [
         {{ exclude_package }}
       ],
-      "stack": "gvisor",
+      "stack": "mixed",
       "platform": {
         "http_proxy": {
           "enabled": true,
