@@ -145,7 +145,6 @@
       {
         "rule_set": [
           "netflix",
-          "reddit",
           "netflixip"
         ],
         "outbound": "wgcf"
@@ -169,13 +168,6 @@
         "tag": "netflixip",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/raw/sing-box-ruleset/netflixip.srs",
-        "update_interval": "24h0m0s"
-      },
-      {
-        "type": "remote",
-        "tag": "reddit",
-        "format": "binary",
-        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-reddit.srs",
         "update_interval": "24h0m0s"
       }
     ],
