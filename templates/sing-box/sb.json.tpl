@@ -160,17 +160,9 @@
       "outbounds": [
         "🤖Auto",
         "h2",
+        "h2-warp",
         "tuic",
-        "reality",
-        "☁️WARP"
-      ],
-      "interrupt_exist_connections": true
-    },
-    {
-      "tag": "☁️WARP",
-      "type": "selector",
-      "outbounds": [
-        "h2-warp"
+        "reality"
       ],
       "interrupt_exist_connections": true
     },
@@ -371,12 +363,7 @@
         "rule_set": [
           "netflix",
           "reddit",
-          "netflixip"
-        ],
-        "outbound": "☁️WARP"
-      },
-      {
-        "rule_set": [
+          "netflixip",
           "myproxy{{ random_suffix }}"
         ],
         "outbound": "🚀Proxy"
