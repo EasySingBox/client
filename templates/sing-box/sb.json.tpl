@@ -66,6 +66,7 @@
         ],
         "rule_set": [
           "netflix",
+          "reddit",
           "netflixip"
         ],
         "action": "route",
@@ -361,6 +362,7 @@
       {
         "rule_set": [
           "netflix",
+          "reddit",
           "netflixip",
           "myproxy{{ random_suffix }}"
         ],
@@ -442,6 +444,14 @@
         "tag": "netflixip",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/netflixip.srs",
+        "download_detour": "🚀Proxy",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "reddit",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-reddit.srs",
         "download_detour": "🚀Proxy",
         "update_interval": "24h0m0s"
       },
