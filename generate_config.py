@@ -186,12 +186,36 @@ def generate_stash():
     os.system("cp ./templates/stash/my/st_mydirect.list " + nginx_www_dir)
     os.system("cp ./templates/stash/my/st_myproxy.list " + nginx_www_dir)
 
+def generate_clash_meta():
+    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    stash_yaml_tpl = env.get_template("/clashMeta/du.yaml.tpl")
+    stash_yaml_content = stash_yaml_tpl.render(
+        password=password,
+        reality_port=reality_port,
+        reality_sid=reality_sid,
+        reality_pbk=public_key,
+        server_ip=server_ip,
+        www_dir_random_id=www_dir_random_id
+    )
+
+    nginx_www_dir = "/var/www/html/" + www_dir_random_id
+    if not os.path.exists(nginx_www_dir):
+        os.makedirs(nginx_www_dir)
+
+    with open(nginx_www_dir + "/du.yaml", 'w') as file:
+        file.write(stash_yaml_content)
+
+    os.system("cd " + nginx_www_dir + " && wget -O geoip.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat")
+    os.system("cd " + nginx_www_dir + " && wget -O geosite.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat")
+    os.system("cd " + nginx_www_dir + " && wget -O Country.mmdb https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb")
+
 if __name__ == '__main__':
     server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     generate_singbox_server()
     generate_singbox()
     generate_stash()
+    generate_clash_meta()
 
     os.system('echo "重启 sing-box..."')
     os.system('systemctl start sing-box')
