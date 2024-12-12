@@ -103,11 +103,6 @@
           "short_id": "{{ reality_sid }}"
         }
       },
-      "multiplex": {
-        "enabled": false,
-        "protocol": "h2mux",
-        "max_streams": 32
-      },
       "packet_encoding": "xudp"
     }
   ],
