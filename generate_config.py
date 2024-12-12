@@ -238,3 +238,7 @@ if __name__ == '__main__':
     os.system(f'echo "\\e[1;33mstash 客户端文件下载地址\\033[0m"')
     os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/st.yaml\\033[0m"')
     os.system(f'echo ""')
+
+    os.system(f'echo "\\e[1;33mClash.Meta 客户端文件下载地址\\033[0m"')
+    os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/du.yaml\\033[0m"')
+    os.system(f'echo ""')
