@@ -102,8 +102,7 @@
           "private_key": "{{ reality_private_key }}",
           "short_id": "{{ reality_sid }}"
         }
-      },
-      "packet_encoding": "xudp"
+      }
     }
   ],
   "outbounds": [
