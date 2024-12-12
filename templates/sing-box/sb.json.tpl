@@ -260,7 +260,7 @@
         "enabled": true,
         "utls": {
           "enabled": true,
-          "fingerprint": "chrome"
+          "fingerprint": "firefox"
         },
         "reality": {
           "enabled": true,
@@ -273,15 +273,7 @@
       "packet_encoding": "xudp",
       "multiplex": {
         "enabled": false,
-        "protocol": "h2mux",
-        "max_connections": 1,
-        "min_streams": 4,
-        "padding": true,
-        "brutal": {
-          "enabled": false,
-          "up_mbps": 1024,
-          "down_mbps": 1024
-        }
+        "protocol": "h2mux"
       },
       "tcp_fast_open": true,
       "udp_fragment": true,

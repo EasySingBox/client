@@ -93,6 +93,10 @@
       "tls": {
         "enabled": true,
         "server_name": "www.yahoo.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        },
         "reality": {
           "enabled": true,
           "handshake": {
@@ -105,13 +109,10 @@
       },
       "multiplex": {
         "enabled": false,
-        "padding": true,
-        "brutal": {
-          "enabled": false,
-          "up_mbps": 1024,
-          "down_mbps": 1024
-        }
-      }
+        "protocol": "h2mux",
+        "max_streams": 32
+      },
+      "packet_encoding": "xudp"
     }
   ],
   "outbounds": [
