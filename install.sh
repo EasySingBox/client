@@ -5,6 +5,7 @@
 
 apt-get install -y nginx python3 python3-pip python3-venv
 bash <(curl -fsSL https://tcp.hy2.sh/)
+mkdir /etc/apt/keyrings/
 # sing-box-beta
 sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
 sudo chmod a+r /etc/apt/keyrings/sagernet.asc

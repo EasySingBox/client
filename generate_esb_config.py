@@ -3,7 +3,7 @@ import random
 import re
 import subprocess
 import uuid
-
+import os
 
 def get_ip_info():
     curl_out = subprocess.check_output(['curl', '-s', '-4', 'ip.network/more'])
@@ -84,7 +84,7 @@ def generate_esb_config():
     esb_config['public_key'] = public_key
     esb_config['private_key'] = private_key
 
-    config_file = f'/root/esb.config'
+    config_file = os.path.expanduser('~/esb.config')
     with open(config_file, 'w') as write_f:
         write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 
