@@ -255,7 +255,7 @@
       "server": "{{ server_ip }}",
       "server_port": {{ reality_port }},
       "uuid": "{{ password }}",
-      "flow": "",
+      "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
         "utls": {
@@ -272,13 +272,13 @@
       },
       "packet_encoding": "xudp",
       "multiplex": {
-        "enabled": true,
+        "enabled": false,
         "protocol": "h2mux",
         "max_connections": 1,
         "min_streams": 4,
         "padding": true,
         "brutal": {
-          "enabled": true,
+          "enabled": false,
           "up_mbps": 1024,
           "down_mbps": 1024
         }

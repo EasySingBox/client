@@ -87,7 +87,7 @@
       "users": [
         {
           "uuid": "{{ password }}",
-          "flow": ""
+          "flow": "xtls-rprx-vision"
         }
       ],
       "tls": {
@@ -104,10 +104,10 @@
         }
       },
       "multiplex": {
-        "enabled": true,
+        "enabled": false,
         "padding": true,
         "brutal": {
-          "enabled": true,
+          "enabled": false,
           "up_mbps": 1024,
           "down_mbps": 1024
         }
