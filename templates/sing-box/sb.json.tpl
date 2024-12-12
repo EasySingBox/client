@@ -267,7 +267,7 @@
           "public_key": "{{ reality_pbk }}",
           "short_id": "{{ reality_sid }}"
         },
-        "server_name": "www.yahoo.com",
+        "server_name": "yahoo.com",
         "insecure": true
       },
       "packet_encoding": "xudp",
