@@ -207,7 +207,7 @@ def generate_clash_meta():
 
     os.system("cd " + nginx_www_dir + " && wget -O geoip.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat")
     os.system("cd " + nginx_www_dir + " && wget -O geosite.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat")
-    os.system("cd " + nginx_www_dir + " && wget -O Country.mmdb https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb")
+    os.system("cd " + nginx_www_dir + " && wget -O Country.mmdb https://github.com/Loyalsoldier/geoip/raw/refs/heads/release/Country.mmdb")
 
 if __name__ == '__main__':
     server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
