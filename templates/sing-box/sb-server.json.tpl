@@ -92,11 +92,11 @@
       ],
       "tls": {
         "enabled": true,
-        "server_name": "www.yahoo.com",
+        "server_name": "yahoo.com",
         "reality": {
           "enabled": true,
           "handshake": {
-            "server": "www.yahoo.com",
+            "server": "yahoo.com",
             "server_port": 443
           },
           "private_key": "{{ reality_private_key }}",
