@@ -270,11 +270,6 @@
         "server_name": "www.yahoo.com",
         "insecure": true
       },
-      "packet_encoding": "xudp",
-      "multiplex": {
-        "enabled": false,
-        "protocol": "h2mux"
-      },
       "tcp_fast_open": true,
       "udp_fragment": true,
       "tcp_multi_path": false,

@@ -93,10 +93,6 @@
       "tls": {
         "enabled": true,
         "server_name": "www.yahoo.com",
-        "utls": {
-          "enabled": true,
-          "fingerprint": "firefox"
-        },
         "reality": {
           "enabled": true,
           "handshake": {
