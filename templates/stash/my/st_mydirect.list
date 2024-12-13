@@ -16,6 +16,7 @@ PROCESS-PATH,/Applications/Longbridge Pro SG.app/Contents/MacOS/Longbridge Pro S
 PROCESS-PATH,/Applications/Windows App Beta.app/Contents/MacOS/Windows App Beta
 IP-CIDR,217.160.164.11/32,no-resolve
 IP-CIDR,74.208.234.111/32,no-resolve
+IP-CIDR,45.80.188.203/32,no-resolve
 IP-CIDR,87.106.75.232/32,no-resolve
 IP-CIDR,119.29.29.29/32,no-resolve
 IP-CIDR,223.5.5.5/32,no-resolve
