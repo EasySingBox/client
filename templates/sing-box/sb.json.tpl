@@ -310,14 +310,6 @@
         "timeout": "1s"
       },
       {
-        "protocol": [
-          "dtls",
-          "ssh",
-          "rdp"
-        ],
-        "outbound": "direct"
-      },
-      {
         "ip_cidr": [
           "1.1.1.1/32",
           "8.8.8.8/32"
