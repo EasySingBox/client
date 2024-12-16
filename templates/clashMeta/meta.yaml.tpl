@@ -12,7 +12,7 @@ geox-url:
   geoip: "http://{{ server_ip }}/{{ www_dir_random_id }}/geoip.dat"
   geosite: "http://{{ server_ip }}/{{ www_dir_random_id }}/geosite.dat"
   mmdb: "http://{{ server_ip }}/{{ www_dir_random_id }}/Country.mmdb"
-geo-auto-update: false
+geo-auto-update: true
 geo-update-interval: 24
 
 find-process-mode: strict
@@ -114,13 +114,23 @@ dns:
     - '*.xiami.com'
     - '+.music.migu.cn'
     - '+.srv.nintendo.net'
+    - '*.n.n.srv.nintendo.net'
     - '+.stun.playstation.net'
-    - 'xbox.*.microsoft.com'
-    - '+.xboxlive.com'
+    - 'xbox.*.*.microsoft.com'
+    - '*.*.xboxlive.com'
     - 'localhost.ptlogin2.qq.com'
     - 'proxy.golang.org'
-    - 'stun.*.*'
-    - 'stun.*.*.*'
+    - 'lens.l.google.com'
+    - '*.mcdn.bilivideo.cn'
+    - '*.qq.com'
+    - '+.stun.*.*'
+    - '+.stun.*.*.*'
+    - '+.stun.*.*.*.*'
+    - '+.stun.*.*.*.*.*'
+    - '+.echemi.*'
+    - '+.echemi.*.*'
+    - '+.echemi.*.*.*'
+    - 'codeup.aliyun.com'
 
 proxies:
 - name: "h2"
