@@ -160,23 +160,19 @@ proxies:
     - h3
 - name: "reality"
   type: vless
+  cipher: none
   server: {{ server_ip }}
   port: {{ reality_port }}
   udp: true
   uuid: {{ password }}
+  network: tcp
   flow: xtls-rprx-vision
-  packet-encoding: xudp
-  tls: true
-  servername: yahoo.com
-  alpn:
-  - h3
-  fingerprint: firefox
-  client-fingerprint: firefox
-  skip-cert-verify: true
   reality-opts:
     public-key: {{ reality_pbk }}
     short-id: {{ reality_sid }}
-  network: tcp
+  tls: true
+  servername: yahoo.com
+  client-fingerprint: firefox
 
 proxy-groups:
 - name: Proxy
