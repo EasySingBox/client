@@ -188,8 +188,8 @@ def generate_stash():
 
 def generate_clash_meta():
     server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
-    stash_yaml_tpl = env.get_template("/clashMeta/du.yaml.tpl")
-    stash_yaml_content = stash_yaml_tpl.render(
+    du_yaml_tpl = env.get_template("/clashMeta/du.yaml.tpl")
+    du_yaml_content = du_yaml_tpl.render(
         password=password,
         reality_port=reality_port,
         reality_sid=reality_sid,
@@ -198,12 +198,31 @@ def generate_clash_meta():
         www_dir_random_id=www_dir_random_id
     )
 
+    meta_yaml_tpl = env.get_template("/clashMeta/meta.yaml.tpl")
+    meta_yaml_content = meta_yaml_tpl.render(
+        password=password,
+        h2_port=h2_port,
+        h2_obfs_password=h2_obfs_password,
+        reality_port=reality_port,
+        reality_sid=reality_sid,
+        reality_pbk=public_key,
+        server_ip=server_ip,
+        vps_org=vps_org,
+        country=country,
+        tuic_port=tuic_port,
+        www_dir_random_id=www_dir_random_id,
+        client_sb_remote_dns=client_sb_remote_dns
+    )
+
     nginx_www_dir = "/var/www/html/" + www_dir_random_id
     if not os.path.exists(nginx_www_dir):
         os.makedirs(nginx_www_dir)
 
     with open(nginx_www_dir + "/du.yaml", 'w') as file:
-        file.write(stash_yaml_content)
+        file.write(du_yaml_content)
+
+    with open(nginx_www_dir + "/meta.yaml", 'w') as file:
+        file.write(meta_yaml_content)
 
     os.system("cd " + nginx_www_dir + " && wget -O geoip.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat")
     os.system("cd " + nginx_www_dir + " && wget -O geosite.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat")
