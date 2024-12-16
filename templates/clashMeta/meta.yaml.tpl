@@ -122,7 +122,7 @@ dns:
     - 'stun.*.*'
     - 'stun.*.*.*'
 
-proxies: [{"type":"vless","cipher":"none","name":"德国精品路线","server":"{{ server_ip }}","port":{{ reality_port }},"udp":true,"uuid":"{{ password }}","network":"tcp","flow":"xtls-rprx-vision","reality-opts":{"public-key":"{{ reality_pbk }}","short-id":"{{ reality_sid }}"},"tls":true,"servername":"yahoo.com","client-fingerprint":"firefox"}]
+proxies:
 - name: "h2"
   type: hysteria2
   server: {{ server_ip }}
