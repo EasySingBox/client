@@ -67,8 +67,7 @@
         ".*QQ.+",
         ".*WeType.+",
         ".*WeTypeSettings.+",
-        ".*GTDataHD.+",
-        ".*Grass.+"
+        ".*GTDataHD.+"
       ]
     },
     {
