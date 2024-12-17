@@ -41,11 +41,6 @@
       ]
     },
     {
-      "process_path_regex": [
-        ".*Grass.+"
-      ]
-    },
-    {
       "package_name": [
         "com.android.vending",
         "org.telegram.messenger",
