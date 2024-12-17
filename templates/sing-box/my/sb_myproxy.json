@@ -30,7 +30,8 @@
         "xm.com",
         "moomoo.com",
         "sg.moomoo.com",
-        "ipinfo.ip"
+        "ipinfo.ip",
+        "getgrass.io"
       ]
     },
     {
@@ -42,7 +43,8 @@
     },
     {
       "process_path_regex": [
-        ".*Grass.+"
+        ".*Grass.+",
+        ".*XPCServices.+"
       ]
     },
     {
