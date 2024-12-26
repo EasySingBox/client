@@ -173,6 +173,7 @@
         "tuic",
         "reality"
       ],
+      "tolerance": 500,
       "interrupt_exist_connections": true
     },
     {

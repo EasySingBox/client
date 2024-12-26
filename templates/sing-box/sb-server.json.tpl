@@ -54,6 +54,11 @@
       "obfs": {
         "type": "salamander",
         "password": "{{ h2_obfs_password }}"
+      },
+      "masquerade": {
+        "type": "string",
+        "status_code": 500,
+        "content": "Internal Error",
       }
     },
     {
