@@ -131,35 +131,6 @@ def generate_singbox():
     os.system("cp ./templates/sing-box/my/sb_myproxy.json " + nginx_www_dir)
     os.system("cp ./templates/sing-box/my/sb_wechat.json " + nginx_www_dir)
 
-
-def generate_stash():
-    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
-    stash_yaml_tpl = env.get_template("/stash/stash.yaml.tpl")
-    stash_yaml_content = stash_yaml_tpl.render(
-        password=password,
-        h2_port=h2_port,
-        h2_obfs_password=h2_obfs_password,
-        reality_port=reality_port,
-        reality_sid=reality_sid,
-        reality_pbk=public_key,
-        server_ip=server_ip,
-        vps_org=vps_org,
-        tuic_port=tuic_port,
-        www_dir_random_id=www_dir_random_id
-    )
-
-    nginx_www_dir = "/var/www/html/" + www_dir_random_id
-    if not os.path.exists(nginx_www_dir):
-        os.makedirs(nginx_www_dir)
-
-    with open(nginx_www_dir + "/st.yaml", 'w') as file:
-        file.write(stash_yaml_content)
-
-    os.system("cp ./templates/stash/my/st_echemi.list " + nginx_www_dir)
-    os.system("cp ./templates/stash/my/st_apple.list " + nginx_www_dir)
-    os.system("cp ./templates/stash/my/st_mydirect.list " + nginx_www_dir)
-    os.system("cp ./templates/stash/my/st_myproxy.list " + nginx_www_dir)
-
 def generate_clash_meta():
     server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
     du_yaml_tpl = env.get_template("/clashMeta/du.yaml.tpl")
@@ -207,7 +178,6 @@ if __name__ == '__main__':
 
     generate_singbox_server()
     generate_singbox()
-    generate_stash()
     generate_clash_meta()
 
     os.system('echo "重启 sing-box..."')
@@ -222,10 +192,6 @@ if __name__ == '__main__':
 
     os.system(f'echo "\\e[1;33msing-box 客户端文件下载地址\\033[0m"')
     os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb.json\\033[0m"')
-    os.system(f'echo ""')
-
-    os.system(f'echo "\\e[1;33mstash 客户端文件下载地址\\033[0m"')
-    os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/st.yaml\\033[0m"')
     os.system(f'echo ""')
 
     os.system(f'echo "\\e[1;33mClash.Meta 客户端文件下载地址\\033[0m"')
