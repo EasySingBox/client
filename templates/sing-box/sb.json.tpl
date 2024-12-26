@@ -58,7 +58,6 @@
         "action": "route",
         "server": "dns-local"
       },
-      {{ ad_dns_rule }}
       {
         "query_type": [
           "A",
