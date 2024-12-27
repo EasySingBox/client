@@ -302,7 +302,7 @@
           "t-mobile.com",
           "mcc310.pub.3gppnetwork.org",
           {% endif %}
-          "banmiya.com"
+          "gspe1-ssl.ls.apple.com"
         ],
         "outbound": "🚀Proxy"
       },
