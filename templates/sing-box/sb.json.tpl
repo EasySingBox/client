@@ -106,6 +106,7 @@
         "172.18.0.1/30",
         "fdfe:dcba:9876::1/126"
       ],
+      "stack": "gvisor",
       "auto_route": true,
       "strict_route": true,
       "route_exclude_address": [
@@ -118,7 +119,7 @@
       "exclude_package": [
         {{ exclude_package }}
       ],
-      "stack": "gvisor",
+      "stack": "mixed",
       "platform": {
         "http_proxy": {
           "enabled": true,
