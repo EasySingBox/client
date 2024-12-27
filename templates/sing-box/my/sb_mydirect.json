@@ -67,7 +67,9 @@
         ".*QQ.+",
         ".*WeType.+",
         ".*WeTypeSettings.+",
-        ".*GTDataHD.+"
+        ".*GTDataHD.+",
+        ".*GTDataHD.+",
+        ".*iPhone Mirroring.+"
       ]
     },
     {
