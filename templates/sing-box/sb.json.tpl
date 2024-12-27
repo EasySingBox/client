@@ -292,6 +292,21 @@
   "route": {
     "rules": [
       {
+        "domain_suffix": [
+          {% if country == "DE" %}
+          "mcc262.pub.3gppnetwork.org",
+          {% endif %}
+          {% if country == "US" %}
+          "crl.t-mobile.com",
+          "ps.t-mobile.com",
+          "t-mobile.com",
+          "mcc310.pub.3gppnetwork.org",
+          {% endif %}
+          "banmiya.com"
+        ],
+        "outbound": "🚀Proxy"
+      },
+      {
         "clash_mode": "Direct",
         "outbound": "direct"
       },
@@ -316,7 +331,6 @@
         ],
         "outbound": "🚀Proxy"
       },
-      {{ ad_route_rule }}
       {
         "protocol": "dns",
         "port": [
@@ -392,7 +406,6 @@
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
-      {{ ad_rule_set }}
       {
         "type": "remote",
         "tag": "cn",
