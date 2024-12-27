@@ -68,6 +68,7 @@
         ".*WeType.+",
         ".*WeTypeSettings.+",
         ".*GTDataHD.+",
+        ".*GTDataHD.+",
         ".*iPhone Mirroring.+"
       ]
     },
