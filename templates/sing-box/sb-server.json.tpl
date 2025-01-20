@@ -146,9 +146,15 @@
         "outbound": "wgcf"
       },
       {
+        "domain_suffix": [
+          "truthsocial.com"
+        ],
+        "outbound": "wgcf"
+      },
+      {
         "inbound": "hy2",
         "auth_user": "user-wgcf",
-        "outbound": "wgcf"
+        "outbound": "direct"
       }
     ],
     "rule_set": [
