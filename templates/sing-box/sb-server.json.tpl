@@ -148,7 +148,7 @@
       {
         "inbound": "hy2",
         "auth_user": "user-wgcf",
-        "outbound": "direct"
+        "outbound": "wgcf"
       }
     ],
     "rule_set": [
