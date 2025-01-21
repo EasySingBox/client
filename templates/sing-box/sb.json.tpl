@@ -72,7 +72,7 @@
         "server": "dns-fakeip"
       }
     ],
-    "final": "dns-local",
+    "final": "dns-remote",
     "fakeip": {
       "enabled": true,
       "inet4_range": "240.0.0.0/4",
