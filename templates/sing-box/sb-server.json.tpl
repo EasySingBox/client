@@ -34,7 +34,8 @@
       "listen_port": {{ h2_port }},
       "sniff": true,
       "sniff_override_destination": true,
-      "ignore_client_bandwidth": true,
+      "up_mbps": 500,
+      "down_mbps": 500,
       "users": [
         {
           "name": "user-jacob",

@@ -156,6 +156,8 @@
       "tag": "h2",
       "server": "{{ server_ip }}",
       "server_port": {{ h2_port }},
+      "up_mbps": 1000,
+      "down_mbps": 1000,
       "obfs": {
         "type": "salamander",
         "password": "{{ h2_obfs_password }}"
