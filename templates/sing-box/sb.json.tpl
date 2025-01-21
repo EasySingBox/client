@@ -28,6 +28,11 @@
         "detour": "🚀Proxy"
       },
       {
+        "tag": "dns-local",
+        "address": "119.29.29.29",
+        "detour": "direct"
+      },
+      {
         "tag": "dns-resolver",
         "address": "8.8.8.8",
         "detour": "🚀Proxy"
@@ -38,6 +43,27 @@
       }
     ],
     "rules": [
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "rule_set": [
+          "netflix",
+          "netflixip"
+        ],
+        "action": "route",
+        "server": "dns-fakeip"
+      },
+      {
+        "rule_set": [
+          "echemi{{ random_suffix }}",
+          "mywechat{{ random_suffix }}"
+          "cn",
+          "mydirect{{ random_suffix }}"
+        ],
+        "server": "dns-local"
+      },
       {
         "query_type": [
           "A",
@@ -267,8 +293,7 @@
         "rule_set": [
           "netflix",
           "netflixip",
-          "myproxy{{ random_suffix }}",
-          "mywechat{{ random_suffix }}"
+          "myproxy{{ random_suffix }}"
         ],
         "outbound": "🚀Proxy"
       },
@@ -277,6 +302,7 @@
           "private",
           "privateip",
           "echemi{{ random_suffix }}",
+          "mywechat{{ random_suffix }}",
           "cn",
           "cnip",
           "mydirect{{ random_suffix }}"
