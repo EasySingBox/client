@@ -145,6 +145,18 @@ proxies:
   skip-cert-verify: true
   alpn:
     - h3
+- name: "h2-warp"
+  type: hysteria2
+  server: {{ server_ip }}
+  port: {{ h2_port }}
+  password: {{ password }}-warp
+  obfs: salamander
+  obfs-password: {{ h2_obfs_password }}
+  fast-open: true
+  sni: www.bing.com
+  skip-cert-verify: true
+  alpn:
+    - h3
 - name: tuic
   server: {{ server_ip }}
   port: {{ tuic_port }}

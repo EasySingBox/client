@@ -40,6 +40,10 @@
         {
           "name": "user-jacob",
           "password": "{{ password }}"
+        },
+        {
+          "name": "user-wgcf",
+          "password": "{{ password }}-warp"
         }
       ],
       "tls": {
@@ -110,12 +114,14 @@
   "outbounds": [
     {
       "type": "direct",
-      "tag": "direct"
+      "tag": "direct",
+      "domain_strategy": "ipv4_only"
     },
     {
       "type": "direct",
       "tag": "wgcf",
-      "routing_mark": 51888
+      "routing_mark": 51888,
+      "domain_strategy": "ipv6_only"
     }
   ],
   "route": {
@@ -139,6 +145,17 @@
           "netflixip"
         ],
         "outbound": "wgcf"
+      },
+      {
+        "domain_suffix": [
+          "truthsocial.com"
+        ],
+        "outbound": "wgcf"
+      },
+      {
+        "inbound": "hy2",
+        "auth_user": "user-wgcf",
+        "outbound": "direct"
       }
     ],
     "rule_set": [
