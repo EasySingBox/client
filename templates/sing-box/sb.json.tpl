@@ -28,13 +28,8 @@
         "detour": "🚀Proxy"
       },
       {
-        "tag": "dns-local",
-        "address": "119.29.29.29",
-        "detour": "direct"
-      },
-      {
         "tag": "dns-resolver",
-        "address": "1.1.1.1",
+        "address": "8.8.8.8",
         "detour": "🚀Proxy"
       },
       {
@@ -44,44 +39,6 @@
     ],
     "rules": [
       {
-        "clash_mode": "Direct",
-        "server": "dns-local"
-      },
-      {
-        "clash_mode": "Global",
-        "server": "dns-remote"
-      },
-      {
-        "package_name": [
-          {{ exclude_package }}
-        ],
-        "action": "route",
-        "server": "dns-local"
-      },
-      {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
-        "rule_set": [
-          "netflix",
-          "netflixip"
-        ],
-        "action": "route",
-        "server": "dns-fakeip"
-      },
-      {
-        "rule_set": [
-          "private",
-          "privateip",
-          "echemi{{ random_suffix }}",
-          "cn",
-          "cnip",
-          "mydirect{{ random_suffix }}"
-        ],
-        "server": "dns-local"
-      },
-      {
         "query_type": [
           "A",
           "AAAA"
@@ -90,7 +47,6 @@
       }
     ],
     "final": "dns-remote",
-    "strategy": "ipv4_only",
     "fakeip": {
       "enabled": true,
       "inet4_range": "240.0.0.0/4",
@@ -115,9 +71,6 @@
         "fc00::/7",
         "fe80::/10"
       ],
-      "exclude_package": [
-        {{ exclude_package }}
-      ],
       "stack": "mixed",
       "platform": {
         "http_proxy": {
@@ -129,17 +82,7 @@
             "*.local",
             "sequoia.apple.com",
             "seed-sequoia.siri.apple.com",
-            "push.apple.com",
-            "talk.google.com",
-            "mtalk.google.com",
-            "alt1-mtalk.google.com",
-            "alt2-mtalk.google.com",
-            "alt3-mtalk.google.com",
-            "alt4-mtalk.google.com",
-            "alt5-mtalk.google.com",
-            "alt6-mtalk.google.com",
-            "alt7-mtalk.google.com",
-            "alt8-mtalk.google.com"
+            "push.apple.com"
           ]
         }
       }
@@ -158,7 +101,6 @@
       "outbounds": [
         "🤖Auto",
         "h2",
-        "h2-warp",
         "tuic",
         "reality"
       ],
@@ -193,29 +135,6 @@
         "password": "{{ h2_obfs_password }}"
       },
       "password": "{{ password }}",
-      "tls": {
-        "enabled": true,
-        "server_name": "www.bing.com",
-        "insecure": true,
-        "alpn": [
-          "h3"
-        ]
-      },
-      "tcp_fast_open": true,
-      "udp_fragment": true,
-      "tcp_multi_path": false,
-      "domain_strategy": "ipv4_only"
-    },
-    {
-      "type": "hysteria2",
-      "tag": "h2-warp",
-      "server": "{{ server_ip }}",
-      "server_port": {{ h2_port }},
-      "obfs": {
-        "type": "salamander",
-        "password": "{{ h2_obfs_password }}"
-      },
-      "password": "{{ password }}-warp",
       "tls": {
         "enabled": true,
         "server_name": "www.bing.com",
@@ -307,14 +226,6 @@
         "outbound": "🚀Proxy"
       },
       {
-        "clash_mode": "Direct",
-        "outbound": "direct"
-      },
-      {
-        "clash_mode": "Global",
-        "outbound": "🚀Proxy"
-      },
-      {
         "inbound": "mixed-in",
         "action": "sniff",
         "timeout": "1s"
@@ -356,7 +267,8 @@
         "rule_set": [
           "netflix",
           "netflixip",
-          "myproxy{{ random_suffix }}"
+          "myproxy{{ random_suffix }}",
+          "mywechat{{ random_suffix }}"
         ],
         "outbound": "🚀Proxy"
       },
@@ -367,8 +279,7 @@
           "echemi{{ random_suffix }}",
           "cn",
           "cnip",
-          "mydirect{{ random_suffix }}",
-          "mywechat{{ random_suffix }}"
+          "mydirect{{ random_suffix }}"
         ],
         "outbound": "direct"
       }
