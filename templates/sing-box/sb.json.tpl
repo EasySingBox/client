@@ -58,7 +58,7 @@
       {
         "rule_set": [
           "echemi{{ random_suffix }}",
-          "mywechat{{ random_suffix }}",
+          "mywechat{{ random_suffix }}"
           "cn",
           "mydirect{{ random_suffix }}"
         ],
