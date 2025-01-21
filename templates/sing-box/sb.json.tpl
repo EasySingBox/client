@@ -125,8 +125,8 @@
       "tag": "🚀Proxy",
       "type": "selector",
       "outbounds": [
-        "🤖Auto",
         "h2",
+        "🤖Auto",
         "tuic",
         "reality"
       ],
