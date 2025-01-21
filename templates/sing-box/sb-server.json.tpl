@@ -40,10 +40,6 @@
         {
           "name": "user-jacob",
           "password": "{{ password }}"
-        },
-        {
-          "name": "user-wgcf",
-          "password": "{{ password }}-warp"
         }
       ],
       "tls": {
@@ -145,17 +141,6 @@
           "netflixip"
         ],
         "outbound": "wgcf"
-      },
-      {
-        "domain_suffix": [
-          "truthsocial.com"
-        ],
-        "outbound": "wgcf"
-      },
-      {
-        "inbound": "hy2",
-        "auth_user": "user-wgcf",
-        "outbound": "direct"
       }
     ],
     "rule_set": [

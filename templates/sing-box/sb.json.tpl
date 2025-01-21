@@ -73,6 +73,7 @@
       }
     ],
     "final": "dns-remote",
+    "strategy": "ipv4_only",
     "fakeip": {
       "enabled": true,
       "inet4_range": "240.0.0.0/4",
