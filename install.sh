@@ -22,6 +22,7 @@ echo "重置 easy-sing-box..."
 rm -rf /opt/easy-sing-box/
 cd /opt && git clone -q https://github.com/zmlu/easy-sing-box.git > /dev/null 2>&1
 cd /opt/easy-sing-box || exit
+git checkout f038b8c92f408e75dbde5cabd4e3db30f49e58ab
 echo "安装 easy-sing-box 依赖..."
 source /opt/venv/easy-sing-box/bin/activate
 pip3 install -r requirements.txt
