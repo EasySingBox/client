@@ -15,7 +15,7 @@
         "type": "udp",
         "server": "1.1.1.1",
         "tag": "dns-resolver"
-      },
+      }
     ],
     "independent_cache": true,
     "strategy": "ipv4_only"
