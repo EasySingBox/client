@@ -22,24 +22,37 @@
   "dns": {
     "servers": [
       {
-        "tag": "dns-remote",
-        "address": "{{ client_sb_remote_dns }}",
-        "address_resolver": "dns-resolver",
-        "detour": "🚀Proxy"
+        "type": "https",
+        "server": "{{ client_sb_remote_dns }}",
+        "domain_resolver": "dns-resolver",
+        "detour": "🚀Proxy",
+        "tag": "dns-remote"
       },
       {
-        "tag": "dns-local",
-        "address": "119.29.29.29",
-        "detour": "direct"
+        "type": "udp",
+        "server": "119.29.29.29",
+        "tag": "dns-local"
       },
       {
-        "tag": "dns-resolver",
-        "address": "8.8.8.8",
-        "detour": "🚀Proxy"
+        "type": "udp",
+        "server": "8.8.8.8",
+        "detour": "🚀Proxy",
+        "tag": "dns-resolver"
       },
       {
-        "tag": "dns-fakeip",
-        "address": "fakeip"
+        "type": "predefined",
+        "responses": [
+          {
+            "rcode": "REFUSED"
+          }
+        ],
+        "tag": "dns-reject"
+      },
+      {
+        "type": "fakeip",
+        "inet4_range": "240.0.0.0/4",
+        "inet6_range": "fc00::/18",
+        "tag": "dns-fakeip"
       }
     ],
     "rules": [
@@ -74,11 +87,6 @@
     ],
     "final": "dns-remote",
     "strategy": "ipv4_only",
-    "fakeip": {
-      "enabled": true,
-      "inet4_range": "240.0.0.0/4",
-      "inet6_range": "fc00::/18"
-    },
     "independent_cache": true
   },
   "inbounds": [
@@ -174,8 +182,7 @@
       },
       "tcp_fast_open": true,
       "udp_fragment": true,
-      "tcp_multi_path": false,
-      "domain_strategy": "ipv4_only"
+      "tcp_multi_path": false
     },
     {
       "type": "tuic",
@@ -194,8 +201,7 @@
       },
       "tcp_fast_open": true,
       "udp_fragment": true,
-      "tcp_multi_path": false,
-      "domain_strategy": "ipv4_only"
+      "tcp_multi_path": false
     },
     {
       "type": "vless",
@@ -221,8 +227,7 @@
       "packet_encoding": "xudp",
       "tcp_fast_open": true,
       "udp_fragment": true,
-      "tcp_multi_path": false,
-      "domain_strategy": "ipv4_only"
+      "tcp_multi_path": false
     },
     {
       "type": "direct",
@@ -240,6 +245,17 @@
   "route": {
     "rules": [
       {
+         "action": "sniff"
+      },
+      {
+        "protocol": "dns",
+        "port": [
+          53,
+          853
+        ],
+        "action": "hijack-dns"
+      },
+      {
         "domain_suffix": [
           {% if country == "DE" %}
           "mcc262.pub.3gppnetwork.org",
@@ -255,29 +271,11 @@
         "outbound": "🚀Proxy"
       },
       {
-        "inbound": "mixed-in",
-        "action": "sniff",
-        "timeout": "1s"
-      },
-      {
-        "inbound": "tun-in",
-        "action": "sniff",
-        "timeout": "1s"
-      },
-      {
         "ip_cidr": [
           "1.1.1.1/32",
           "8.8.8.8/32"
         ],
         "outbound": "🚀Proxy"
-      },
-      {
-        "protocol": "dns",
-        "port": [
-          53,
-          853
-        ],
-        "action": "hijack-dns"
       },
       {
         "protocol": "quic",
@@ -397,6 +395,10 @@
     ],
     "final": "🚀Proxy",
     "auto_detect_interface": true,
-    "override_android_vpn": true
+    "override_android_vpn": true,
+    "default_domain_resolver": "dns-remote",
+    "default_network_strategy": "hybrid"
+    "default_network_type": ["ethernet", "wifi"]
+    "default_fallback_network_type": ["cellular", "other"]
   }
 }
