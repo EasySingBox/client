@@ -397,8 +397,8 @@
     "auto_detect_interface": true,
     "override_android_vpn": true,
     "default_domain_resolver": "dns-remote",
-    "default_network_strategy": "hybrid"
-    "default_network_type": ["ethernet", "wifi"]
+    "default_network_strategy": "hybrid",
+    "default_network_type": ["ethernet", "wifi"],
     "default_fallback_network_type": ["cellular", "other"]
   }
 }
