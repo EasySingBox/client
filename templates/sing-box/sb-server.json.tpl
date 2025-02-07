@@ -6,22 +6,16 @@
   "dns": {
     "servers": [
       {
-        "tag": "dns",
-        "address": "{{ client_sb_remote_dns }}",
-        "address_resolver": "dns-resolver",
-        "detour": "direct"
+        "type": "https",
+        "server": "{{ client_sb_remote_dns }}",
+        "domain_resolver": "dns-resolver",
+        "tag": "dns"
       },
       {
-        "tag": "dns-resolver",
-        "address": "1.1.1.1",
-        "detour": "direct"
-      }
-    ],
-    "rules": [
-      {
-        "outbound": "any",
-        "server": "dns"
-      }
+        "type": "udp",
+        "server": "1.1.1.1",
+        "tag": "dns-resolver"
+      },
     ],
     "independent_cache": true,
     "strategy": "ipv4_only"
@@ -159,6 +153,7 @@
         "update_interval": "24h0m0s"
       }
     ],
-    "final": "direct"
+    "final": "direct",
+    "default_domain_resolver": "dns"
   }
 }

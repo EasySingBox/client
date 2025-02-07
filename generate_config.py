@@ -40,9 +40,9 @@ def check_config_file():
     reality_port = data.get('reality_port', reality_port_gen)
     www_dir_random_id = data.get('www_dir_random_id', ''.join(random.sample(uuid.uuid4().hex, 6)))
 
-    client_sb_remote_dns = "https://cloudflare-dns.com/dns-query"
+    client_sb_remote_dns = "cloudflare-dns.com"
     if country == "DE":
-        client_sb_remote_dns = "https://doh-de.blahdns.com/dns-query"
+        client_sb_remote_dns = "doh-de.blahdns.com"
 
     esb_config = {}
     esb_config['server_ip'] = server_ip
