@@ -138,6 +138,8 @@ proxies:
   server: {{ server_ip }}
   port: {{ h2_port }}
   password: {{ password }}
+  up: "1000 Mbps"
+  down: "1000 Mbps"
   obfs: salamander
   obfs-password: {{ h2_obfs_password }}
   fast-open: true
