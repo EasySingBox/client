@@ -105,7 +105,7 @@
     {
       "type": "direct",
       "tag": "direct",
-      "domain_strategy": "prefer_ipv6"
+      "domain_strategy": "ipv4_only"
     },
     {
       "type": "direct",
