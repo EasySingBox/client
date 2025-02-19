@@ -13,12 +13,12 @@
       },
       {
         "type": "udp",
-        "server": "8.8.8.8",
+        "server": "1.1.1.1",
         "tag": "dns-resolver"
       }
     ],
     "independent_cache": true,
-    "strategy": "prefer_ipv6"
+    "strategy": "ipv4_only"
   },
   "inbounds": [
     {

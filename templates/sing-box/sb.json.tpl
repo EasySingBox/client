@@ -66,8 +66,6 @@
           "netflixip"
         ],
         "action": "route",
-        "strategy": "prefer_ipv6",
-        "rewrite_ttl": 1,
         "server": "dns-fakeip"
       },
       {
@@ -77,8 +75,6 @@
           "cn",
           "mydirect{{ random_suffix }}"
         ],
-        "action": "route",
-        "strategy": "ipv4_only",
         "server": "dns-local"
       },
       {
@@ -86,14 +82,11 @@
           "A",
           "AAAA"
         ],
-        "action": "route",
-        "strategy": "prefer_ipv6",
-        "rewrite_ttl": 1,
         "server": "dns-fakeip"
       }
     ],
     "final": "dns-remote",
-    "strategy": "prefer_ipv6",
+    "strategy": "ipv4_only",
     "independent_cache": true
   },
   "inbounds": [
