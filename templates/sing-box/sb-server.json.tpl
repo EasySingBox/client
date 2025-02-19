@@ -18,7 +18,7 @@
       }
     ],
     "independent_cache": true,
-    "strategy": "prefer_ipv4"
+    "strategy": "prefer_ipv6"
   },
   "inbounds": [
     {
@@ -105,7 +105,7 @@
     {
       "type": "direct",
       "tag": "direct",
-      "domain_strategy": "prefer_ipv4"
+      "domain_strategy": "prefer_ipv6"
     },
     {
       "type": "direct",
