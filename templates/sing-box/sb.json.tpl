@@ -35,7 +35,7 @@
       },
       {
         "type": "udp",
-        "server": "8.8.8.8",
+        "server": "1.1.1.1",
         "detour": "🚀Proxy",
         "tag": "dns-resolver"
       },
