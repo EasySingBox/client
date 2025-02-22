@@ -9,7 +9,8 @@
         "pikpak",
         "duolingo",
         "google",
-        "leetcode"
+        "leetcode",
+        "apple-relay"
       ]
     },
     {
@@ -31,6 +32,8 @@
         "moomoo.com",
         "sg.moomoo.com",
         "ipinfo.ip",
+        "apple-relay.apple.com",
+        "apple-relay.cloudflare.com",
         "getgrass.io"
       ]
     },
