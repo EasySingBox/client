@@ -13,7 +13,7 @@
       },
       {
         "type": "udp",
-        "server": "8.8.8.8",
+        "server": "1.1.1.1",
         "tag": "dns-resolver"
       }
     ],
