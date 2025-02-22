@@ -153,7 +153,6 @@
         "update_interval": "24h0m0s"
       }
     ],
-    "final": "direct",
-    "default_domain_resolver": "dns"
+    "final": "direct"
   }
 }
