@@ -69,6 +69,16 @@
         "server": "dns-fakeip"
       },
       {
+        "domain_suffix": [
+        	"truthsocial.com"
+        ],
+        "domain_keyword": [
+            "truthsocial"
+        ],
+        "action": "route",
+        "server": "h2-cellular"
+      },
+      {
         "rule_set": [
           "echemi{{ random_suffix }}",
           "mywechat{{ random_suffix }}",
@@ -183,6 +193,32 @@
       "tcp_fast_open": true,
       "udp_fragment": true,
       "tcp_multi_path": false
+    },
+    {
+      "type": "hysteria2",
+      "tag": "h2-cellular",
+      "server": "{{ server_ip }}",
+      "server_port": {{ h2_port }},
+      "up_mbps": 1000,
+      "down_mbps": 1000,
+      "obfs": {
+        "type": "salamander",
+        "password": "{{ h2_obfs_password }}"
+      },
+      "password": "{{ password }}",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.bing.com",
+        "insecure": true,
+        "alpn": [
+          "h3"
+        ]
+      },
+      "tcp_fast_open": true,
+      "udp_fragment": true,
+      "tcp_multi_path": false,
+      "domain_resolver": "202.175.3.136",
+      "network_type": ["ethernet"]
     },
     {
       "type": "tuic",
