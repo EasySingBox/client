@@ -35,8 +35,8 @@
       },
       {
         "type": "udp",
-        "server": "202.175.3.136",
-        "tag": "dns-ctm"
+        "server": "202.175.86.206",
+        "tag": "dns-macao"
       },
       {
         "type": "udp",
@@ -69,7 +69,7 @@
             "truthsocial"
         ],
         "action": "route",
-        "server": "dns-ctm"
+        "server": "dns-macao"
       },
       {
         "query_type": [
@@ -203,7 +203,7 @@
     {
       "type": "direct",
       "tag": "direct-cellular",
-      "domain_resolver": "dns-ctm",
+      "domain_resolver": "dns-macao",
       "network_type": ["cellular"]
     },
     {
@@ -319,7 +319,6 @@
         "domain_keyword": [
             "truthsocial"
         ],
-        "action": "route",
         "outbound": "direct-cellular"
       },
       {
