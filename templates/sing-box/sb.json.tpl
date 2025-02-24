@@ -69,16 +69,6 @@
         "server": "dns-fakeip"
       },
       {
-        "domain_suffix": [
-        	"truthsocial.com"
-        ],
-        "domain_keyword": [
-            "truthsocial"
-        ],
-        "action": "route",
-        "server": "direct-cellular"
-      },
-      {
         "rule_set": [
           "echemi{{ random_suffix }}",
           "mywechat{{ random_suffix }}",
@@ -306,6 +296,16 @@
       {
         "protocol": "quic",
         "outbound": "🚀Proxy"
+      },
+      {
+        "domain_suffix": [
+        	"truthsocial.com"
+        ],
+        "domain_keyword": [
+            "truthsocial"
+        ],
+        "action": "route",
+        "outbound": "direct-cellular"
       },
       {
         "rule_set": [
