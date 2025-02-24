@@ -36,6 +36,7 @@
       {
         "type": "udp",
         "server": "202.175.86.206",
+        "detour": "direct-cellular",
         "tag": "dns-macao"
       },
       {
