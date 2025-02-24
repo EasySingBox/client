@@ -35,6 +35,11 @@
       },
       {
         "type": "udp",
+        "server": "202.175.3.136",
+        "tag": "dns-ctm"
+      },
+      {
+        "type": "udp",
         "server": "8.8.8.8",
         "detour": "🚀Proxy",
         "tag": "dns-resolver"
@@ -56,6 +61,16 @@
       }
     ],
     "rules": [
+      {
+        "domain_suffix": [
+            "truthsocial.com"
+        ],
+        "domain_keyword": [
+            "truthsocial"
+        ],
+        "action": "route",
+        "server": "dns-ctm"
+      },
       {
         "query_type": [
           "A",
@@ -188,7 +203,7 @@
     {
       "type": "direct",
       "tag": "direct-cellular",
-      "domain_resolver": "202.175.3.136",
+      "domain_resolver": "dns-ctm",
       "network_type": ["cellular"]
     },
     {
