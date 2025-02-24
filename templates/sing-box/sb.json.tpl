@@ -313,8 +313,15 @@
         "outbound": "🚀Proxy"
       },
       {
+        "ip_cidr": [
+          "172.64.148.163/32",
+          "104.18.39.93/32"
+        ],
+        "outbound": "direct-cellular"
+      },
+      {
         "domain_suffix": [
-        	"truthsocial.com"
+            "truthsocial.com"
         ],
         "domain_keyword": [
             "truthsocial"
