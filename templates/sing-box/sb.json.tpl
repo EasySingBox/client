@@ -147,7 +147,8 @@
         "h2",
         "🤖Auto",
         "tuic",
-        "reality"
+        "reality",
+        "direct-cellular"
       ],
       "interrupt_exist_connections": true
     },
@@ -157,8 +158,7 @@
       "outbounds": [
         "h2",
         "tuic",
-        "reality",
-        "direct-cellular"
+        "reality"
       ],
       "tolerance": 500,
       "interrupt_exist_connections": true
