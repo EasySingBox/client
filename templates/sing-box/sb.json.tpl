@@ -35,7 +35,7 @@
       },
       {
         "type": "udp",
-        "server": "1.1.1.1",
+        "address": "8.8.8.8",
         "detour": "🚀Proxy",
         "tag": "dns-resolver"
       },
@@ -395,9 +395,6 @@
     ],
     "final": "🚀Proxy",
     "auto_detect_interface": true,
-    "override_android_vpn": true,
-    "default_network_strategy": "hybrid",
-    "default_network_type": ["ethernet", "wifi"],
-    "default_fallback_network_type": ["cellular", "other"]
+    "override_android_vpn": true
   }
 }
