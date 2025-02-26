@@ -35,12 +35,6 @@
       },
       {
         "type": "udp",
-        "server": "202.175.86.206",
-        "detour": "direct-cellular",
-        "tag": "dns-macao"
-      },
-      {
-        "type": "udp",
         "server": "8.8.8.8",
         "detour": "🚀Proxy",
         "tag": "dns-resolver"
@@ -53,16 +47,6 @@
       }
     ],
     "rules": [
-      {
-        "domain_suffix": [
-            "truthsocial.com"
-        ],
-        "domain_keyword": [
-            "truthsocial"
-        ],
-        "action": "route",
-        "server": "dns-macao"
-      },
       {
         "query_type": [
           "A",
@@ -122,8 +106,6 @@
           "bypass_domain": [
             "localhost",
             "*.local",
-            "sequoia.apple.com",
-            "seed-sequoia.siri.apple.com",
             "push.apple.com"
           ]
         }
@@ -144,8 +126,7 @@
         "h2",
         "🤖Auto",
         "tuic",
-        "reality",
-        "direct-cellular"
+        "reality"
       ],
       "interrupt_exist_connections": true
     },
@@ -191,12 +172,6 @@
       "tcp_fast_open": true,
       "udp_fragment": true,
       "tcp_multi_path": false
-    },
-    {
-      "type": "direct",
-      "tag": "direct-cellular",
-      "domain_resolver": "dns-macao",
-      "network_type": ["cellular"]
     },
     {
       "type": "tuic",
