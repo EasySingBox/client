@@ -46,15 +46,6 @@
         "tag": "dns-resolver"
       },
       {
-        "type": "predefined",
-        "responses": [
-          {
-            "rcode": "REFUSED"
-          }
-        ],
-        "tag": "dns-reject"
-      },
-      {
         "type": "fakeip",
         "inet4_range": "240.0.0.0/4",
         "inet6_range": "fc00::/18",
