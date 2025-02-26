@@ -400,6 +400,7 @@
     ],
     "final": "🚀Proxy",
     "auto_detect_interface": true,
-    "override_android_vpn": true
+    "override_android_vpn": true,
+    "default_domain_resolver": "dns-fakeip"
   }
 }
