@@ -1,10 +1,10 @@
 {
   "rule_set": [
-    "easylistchina{{ random_suffix }}",
-    "AdGuardDNSfilter{{ random_suffix }}",
-    "antiadblockfilters{{ random_suffix }}",
-    "easyprivacy{{ random_suffix }}",
-    "adblockplus{{ random_suffix }}"
+    "adRuleList1_{{ random_suffix }}",
+    "adRuleList2_{{ random_suffix }}",
+    "adRuleList3_{{ random_suffix }}",
+    "adRuleList4_{{ random_suffix }}",
+    "adRuleList5_{{ random_suffix }}"
   ],
   "action": "reject",
   "method": "drop"

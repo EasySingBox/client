@@ -1,40 +1,40 @@
 {
   "type": "remote",
-  "tag": "easylistchina{{ random_suffix }}",
+  "tag": "adRuleList1_{{ random_suffix }}",
   "format": "binary",
-  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/easylistchina.srs",
+  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/AWAvenue-Ads-Rule.srs",
   "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 },
 {
   "type": "remote",
-  "tag": "AdGuardDNSfilter{{ random_suffix }}",
+  "tag": "adRuleList2_{{ random_suffix }}",
   "format": "binary",
-  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/filter.srs",
+  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/all.srs",
   "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 },
 {
   "type": "remote",
-  "tag": "antiadblockfilters{{ random_suffix }}",
+  "tag": "adRuleList3_{{ random_suffix }}",
   "format": "binary",
-  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/antiadblockfilters.srs",
+  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/adGuard_chinese_filter.srs",
   "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 },
 {
   "type": "remote",
-  "tag": "easyprivacy{{ random_suffix }}",
+  "tag": "adRuleList4_{{ random_suffix }}",
   "format": "binary",
-  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/easyprivacy.srs",
+  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/adservers.srs",
   "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 },
 {
   "type": "remote",
-  "tag": "adblockplus{{ random_suffix }}",
+  "tag": "adRuleList5_{{ random_suffix }}",
   "format": "binary",
-  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/filters.srs",
+  "url": "https://github.com/zmlu/sing-box-easylist/raw/refs/heads/output/easylist.srs",
   "download_detour": "🚀Proxy",
   "update_interval": "24h0m0s"
 }
