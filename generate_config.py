@@ -2,6 +2,7 @@ import json
 import os
 import random
 import re
+import subprocess
 import sys
 import uuid
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -97,6 +98,9 @@ def generate_singbox():
         server_arg = sys.argv[1]
 
     random_suffix = ''.join(random.sample(uuid.uuid4().hex, 6))
+    ad_dns_rule = env.get_template("/sing-box/ad_dns_rule.json").render(random_suffix=random_suffix) + ","
+    ad_route_rule = env.get_template("/sing-box/ad_route_rule.json").render(random_suffix=random_suffix) + ","
+    ad_rule_set = env.get_template("/sing-box/ad_rule_set.json").render(random_suffix=random_suffix) + ","
     exclude_package = env.get_template("/sing-box/exclude_package.tpl").render() + ","
     exclude_package = re.sub(r'#.*', '', exclude_package)
     sb_json_tpl = env.get_template("/sing-box/sb.json.tpl")
@@ -117,6 +121,26 @@ def generate_singbox():
         random_suffix=random_suffix,
         client_sb_remote_dns=client_sb_remote_dns
     )
+    sb_noad_json_content = sb_json_tpl.render(
+        password=password,
+        h2_port=h2_port,
+        h2_obfs_password=h2_obfs_password,
+        reality_port=reality_port,
+        reality_sid=reality_sid,
+        reality_pbk=public_key,
+        server_ip=server_ip,
+        vps_org=vps_org,
+        country=country,
+        server_arg=server_arg,
+        tuic_port=tuic_port,
+        www_dir_random_id=www_dir_random_id,
+        ad_dns_rule=ad_dns_rule,
+        ad_route_rule=ad_route_rule,
+        ad_rule_set=ad_rule_set,
+        exclude_package=exclude_package,
+        random_suffix=random_suffix,
+        client_sb_remote_dns=client_sb_remote_dns
+    )
 
     nginx_www_dir = "/var/www/html/" + www_dir_random_id
     if not os.path.exists(nginx_www_dir):
@@ -124,6 +148,9 @@ def generate_singbox():
 
     with open(nginx_www_dir + "/sb.json", 'w') as file:
         file.write(json.dumps(json.loads(sb_json_content), indent=2, ensure_ascii=False))
+
+    with open(nginx_www_dir + "/sb-noad.json", 'w') as file:
+        file.write(json.dumps(json.loads(sb_noad_json_content), indent=2, ensure_ascii=False))
 
     os.system("cp ./templates/sing-box/my/sb_echemi.json " + nginx_www_dir)
     os.system("cp ./templates/sing-box/my/sb_mydirect.json " + nginx_www_dir)
@@ -191,6 +218,10 @@ if __name__ == '__main__':
 
     os.system(f'echo "\\e[1;33msing-box\\033[0m"')
     os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb.json\\033[0m"')
+    os.system(f'echo ""')
+
+    os.system(f'echo "\\e[1;33msing-box-noad 客户端文件下载地址\\033[0m"')
+    os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb-noad.json\\033[0m"')
     os.system(f'echo ""')
 
     os.system(f'echo "\\e[1;33mClash.Meta\\033[0m"')

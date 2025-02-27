@@ -97,6 +97,9 @@
         "fc00::/7",
         "fe80::/10"
       ],
+      "exclude_package": [
+        {{ exclude_package }}
+      ],
       "stack": "mixed",
       "platform": {
         "http_proxy": {
@@ -106,7 +109,17 @@
           "bypass_domain": [
             "localhost",
             "*.local",
-            "push.apple.com"
+            "push.apple.com",
+            "talk.google.com",
+            "mtalk.google.com",
+            "alt1-mtalk.google.com",
+            "alt2-mtalk.google.com",
+            "alt3-mtalk.google.com",
+            "alt4-mtalk.google.com",
+            "alt5-mtalk.google.com",
+            "alt6-mtalk.google.com",
+            "alt7-mtalk.google.com",
+            "alt8-mtalk.google.com"
           ]
         }
       }
@@ -266,6 +279,15 @@
         ],
         "outbound": "🚀Proxy"
       },
+      {{ ad_route_rule }}
+      {
+        "protocol": "dns",
+        "port": [
+          53,
+          853
+        ],
+        "action": "hijack-dns"
+      },
       {
         "protocol": "quic",
         "rule_set": [
@@ -349,6 +371,7 @@
         "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
+      {{ ad_rule_set }}
       {
         "type": "remote",
         "tag": "cn",

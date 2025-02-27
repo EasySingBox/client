@@ -1,0 +1,11 @@
+{
+  "rule_set": [
+    "easylistchina{{ random_suffix }}",
+    "AdGuardDNSfilter{{ random_suffix }}",
+    "antiadblockfilters{{ random_suffix }}",
+    "easyprivacy{{ random_suffix }}",
+    "adblockplus{{ random_suffix }}"
+  ],
+  "action": "predefined",
+  "rcode": "name_error"
+}
