@@ -48,6 +48,14 @@
     ],
     "rules": [
       {
+        "clash_mode": "Direct",
+        "server": "dns-tencent"
+      },
+      {
+        "clash_mode": "Global",
+        "server": "dns-google"
+      },
+      {
         "query_type": [
           "A",
           "AAAA"
@@ -286,6 +294,14 @@
           853
         ],
         "action": "hijack-dns"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "🚀Proxy"
       },
       {
         "domain_suffix": [
