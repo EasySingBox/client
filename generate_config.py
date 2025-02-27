@@ -152,10 +152,10 @@ def generate_singbox():
         os.makedirs(nginx_www_dir)
 
     with open(nginx_www_dir + "/sb.json", 'w') as file:
-        file.write(json.dumps(json.loads(sb_json_content), indent=2, ensure_ascii=False))
-
-    with open(nginx_www_dir + "/sb-noad.json", 'w') as file:
         file.write(json.dumps(json.loads(sb_noad_json_content), indent=2, ensure_ascii=False))
+
+    with open(nginx_www_dir + "/sb-ad.json", 'w') as file:
+        file.write(json.dumps(json.loads(sb_json_content), indent=2, ensure_ascii=False))
 
     os.system("cp ./templates/sing-box/my/sb_echemi.json " + nginx_www_dir)
     os.system("cp ./templates/sing-box/my/sb_mydirect.json " + nginx_www_dir)
@@ -225,8 +225,8 @@ if __name__ == '__main__':
     os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb.json\\033[0m"')
     os.system(f'echo ""')
 
-    os.system(f'echo "\\e[1;33msing-box-noad 客户端文件下载地址\\033[0m"')
-    os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb-noad.json\\033[0m"')
+    os.system(f'echo "\\e[1;33msing-box-ad 客户端文件下载地址\\033[0m"')
+    os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb-ad.json\\033[0m"')
     os.system(f'echo ""')
 
     os.system(f'echo "\\e[1;33mClash.Meta\\033[0m"')
