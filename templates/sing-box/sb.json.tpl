@@ -261,17 +261,17 @@
     {
       "type": "direct",
       "tag": "direct",
-      "domain_resolver", "dns-tencent"
+      "domain_resolver": "dns-tencent"
     },
     {
       "type": "direct",
       "tag": "{{ vps_org }}",
-      "domain_resolver", "dns-tencent"
+      "domain_resolver": "dns-tencent"
     },
     {
       "type": "direct",
       "tag": "{{ country }}",
-      "domain_resolver", "dns-tencent"
+      "domain_resolver": "dns-tencent"
     }
   ],
   "route": {
