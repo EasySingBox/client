@@ -24,20 +24,20 @@
       {
         "type": "https",
         "server": "{{ client_sb_remote_dns }}",
-        "domain_resolver": "dns-resolver",
+        "domain_resolver": "dns-google",
         "detour": "🚀Proxy",
         "tag": "dns-remote"
       },
       {
         "type": "udp",
         "server": "119.29.29.29",
-        "tag": "dns-local"
+        "tag": "dns-tencent"
       },
       {
         "type": "udp",
         "server": "8.8.8.8",
         "detour": "🚀Proxy",
-        "tag": "dns-resolver"
+        "tag": "dns-google"
       },
       {
         "type": "fakeip",
@@ -66,7 +66,8 @@
           "cn",
           "mydirect{{ random_suffix }}"
         ],
-        "server": "dns-local"
+        "server": "dns-google",
+        "client_subnet": "47.104.0.0"
       },
       {
         "query_type": [
