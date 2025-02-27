@@ -137,8 +137,8 @@
       "tag": "🚀Proxy",
       "type": "selector",
       "outbounds": [
-        "h2",
         "anytls",
+        "h2",
         "tuic",
         "reality",
         "🤖Auto"
@@ -149,8 +149,8 @@
       "tag": "🤖Auto",
       "type": "urltest",
       "outbounds": [
-        "h2",
         "anytls",
+        "h2",
         "tuic",
         "reality"
       ],
