@@ -446,6 +446,6 @@
     "final": "🚀Proxy",
     "auto_detect_interface": true,
     "override_android_vpn": true,
-    "default_domain_resolver", "dns-google"
+    "default_domain_resolver": "dns-google"
   }
 }
