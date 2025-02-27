@@ -282,14 +282,6 @@
       },
       {{ ad_route_rule }}
       {
-        "protocol": "dns",
-        "port": [
-          53,
-          853
-        ],
-        "action": "hijack-dns"
-      },
-      {
         "protocol": "quic",
         "rule_set": [
           "cn",
@@ -424,7 +416,6 @@
     ],
     "final": "🚀Proxy",
     "auto_detect_interface": true,
-    "override_android_vpn": true,
-    "default_domain_resolver": "dns-fakeip"
+    "override_android_vpn": true
   }
 }
