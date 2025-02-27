@@ -44,11 +44,12 @@ def generate_password():
 def generate_port():
     min_value = 9000
     max_value = 65535
-    random_numbers = random.sample(range(min_value, max_value + 1), 3)
+    random_numbers = random.sample(range(min_value, max_value + 1), 4)
     h2_port = random_numbers[0]
     tuic_port = random_numbers[1]
     reality_port = random_numbers[2]
-    return h2_port, tuic_port, reality_port
+    anytls_port = random_numbers[3]
+    return h2_port, tuic_port, reality_port, anytls_port
 
 
 def generate_esb_config():

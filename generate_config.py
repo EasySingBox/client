@@ -35,10 +35,11 @@ def check_config_file():
     password = data.get('password', password_gen)
     h2_obfs_password_gen = generate_password()
     h2_obfs_password = data.get('h2_obfs_password', h2_obfs_password_gen)
-    h2_port_gen, tuic_port_gen, reality_port_gen = generate_port()
+    h2_port_gen, tuic_port_gen, reality_port_gen, anytls_port_gen = generate_port()
     h2_port = data.get('h2_port', h2_port_gen)
     tuic_port = data.get('tuic_port', tuic_port_gen)
     reality_port = data.get('reality_port', reality_port_gen)
+    anytls_port = data.get('anytls_port', anytls_port_gen)
     www_dir_random_id = data.get('www_dir_random_id', ''.join(random.sample(uuid.uuid4().hex, 6)))
 
     client_sb_remote_dns = "cloudflare-dns.com"
@@ -58,16 +59,17 @@ def check_config_file():
     esb_config['reality_sid'] = reality_sid
     esb_config['public_key'] = public_key
     esb_config['private_key'] = private_key
+    esb_config['anytls_port'] = anytls_port
     esb_config['client_sb_remote_dns'] = client_sb_remote_dns
 
     with open(config_file, 'w') as write_f:
         write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 
-    return server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns
+    return server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, anytls_port, www_dir_random_id, client_sb_remote_dns
 
 
 def generate_singbox_server():
-    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, anytls_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     sing_box_config_dir = "/etc/sing-box"
     if not os.path.exists(sing_box_config_dir):
@@ -82,6 +84,7 @@ def generate_singbox_server():
             reality_sid=reality_sid,
             reality_private_key=private_key,
             tuic_port=tuic_port,
+            anytls_port=anytls_port,
             client_sb_remote_dns=client_sb_remote_dns
         )
         file.write(json.dumps(json.loads(sb_server_json_content), indent=2, ensure_ascii=False))
@@ -91,7 +94,7 @@ def generate_singbox_server():
 
 
 def generate_singbox():
-    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, anytls_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     server_arg = ""
     if len(sys.argv) > 1:
@@ -116,6 +119,7 @@ def generate_singbox():
         country=country,
         server_arg=server_arg,
         tuic_port=tuic_port,
+        anytls_port=anytls_port,
         www_dir_random_id=www_dir_random_id,
         exclude_package=exclude_package,
         random_suffix=random_suffix,
@@ -133,6 +137,7 @@ def generate_singbox():
         country=country,
         server_arg=server_arg,
         tuic_port=tuic_port,
+        anytls_port=anytls_port,
         www_dir_random_id=www_dir_random_id,
         ad_dns_rule=ad_dns_rule,
         ad_route_rule=ad_route_rule,
@@ -158,7 +163,7 @@ def generate_singbox():
     os.system("cp ./templates/sing-box/my/sb_wechat.json " + nginx_www_dir)
 
 def generate_clash_meta():
-    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, anytls_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
     du_yaml_tpl = env.get_template("/clashMeta/du.yaml.tpl")
     du_yaml_content = du_yaml_tpl.render(
         password=password,
@@ -200,7 +205,7 @@ def generate_clash_meta():
     os.system("cd " + nginx_www_dir + " && wget -O Country.mmdb https://github.com/Loyalsoldier/geoip/raw/refs/heads/release/Country.mmdb")
 
 if __name__ == '__main__':
-    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
+    server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, anytls_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
     generate_singbox_server()
     generate_singbox()

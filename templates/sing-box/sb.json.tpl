@@ -138,9 +138,10 @@
       "type": "selector",
       "outbounds": [
         "h2",
-        "🤖Auto",
+        "anytls",
         "tuic",
-        "reality"
+        "reality",
+        "🤖Auto"
       ],
       "interrupt_exist_connections": true
     },
@@ -149,6 +150,7 @@
       "type": "urltest",
       "outbounds": [
         "h2",
+        "anytls",
         "tuic",
         "reality"
       ],
@@ -233,16 +235,43 @@
       "tcp_multi_path": false
     },
     {
-      "type": "direct",
-      "tag": "direct"
+      "type": "anytls",
+      "tag": "anytls",
+      "server": "{{ server_ip }}",
+      "server_port": {{ anytls_port }},
+      "password": "{{ password }}",
+      "tls": {
+        "enabled": true,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "{{ reality_pbk }}",
+          "short_id": "{{ reality_sid }}"
+        },
+        "server_name": "yahoo.com",
+        "insecure": true
+      },
+      "tcp_fast_open": true,
+      "udp_fragment": true,
+      "tcp_multi_path": false
     },
     {
       "type": "direct",
-      "tag": "{{ vps_org }}"
+      "tag": "direct",
+      "domain_resolver", "dns-tencent"
     },
     {
       "type": "direct",
-      "tag": "{{ country }}"
+      "tag": "{{ vps_org }}",
+      "domain_resolver", "dns-tencent"
+    },
+    {
+      "type": "direct",
+      "tag": "{{ country }}",
+      "domain_resolver", "dns-tencent"
     }
   ],
   "route": {
@@ -416,6 +445,7 @@
     ],
     "final": "🚀Proxy",
     "auto_detect_interface": true,
-    "override_android_vpn": true
+    "override_android_vpn": true,
+    "default_domain_resolver", "dns-google"
   }
 }

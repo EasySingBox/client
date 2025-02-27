@@ -99,6 +99,33 @@
           "short_id": "{{ reality_sid }}"
         }
       }
+    },
+    {
+      "type": "anytls",
+      "tag": "anytls",
+      "listen": "::",
+      "listen_port": {{ anytls_port }},
+      "sniff": true,
+      "sniff_override_destination": true,
+      "users": [
+        {
+          "name": "{{ password }}",
+          "password": "{{ password }}"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "server_name": "yahoo.com",
+        "reality": {
+          "enabled": true,
+          "handshake": {
+            "server": "yahoo.com",
+            "server_port": 443
+          },
+          "private_key": "{{ reality_private_key }}",
+          "short_id": "{{ reality_sid }}"
+        }
+      }
     }
   ],
   "outbounds": [
