@@ -3,7 +3,7 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
-apt-get install -y nginx python3 python3-pip python3-venv
+apt-get install -y nginx python3 python3-pip python3-venv git
 mkdir /etc/apt/keyrings/
 # sing-box-beta
 sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
