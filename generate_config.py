@@ -239,6 +239,9 @@ if __name__ == '__main__':
     # os.system(f'echo ""')
 
     if central_api:
+        nginx_www_dir = "/var/www/html/" + www_dir_random_id
+        if not os.path.exists(nginx_www_dir):
+            os.makedirs(nginx_www_dir)
         os.system("cp ~/esb.config " + nginx_www_dir)
         central_url = f'http://{central_api}/api/hello?name={www_dir_random_id}'
         response = requests.get(central_url)
