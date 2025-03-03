@@ -91,10 +91,5 @@ def generate_esb_config():
     with open(config_file, 'w') as write_f:
         write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 
-    nginx_www_dir = "/var/www/html/" + www_dir_random_id
-    if not os.path.exists(nginx_www_dir):
-        os.makedirs(nginx_www_dir)
-    os.system("cp ~/esb.config " + nginx_www_dir)
-
 if __name__ == '__main__':
     generate_esb_config()
