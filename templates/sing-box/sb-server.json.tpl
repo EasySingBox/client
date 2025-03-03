@@ -109,7 +109,7 @@
       "sniff_override_destination": true,
       "users": [
         {
-          "name": "{{ password }}",
+          "name": "zmlu",
           "password": "{{ password }}"
         }
       ],
