@@ -4,6 +4,10 @@
 
 ```shell
 bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh)
+
+
+#with Clash.Meta
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh) gen_meta
 ```
 
 ### XanMod 内核的安装
