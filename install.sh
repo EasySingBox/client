@@ -33,6 +33,8 @@ echo "安装 easy-sing-box 依赖..."
 source /opt/venv/easy-sing-box/bin/activate
 pip3 install -r requirements.txt
 echo "开始生成配置..."
-rm -rf /var/www/html/
+config_file="$HOME/esb.config"
+www_dir_random_id=$(jq -r '.www_dir_random_id' "$config_file")
+rm -rf /var/www/html/${www_dir_random_id}
 rm -rf /etc/sing-box/
 python3 generate_config.py $1
