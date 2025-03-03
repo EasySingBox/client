@@ -22,8 +22,8 @@ sudo apt-get install sing-box-beta
 echo "重置 warp..."
 bash <(curl -fsSL git.io/warp.sh) x
 echo "重置 venv..."
-rm -rf /opt/venv/
-cd /opt && mkdir venv
+mkdir /opt/venv
+rm -rf /opt/venv/easy-sing-box
 cd /opt/venv && python3 -m venv easy-sing-box
 echo "重置 easy-sing-box..."
 rm -rf /opt/easy-sing-box/
