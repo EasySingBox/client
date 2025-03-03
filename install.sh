@@ -5,6 +5,7 @@
 
 apt-get install -y git
 apt-get install -y nginx
+apt-get install -y jq
 apt-get install -y python3
 apt-get install -y python3-pip
 apt-get install -y python3-pip
