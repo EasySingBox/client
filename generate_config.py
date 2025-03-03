@@ -239,4 +239,7 @@ if __name__ == '__main__':
 
     if central_api:
         central_url = f'http://{central_api}/api/hello?name={www_dir_random_id}'
-        requests.get(central_url)
+        response = requests.get(central_url)
+        if response.status_code == 200:
+            data = response.json()
+            print(data)
