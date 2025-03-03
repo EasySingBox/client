@@ -11,7 +11,7 @@ apt-get install -y python3-pip
 apt-get install -y python3-venv
 apt-get install -y openresolv
 apt-get install -y resolvconf
-mkdir /etc/apt/keyrings/
+mkdir /etc/apt/keyrings/ > /dev/null
 # sing-box-beta
 sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
 sudo chmod a+r /etc/apt/keyrings/sagernet.asc
@@ -22,7 +22,7 @@ sudo apt-get install sing-box-beta
 echo "重置 warp..."
 bash <(curl -fsSL git.io/warp.sh) x
 echo "重置 venv..."
-mkdir /opt/venv
+mkdir /opt/venv > /dev/null
 rm -rf /opt/venv/easy-sing-box
 cd /opt/venv && python3 -m venv easy-sing-box
 echo "重置 easy-sing-box..."
