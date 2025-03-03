@@ -10,7 +10,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from generate_esb_config import generate_port, generate_reality_keys, generate_reality_sid, generate_password, \
     get_ip_info
 
-config_file = os.path.expanduser('/var/www/html/fa61b2dd4ef1aee065b8.json')
+config_file = os.path.expanduser('~/esb.config')
 env = Environment(
     loader=PackageLoader("generate_config"),
     autoescape=select_autoescape()
