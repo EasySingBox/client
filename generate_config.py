@@ -5,6 +5,7 @@ import re
 import subprocess
 import sys
 import uuid
+import requests
 from jinja2 import Environment, PackageLoader, select_autoescape
 from generate_esb_config import generate_port, generate_reality_keys, generate_reality_sid, generate_password, \
     get_ip_info
