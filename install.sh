@@ -3,7 +3,10 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
-apt-get install -y nginx python3 python3-pip python3-venv git python3.10-venv
+apt-get install -y nginx python3 python3-pip python3-venv git
+apt-get install -y python-venv
+apt-get install -y openresolv
+apt-get install -y resolvconf
 mkdir /etc/apt/keyrings/
 # sing-box-beta
 sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
@@ -20,7 +23,7 @@ cd /opt && mkdir venv
 cd /opt/venv && python3 -m venv easy-sing-box
 echo "重置 easy-sing-box..."
 rm -rf /opt/easy-sing-box/
-cd /opt && git clone -q https://github.com/zmlu/easy-sing-box.git > /dev/null 2>&1
+cd /opt && git clone -q https://github.com/zmlu/easy-sing-box.git
 cd /opt/easy-sing-box || exit
 echo "安装 easy-sing-box 依赖..."
 source /opt/venv/easy-sing-box/bin/activate
