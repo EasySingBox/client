@@ -97,10 +97,6 @@ def generate_singbox_server():
 def generate_singbox():
     server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, anytls_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
-    server_arg = ""
-    if len(sys.argv) > 1:
-        server_arg = sys.argv[1]
-
     random_suffix = ''.join(random.sample(uuid.uuid4().hex, 6))
     ad_dns_rule = env.get_template("/sing-box/ad_dns_rule.json").render(random_suffix=random_suffix) + ","
     ad_route_rule = env.get_template("/sing-box/ad_route_rule.json").render(random_suffix=random_suffix) + ","
@@ -118,7 +114,6 @@ def generate_singbox():
         server_ip=server_ip,
         vps_org=vps_org,
         country=country,
-        server_arg=server_arg,
         tuic_port=tuic_port,
         anytls_port=anytls_port,
         www_dir_random_id=www_dir_random_id,
@@ -136,7 +131,6 @@ def generate_singbox():
         server_ip=server_ip,
         vps_org=vps_org,
         country=country,
-        server_arg=server_arg,
         tuic_port=tuic_port,
         anytls_port=anytls_port,
         www_dir_random_id=www_dir_random_id,
@@ -213,8 +207,9 @@ if __name__ == '__main__':
         central_api = sys.argv[1]
 
     generate_singbox_server()
-    generate_singbox()
-    # generate_clash_meta()
+    if not central_api:
+        generate_singbox()
+        generate_clash_meta()
 
     os.system('echo "重启 sing-box..."')
     os.system('systemctl start sing-box')
