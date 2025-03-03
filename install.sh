@@ -27,7 +27,7 @@ rm -rf /opt/venv/easy-sing-box
 cd /opt/venv && python3 -m venv easy-sing-box
 echo "重置 easy-sing-box..."
 rm -rf /opt/easy-sing-box/
-cd /opt && git clone -q https://github.com/zmlu/easy-sing-box.git
+cd /opt && git clone https://github.com/zmlu/easy-sing-box.git
 cd /opt/easy-sing-box || exit
 echo "安装 easy-sing-box 依赖..."
 source /opt/venv/easy-sing-box/bin/activate
