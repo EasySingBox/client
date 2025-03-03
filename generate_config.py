@@ -207,9 +207,14 @@ def generate_clash_meta():
 if __name__ == '__main__':
     server_ip, vps_org, country, reality_sid, private_key, public_key, password, h2_port, h2_obfs_password, tuic_port, reality_port, anytls_port, www_dir_random_id, client_sb_remote_dns = check_config_file()
 
+    gen_meta = False
+    if len(sys.argv) > 1:
+        gen_meta = sys.argv[1] == "gen_meta"
+
     generate_singbox_server()
     generate_singbox()
-    generate_clash_meta()
+    if gen_meta:
+        generate_clash_meta()
 
     os.system('echo "重启 sing-box..."')
     os.system('systemctl start sing-box')
@@ -229,6 +234,7 @@ if __name__ == '__main__':
     os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb-ad.json\\033[0m"')
     os.system(f'echo ""')
 
-    os.system(f'echo "\\e[1;33mClash.Meta\\033[0m"')
-    os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/meta.yaml\\033[0m"')
-    os.system(f'echo ""')
+    if gen_meta:
+        os.system(f'echo "\\e[1;33mClash.Meta\\033[0m"')
+        os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/meta.yaml\\033[0m"')
+        os.system(f'echo ""')
