@@ -242,5 +242,6 @@ if __name__ == '__main__':
         central_url = f'http://{central_api}/api/hello'
         response = requests.get(central_url)
         if response.status_code == 200:
-            data = response.json()
-            print(data)
+            os.system(f'echo ""')
+            os.system(f'echo "\\e[1;33m推送到 Central API 成功 ({central_url})\\033[0m"')
+            os.system(f'echo ""')
