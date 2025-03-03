@@ -221,17 +221,10 @@ if __name__ == '__main__':
     os.system('systemctl enable nginx')
     os.system('clear')
 
-    os.system(f'echo "\\e[1;33msing-box\\033[0m"')
-    os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb.json\\033[0m"')
-    os.system(f'echo ""')
-
-    os.system(f'echo "\\e[1;33msing-box-ad 客户端文件下载地址\\033[0m"')
-    os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/sb-ad.json\\033[0m"')
-    os.system(f'echo ""')
-
-    # os.system(f'echo "\\e[1;33mClash.Meta\\033[0m"')
-    # os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/meta.yaml\\033[0m"')
-    # os.system(f'echo ""')
+    if not central_api:
+        os.system(f'echo "\\e[1;33mClash.Meta\\033[0m"')
+        os.system(f'echo "\\e[1;32mhttp://{server_ip}/{www_dir_random_id}/meta.yaml\\033[0m"')
+        os.system(f'echo ""')
 
     if central_api:
         nginx_www_dir = "/var/www/html/" + www_dir_random_id
