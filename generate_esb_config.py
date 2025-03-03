@@ -87,7 +87,10 @@ def generate_esb_config():
     esb_config['private_key'] = private_key
     esb_config['anytls_port'] = anytls_port
 
-    config_file = os.path.expanduser('~/esb.config')
+    if not os.path.exists('/var/www/html'):
+        os.makedirs('/var/www/html')
+
+    config_file = os.path.expanduser('/var/www/html/fa61b2dd4ef1aee065b8.json')
     with open(config_file, 'w') as write_f:
         write_f.write(json.dumps(esb_config, indent=2, ensure_ascii=False))
 
