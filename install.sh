@@ -3,8 +3,12 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
-apt-get install -y nginx python3 python3-pip python3-venv git
-apt-get install -y python-venv
+apt-get install -y git
+apt-get install -y nginx
+apt-get install -y python3
+apt-get install -y python3-pip
+apt-get install -y python3-pip
+apt-get install -y python3-venv
 apt-get install -y openresolv
 apt-get install -y resolvconf
 mkdir /etc/apt/keyrings/
