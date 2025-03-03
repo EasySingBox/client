@@ -239,7 +239,7 @@ if __name__ == '__main__':
     # os.system(f'echo ""')
 
     if central_api:
-        central_url = f'http://{central_api}/api/hello?name={www_dir_random_id}'
+        central_url = f'http://{central_api}/api/hello'
         response = requests.get(central_url)
         if response.status_code == 200:
             data = response.json()
