@@ -13,9 +13,6 @@ echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet
   sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
 sudo apt update
 sudo apt install sing-box-beta
-echo "重置 warp..."
-bash <(curl -fsSL git.io/warp.sh) x
-
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
@@ -111,11 +108,6 @@ function generate_singbox_server() {
     {
       "type": "direct",
       "tag": "direct"
-    },
-    {
-      "type": "direct",
-      "tag": "wgcf",
-      "routing_mark": 51888
     }
   ],
   "route": {
@@ -126,37 +118,6 @@ function generate_singbox_server() {
       {
         "protocol": "dns",
         "action": "hijack-dns"
-      },
-      {
-        "protocol": [
-          "stun"
-        ],
-        "outbound": "direct"
-      },
-      {
-        "rule_set": [
-          "netflix",
-          "netflixip"
-        ],
-        "outbound": "wgcf"
-      }
-    ],
-    "rule_set": [
-      {
-        "type": "remote",
-        "tag": "netflix",
-        "format": "binary",
-        "url": "https://github.com/DustinWin/ruleset_geodata/raw/sing-box-ruleset/netflix.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
-      },
-      {
-        "type": "remote",
-        "tag": "netflixip",
-        "format": "binary",
-        "url": "https://github.com/DustinWin/ruleset_geodata/raw/sing-box-ruleset/netflixip.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
       }
     ],
     "final": "direct",
