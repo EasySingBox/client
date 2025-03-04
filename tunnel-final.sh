@@ -19,36 +19,13 @@ echo "开始生成配置..."
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 
-function get_ip_info() {
+function generate_esb_config() {
     IP_INFO=$(curl -s -4 ip.network/more)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
     COUNTRY=$(echo "$IP_INFO" | jq -r .country)
     VPS_ORG=$(echo "$IP_INFO" | jq -r .asOrganization)
-}
-
-function generate_reality_keys() {
-    XRAY_OUT=$(sing-box generate reality-keypair)
-    PRIVATE_KEY=$(echo "$XRAY_OUT" | grep "PrivateKey" | awk '{print $2}')
-    PUBLIC_KEY=$(echo "$XRAY_OUT" | grep "PublicKey" | awk '{print $2}')
-}
-
-function generate_reality_sid() {
-    REALITY_SID=$(sing-box generate rand 4 --hex | tr -d '\n')
-}
-
-function generate_password() {
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
-}
-
-function generate_port() {
     ANYTLS_PORT=$1
-}
-
-function generate_esb_config() {
-    get_ip_info
-    generate_reality_keys
-    generate_reality_sid
-    generate_password
 
     cat <<EOF > "$CONFIG_FILE"
 {
