@@ -66,6 +66,15 @@ function generate_singbox_server() {
     "level": "error",
     "timestamp": true
   },
+  "dns": {
+    "servers": [
+      {
+        "type": "local"
+        "tag": "dns"
+      }
+    ],
+    "independent_cache": true
+  },
   "inbounds": [
     {
       "type": "anytls",
@@ -91,10 +100,13 @@ function generate_singbox_server() {
   "outbounds": [
     {
       "type": "direct",
-      "tag": "direct",
-      "domain_resolver": "direct"
+      "tag": "direct"
     }
-  ]
+  ],
+  "route": {
+    "final": "direct",
+    "default_domain_resolver": "dns"
+  }
 }
 EOF
 
