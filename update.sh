@@ -3,6 +3,13 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
+# 檢查是否提供了第一個參數
+if [ -z "$1" ]; then
+    echo "錯誤：第一個參數 CENTRAL_API 必須填寫！"
+    echo "使用方式: bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
+    exit 1
+fi
+
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
@@ -33,8 +40,8 @@ function generate_password() {
 
 function generate_port() {
     # 定義範圍
-    MIN=33202
-    MAX=33220
+    MIN=${2:-10000}
+    MAX=${3:-65535}
 
     # 用陣列來儲存隨機數
     numbers=()

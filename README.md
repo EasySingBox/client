@@ -3,11 +3,10 @@
 ### 安装 & 更新
 
 ```shell
-bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh?_=$(date +%s))
-
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 
 #update
-bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh?_=$(date +%s))
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 ```
 
 ### XanMod 内核的安装
