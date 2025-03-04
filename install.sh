@@ -6,8 +6,6 @@
 apt install -y git
 apt install -y nginx
 apt install -y jq
-apt install -y openresolv
-apt install -y resolvconf
 mkdir /etc/apt/keyrings/ > /dev/null
 # sing-box-beta
 sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
