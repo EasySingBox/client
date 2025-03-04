@@ -22,8 +22,6 @@ sudo apt update
 sudo apt install sing-box-beta
 
 CENTRAL_API=${1:-""}
-RANDOM_PORT_MIN=${2:-10000}
-RANDOM_PORT_MAX=${3:-65535}
 FINAL_SERVER_IP=${4}
 FINAL_SERVER_PORT=${5}
 FINAL_SERVER_PWD=${6}

@@ -14,9 +14,6 @@ echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet
 sudo apt update
 sudo apt install sing-box-beta
 
-RANDOM_PORT_MIN=${1:-10000}
-RANDOM_PORT_MAX=${2:-65535}
-
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
@@ -46,8 +43,8 @@ function generate_password() {
 
 function generate_port() {
     # 定義範圍
-    MIN=${2:-10000}
-    MAX=${3:-65535}
+    MIN=${1:-10000}
+    MAX=${2:-65535}
 
     # 用陣列來儲存隨機數
     numbers=()
