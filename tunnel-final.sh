@@ -16,9 +16,6 @@ sudo apt install sing-box-beta
 
 RANDOM_PORT_MIN=${1:-10000}
 RANDOM_PORT_MAX=${2:-65535}
-FINAL_SERVER_IP=${3}
-FINAL_SERVER_PORT=${4}
-FINAL_SERVER_PWD=${5}
 
 echo "开始生成配置..."
 
