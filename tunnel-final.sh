@@ -69,7 +69,7 @@ function generate_singbox_server() {
   "dns": {
     "servers": [
       {
-        "type": "local"
+        "type": "local",
         "tag": "dns"
       }
     ],
