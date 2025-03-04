@@ -122,7 +122,7 @@ function generate_singbox_server() {
     "servers": [
       {
         "type": "https",
-        "server": "$SERVER_IP",
+        "server": "cloudflare-dns.com",
         "domain_resolver": "dns-resolver",
         "tag": "dns"
       },
@@ -235,7 +235,10 @@ function generate_singbox_server() {
         "key_path": "/etc/sing-box/private.key"
       }
     }
-  ]
+  ],
+  "route": {
+    "default_domain_resolver": "dns"
+  }
 }
 EOF
 
