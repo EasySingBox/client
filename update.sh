@@ -152,7 +152,7 @@ function generate_singbox_server() {
         }
       ],
       "tls": {
-        "enabled": false,
+        "enabled": true,
         "alpn": "h3",
         "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
         "key_path": "$SING_BOX_CONFIG_DIR/private.key"
@@ -182,7 +182,7 @@ function generate_singbox_server() {
       ],
       "congestion_control": "bbr",
       "tls": {
-        "enabled": false,
+        "enabled": true,
         "alpn": "h3",
         "certificate_path": "/etc/sing-box/cert.pem",
         "key_path": "/etc/sing-box/private.key"
@@ -202,7 +202,7 @@ function generate_singbox_server() {
         }
       ],
       "tls": {
-        "enabled": false,
+        "enabled": true,
         "server_name": "yahoo.com",
         "reality": {
           "enabled": true,
@@ -229,17 +229,8 @@ function generate_singbox_server() {
         }
       ],
       "tls": {
-        "enabled": false,
-        "server_name": "yahoo.com",
-        "reality": {
-          "enabled": true,
-          "handshake": {
-            "server": "yahoo.com",
-            "server_port": 443
-          },
-          "private_key": "$PRIVATE_KEY",
-          "short_id": "$REALITY_SID"
-        }
+        "enabled": true,
+        "server_name": "yahoo.com"
       }
     }
   ]
