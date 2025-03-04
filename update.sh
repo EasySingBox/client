@@ -285,6 +285,7 @@ function generate_singbox_server() {
         "tag": "netflix",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/raw/sing-box-ruleset/netflix.srs",
+        "download_detour": "direct",
         "update_interval": "24h0m0s"
       },
       {
@@ -292,6 +293,7 @@ function generate_singbox_server() {
         "tag": "netflixip",
         "format": "binary",
         "url": "https://github.com/DustinWin/ruleset_geodata/raw/sing-box-ruleset/netflixip.srs",
+        "download_detour": "direct",
         "update_interval": "24h0m0s"
       }
     ],
