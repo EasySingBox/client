@@ -228,6 +228,8 @@ echo -e "\e[1;32mhttp://$SERVER_IP/$WWW_DIR_RANDOM_ID/meta.yaml\033[0m"
 
 if [[ -n "$1" ]]; then
     CENTRAL_API="$1"
+
+    cp $CONFIG_FILE $NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID/
     RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://$CENTRAL_API/api/hello?name=$WWW_DIR_RANDOM_ID")
     if [[ "$RESPONSE_CODE" == "200" ]]; then
         echo -e "\e[1;32m推送到 Central API 成功 ($CENTRAL_API)\033[0m"
