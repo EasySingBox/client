@@ -163,6 +163,44 @@ EOF
 
 function generate_clash_meta() {
     [[ ! -d "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID" ]] && mkdir -p "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID"
+
+    cat <<EOF > "$NGINX_WWW_DIR/du.yaml"
+mode: rule
+ipv6: true
+log-level: silent
+allow-lan: false
+mixed-port: 7890
+unified-delay: true
+tcp-concurrent: true
+external-controller: :9090
+
+dns:
+  default-nameserver:
+    - 119.29.29.29
+    - 'https://1.1.1.1/dns-query'
+    - 8.8.8.8
+  nameserver:
+    - 119.29.29.29
+    - https://doh.pub/dns-query
+
+proxies:
+  - type: vless
+    cipher: none
+    name: "德国精品路线"
+    server: "$SERVER_IP"
+    port: $REALITY_PORT
+    udp: true
+    uuid: "$PASSWORD"
+    network: tcp
+    flow: xtls-rprx-vision
+    reality-opts:
+      public-key: "$PUBLIC_KEY"
+      short-id: "$REALITY_SID"
+    tls: true
+    servername: "yahoo.com"
+    client-fingerprint: "firefox"
+EOF
+
     wget -O "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID/geoip.dat" https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
     wget -O "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID/geosite.dat" https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
     wget -O "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID/Country.mmdb" https://github.com/Loyalsoldier/geoip/raw/refs/heads/release/Country.mmdb
@@ -174,7 +212,7 @@ fi
 
 load_esb_config
 generate_singbox_server
-#generate_clash_meta
+generate_clash_meta
 
 echo "重启 sing-box..."
 systemctl restart sing-box
@@ -187,3 +225,11 @@ systemctl enable nginx
 clear
 echo -e "\e[1;33mClash.Meta\033[0m"
 echo -e "\e[1;32mhttp://$SERVER_IP/$WWW_DIR_RANDOM_ID/meta.yaml\033[0m"
+
+if [[ -n "$1" ]]; then
+    CENTRAL_API="$1"
+    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://$CENTRAL_API/api/hello?name=$WWW_DIR_RANDOM_ID")
+    if [[ "$RESPONSE_CODE" == "200" ]]; then
+        echo -e "\e[1;32m推送到 Central API 成功 ($CENTRAL_API)\033[0m"
+    fi
+fi
