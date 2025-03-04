@@ -38,11 +38,10 @@ function generate_reality_sid() {
 
 function generate_password() {
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
-    H2_OBFS_PASSWORD=$(sing-box generate uuid | tr -d '\n')
 }
 
 function generate_port() {
-    ANYTLS_PORT=${1:-10000}
+    ANYTLS_PORT=$1
 }
 
 function generate_esb_config() {
@@ -50,7 +49,6 @@ function generate_esb_config() {
     generate_reality_keys
     generate_reality_sid
     generate_password
-    generate_port
 
     cat <<EOF > "$CONFIG_FILE"
 {
