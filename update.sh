@@ -28,6 +28,7 @@ function generate_reality_sid() {
 
 function generate_password() {
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
+    H2_OBFS_PASSWORD=$(sing-box generate uuid | tr -d '\n')
 }
 
 function generate_port() {
@@ -50,6 +51,7 @@ function generate_esb_config() {
   "vps_org": "$VPS_ORG",
   "country": "$COUNTRY",
   "password": "$PASSWORD",
+  "h2_obfs_password": "$H2_OBFS_PASSWORD",
   "h2_port": $H2_PORT,
   "tuic_port": $TUIC_PORT,
   "reality_port": $REALITY_PORT,
@@ -67,6 +69,7 @@ function load_esb_config() {
         VPS_ORG=$(jq -r .vps_org "$CONFIG_FILE")
         COUNTRY=$(jq -r .country "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
+        H2_OBFS_PASSWORD=$(jq -r .h2_obfs_password "$CONFIG_FILE")
         H2_PORT=$(jq -r .h2_port "$CONFIG_FILE")
         TUIC_PORT=$(jq -r .tuic_port "$CONFIG_FILE")
         REALITY_PORT=$(jq -r .reality_port "$CONFIG_FILE")
@@ -134,6 +137,15 @@ function generate_singbox_server() {
         "alpn": "h3",
         "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
         "key_path": "$SING_BOX_CONFIG_DIR/private.key"
+      },
+      "obfs": {
+        "type": "salamander",
+        "password": "$H2_OBFS_PASSWORD"
+      },
+      "masquerade": {
+        "type": "string",
+        "status_code": 500,
+        "content": "The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error with request ID: 839-234."
       }
     }
   ]
