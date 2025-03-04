@@ -18,7 +18,7 @@ echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
-ANYTLS_PORT=${1:-31315}
+SERVER_PORT=${1}
 
 function generate_esb_config() {
     IP_INFO=$(curl -s -4 ip.network/more)
@@ -26,7 +26,7 @@ function generate_esb_config() {
     COUNTRY=$(echo "$IP_INFO" | jq -r .country)
     VPS_ORG=$(echo "$IP_INFO" | jq -r .asOrganization)
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
-
+    ANYTLS_PORT=$SERVER_PORT
     cat <<EOF > "$CONFIG_FILE"
 {
   "server_ip": "$SERVER_IP",
