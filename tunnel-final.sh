@@ -42,29 +42,7 @@ function generate_password() {
 }
 
 function generate_port() {
-    # 定義範圍
-    MIN=${1:-10000}
-    MAX=${2:-65535}
-
-    # 用陣列來儲存隨機數
-    numbers=()
-
-    # 迴圈生成 4 個不重複的隨機數
-    while [ ${#numbers[@]} -lt 4 ]; do
-        # 生成範圍內的隨機數
-        num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
-
-        # 檢查是否已存在該數字
-        if [[ ! " ${numbers[@]} " =~ " $num " ]]; then
-            numbers+=($num)
-        fi
-    done
-
-    # 將隨機數賦值給變量
-    H2_PORT=${numbers[0]}
-    TUIC_PORT=${numbers[1]}
-    REALITY_PORT=${numbers[2]}
-    ANYTLS_PORT=${numbers[3]}
+    ANYTLS_PORT=${1:-10000}
 }
 
 function generate_esb_config() {
@@ -80,11 +58,6 @@ function generate_esb_config() {
   "vps_org": "$VPS_ORG",
   "country": "$COUNTRY",
   "password": "$PASSWORD",
-  "h2_obfs_password": "$H2_OBFS_PASSWORD",
-  "h2_port": $H2_PORT,
-  "tuic_port": $TUIC_PORT,
-  "reality_port": $REALITY_PORT,
-  "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
   "private_key": "$PRIVATE_KEY",
   "anytls_port": $ANYTLS_PORT
@@ -98,11 +71,6 @@ function load_esb_config() {
         VPS_ORG=$(jq -r .vps_org "$CONFIG_FILE")
         COUNTRY=$(jq -r .country "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
-        H2_OBFS_PASSWORD=$(jq -r .h2_obfs_password "$CONFIG_FILE")
-        H2_PORT=$(jq -r .h2_port "$CONFIG_FILE")
-        TUIC_PORT=$(jq -r .tuic_port "$CONFIG_FILE")
-        REALITY_PORT=$(jq -r .reality_port "$CONFIG_FILE")
-        REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
         PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
         PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
         ANYTLS_PORT=$(jq -r .anytls_port "$CONFIG_FILE")

@@ -9,7 +9,7 @@ bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh) <CENT
 bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 
 #中继
-bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-final.sh) [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-final.sh) [SERVER_PORT]
 bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-middle.sh) <CENTRAL_API> <RANDOM_PORT_MIN> <RANDOM_PORT_MAX> <RANDOM_PORT_MAX> <FINAL_SERVER_IP> <FINAL_SERVER_PORT> <FINAL_SERVER_PWD>
 ```
 
