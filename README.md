@@ -3,14 +3,14 @@
 ### 安装 & 更新
 
 ```shell
-bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 
 #update
-bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 
 #中继
-bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-final.sh) [SERVER_PORT]
-bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-middle.sh) <CENTRAL_API> <RANDOM_PORT_MIN> <RANDOM_PORT_MAX> <RANDOM_PORT_MAX> <FINAL_SERVER_IP> <FINAL_SERVER_PORT> <FINAL_SERVER_PWD>
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-final.sh?_=$(date +%s)) [SERVER_PORT]
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-middle.sh?_=$(date +%s)) <CENTRAL_API> <RANDOM_PORT_MIN> <RANDOM_PORT_MAX> <RANDOM_PORT_MAX> <FINAL_SERVER_IP> <FINAL_SERVER_PORT> <FINAL_SERVER_PWD>
 ```
 
 ### XanMod 内核的安装

@@ -25,7 +25,7 @@ function generate_esb_config() {
     COUNTRY=$(echo "$IP_INFO" | jq -r .country)
     VPS_ORG=$(echo "$IP_INFO" | jq -r .asOrganization)
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
-    ANYTLS_PORT=$1
+    ANYTLS_PORT=${1:-31315}
 
     cat <<EOF > "$CONFIG_FILE"
 {
