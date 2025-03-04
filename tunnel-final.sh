@@ -108,7 +108,8 @@ function generate_singbox_server() {
   "outbounds": [
     {
       "type": "direct",
-      "tag": "direct"
+      "tag": "direct",
+      "bind_interface": "eth0"
     }
   ],
   "route": {
