@@ -33,8 +33,6 @@ function generate_esb_config() {
   "vps_org": "$VPS_ORG",
   "country": "$COUNTRY",
   "password": "$PASSWORD",
-  "public_key": "$PUBLIC_KEY",
-  "private_key": "$PRIVATE_KEY",
   "anytls_port": $ANYTLS_PORT
 }
 EOF
@@ -46,8 +44,6 @@ function load_esb_config() {
         VPS_ORG=$(jq -r .vps_org "$CONFIG_FILE")
         COUNTRY=$(jq -r .country "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
-        PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
-        PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
         ANYTLS_PORT=$(jq -r .anytls_port "$CONFIG_FILE")
     else
         generate_esb_config
