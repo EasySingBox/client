@@ -77,6 +77,7 @@ function generate_singbox_server() {
       {
         "type": "udp",
         "server": "1.1.1.1",
+        "detour": "direct",
         "tag": "dns-resolver"
       }
     ],
