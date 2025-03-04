@@ -18,7 +18,7 @@ echo "开始生成配置..."
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 ANYTLS_PORT=${1:-31315}
-
+echo "ANYTLS_PORT: $ANYTLS_PORT"
 function generate_esb_config() {
     IP_INFO=$(curl -s -4 ip.network/more)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)

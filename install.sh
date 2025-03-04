@@ -10,6 +10,14 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+CENTRAL_API=${1:-""}
+RANDOM_PORT_MIN=${2:-10000}
+RANDOM_PORT_MAX=${3:-65535}
+
+echo "CENTRAL_API: $CENTRAL_API"
+echo "RANDOM_PORT_MIN: $RANDOM_PORT_MIN"
+echo "RANDOM_PORT_MAX: $RANDOM_PORT_MAX"
+
 apt install -y git
 apt install -y jq
 mkdir /etc/apt/keyrings/ > /dev/null
@@ -22,9 +30,4 @@ sudo apt update
 sudo apt install sing-box-beta
 echo "重置 warp..."
 bash <(curl -fsSL git.io/warp.sh) x
-
-CENTRAL_API=${1:-""}
-RANDOM_PORT_MIN=${2:-10000}
-RANDOM_PORT_MAX=${3:-65535}
-
 bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX

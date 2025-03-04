@@ -15,7 +15,12 @@ echo "开始生成配置..."
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 NGINX_WWW_DIR="/var/www/html"
-
+CENTRAL_API="$1"
+MIN=${2:-10000}
+MAX=${3:-65535}
+echo "CENTRAL_API: $CENTRAL_API"
+echo "RANDOM_PORT_MIN: $MIN"
+echo "RANDOM_PORT_MAX: $MAX"
 function get_ip_info() {
     IP_INFO=$(curl -s -4 ip.network/more)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
@@ -40,8 +45,6 @@ function generate_password() {
 
 function generate_port() {
     # 定義範圍
-    MIN=${2:-10000}
-    MAX=${3:-65535}
 
     # 用陣列來儲存隨機數
     numbers=()
@@ -324,10 +327,7 @@ systemctl enable nginx
 clear
 echo -e "\e[1;33mSuccess!\033[0m"
 
-if [[ -n "$1" ]]; then
-    CENTRAL_API="$1"
-    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
-    if [[ "$RESPONSE_CODE" == "200" ]]; then
-        echo "推送到 Central API 成功 ($CENTRAL_API)"
-    fi
+RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
+if [[ "$RESPONSE_CODE" == "200" ]]; then
+    echo "推送到 Central API 成功 ($CENTRAL_API)"
 fi
