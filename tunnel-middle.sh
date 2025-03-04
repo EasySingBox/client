@@ -6,15 +6,32 @@
 # 檢查是否提供了第一個參數
 if [ -z "$1" ]; then
     echo "錯誤：第一個參數 CENTRAL_API 必須填寫！"
-    echo "使用方式: bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
+    echo "使用方式: bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-middle.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
     exit 1
 fi
+
+apt install -y git
+apt install -y jq
+mkdir /etc/apt/keyrings/ > /dev/null
+# sing-box-beta
+sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
+sudo chmod a+r /etc/apt/keyrings/sagernet.asc
+echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *" | \
+  sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
+sudo apt update
+sudo apt install sing-box-beta
+
+CENTRAL_API=${1:-""}
+RANDOM_PORT_MIN=${2:-10000}
+RANDOM_PORT_MAX=${3:-65535}
+FINAL_SERVER_IP=${4}
+FINAL_SERVER_PORT=${5}
+FINAL_SERVER_PWD=${6}
 
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
-NGINX_WWW_DIR="/var/www/html"
 
 function get_ip_info() {
     IP_INFO=$(curl -s -4 ip.network/more)
@@ -246,56 +263,40 @@ function generate_singbox_server() {
   "outbounds": [
     {
       "type": "direct",
-      "tag": "direct",
-      "domain_strategy": "ipv4_only"
+      "tag": "direct"
     },
     {
-      "type": "direct",
-      "tag": "wgcf",
-      "routing_mark": 51888,
-      "domain_strategy": "ipv6_only"
+      "type": "anytls",
+      "tag": "tunnel-final",
+      "server": "$FINAL_SERVER_IP",
+      "server_port": $FINAL_SERVER_PORT,
+      "password": "$FINAL_SERVER_PWD",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.bing.com",
+        "insecure": true,
+        "alpn": [
+          "h3"
+        ]
+      },
+      "tcp_fast_open": true,
+      "udp_fragment": true,
+      "tcp_multi_path": false
     }
   ],
   "route": {
     "rules": [
       {
-        "action": "sniff"
-      },
-      {
-        "protocol": "dns",
-        "action": "hijack-dns"
-      },
-      {
-        "protocol": [
-          "stun"
+        "inbound": [
+          "hy2",
+          "tuic5",
+          "vless",
+          "anytls"
         ],
-        "outbound": "direct"
-      },
-      {
-        "rule_set": [
-          "netflix",
-          "netflixip"
-        ],
-        "outbound": "wgcf"
+        "outbound": "tunnel-final"
       }
     ],
-    "rule_set": [
-      {
-        "type": "remote",
-        "tag": "netflix",
-        "format": "binary",
-        "url": "https://github.com/DustinWin/ruleset_geodata/raw/sing-box-ruleset/netflix.srs",
-        "update_interval": "24h0m0s"
-      },
-      {
-        "type": "remote",
-        "tag": "netflixip",
-        "format": "binary",
-        "url": "https://github.com/DustinWin/ruleset_geodata/raw/sing-box-ruleset/netflixip.srs",
-        "update_interval": "24h0m0s"
-      }
-    ],
-    "final": "direct",
+    "final": "tunnel-final",
     "default_domain_resolver": "dns"
   }
 }

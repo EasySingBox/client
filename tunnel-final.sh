@@ -3,18 +3,27 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
-# 檢查是否提供了第一個參數
-if [ -z "$1" ]; then
-    echo "錯誤：第一個參數 CENTRAL_API 必須填寫！"
-    echo "使用方式: bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
-    exit 1
-fi
+apt install -y git
+apt install -y jq
+mkdir /etc/apt/keyrings/ > /dev/null
+# sing-box-beta
+sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
+sudo chmod a+r /etc/apt/keyrings/sagernet.asc
+echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *" | \
+  sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
+sudo apt update
+sudo apt install sing-box-beta
+
+RANDOM_PORT_MIN=${1:-10000}
+RANDOM_PORT_MAX=${2:-65535}
+FINAL_SERVER_IP=${3}
+FINAL_SERVER_PORT=${4}
+FINAL_SERVER_PWD=${5}
 
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
-NGINX_WWW_DIR="/var/www/html"
 
 function get_ip_info() {
     IP_INFO=$(curl -s -4 ip.network/more)
@@ -139,89 +148,9 @@ function generate_singbox_server() {
         "tag": "dns-resolver"
       }
     ],
-    "independent_cache": true,
-    "strategy": "ipv4_only"
+    "independent_cache": true
   },
   "inbounds": [
-    {
-      "type": "hysteria2",
-      "tag": "hy2",
-      "listen": "::",
-      "listen_port": $H2_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "up_mbps": 500,
-      "down_mbps": 500,
-      "users": [
-        {
-          "name": "user-jacob",
-          "password": "$PASSWORD"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
-        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
-      },
-      "obfs": {
-        "type": "salamander",
-        "password": "$H2_OBFS_PASSWORD"
-      },
-      "masquerade": {
-        "type": "string",
-        "status_code": 500,
-        "content": "The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error with request ID: 839-234."
-      }
-    },
-    {
-      "type": "tuic",
-      "tag": "tuic5",
-      "listen": "::",
-      "listen_port": $TUIC_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "users": [
-        {
-          "uuid": "$PASSWORD",
-          "password": "$PASSWORD"
-        }
-      ],
-      "congestion_control": "bbr",
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "/etc/sing-box/cert.pem",
-        "key_path": "/etc/sing-box/private.key"
-      }
-    },
-    {
-      "type": "vless",
-      "tag": "vless",
-      "listen": "::",
-      "listen_port": $REALITY_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "users": [
-        {
-          "uuid": "$PASSWORD",
-          "flow": "xtls-rprx-vision"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "server_name": "yahoo.com",
-        "reality": {
-          "enabled": true,
-          "handshake": {
-            "server": "yahoo.com",
-            "server_port": 443
-          },
-          "private_key": "$PRIVATE_KEY",
-          "short_id": "$REALITY_SID"
-        }
-      }
-    },
     {
       "type": "anytls",
       "tag": "anytls",
@@ -246,14 +175,12 @@ function generate_singbox_server() {
   "outbounds": [
     {
       "type": "direct",
-      "tag": "direct",
-      "domain_strategy": "ipv4_only"
+      "tag": "direct"
     },
     {
       "type": "direct",
       "tag": "wgcf",
-      "routing_mark": 51888,
-      "domain_strategy": "ipv6_only"
+      "routing_mark": 51888
     }
   ],
   "route": {
@@ -315,17 +242,5 @@ echo "重启 sing-box..."
 systemctl restart sing-box
 systemctl enable sing-box
 
-echo "重启 nginx..."
-systemctl restart nginx
-systemctl enable nginx
-
 clear
 echo -e "\e[1;33mSuccess!\033[0m"
-
-if [[ -n "$1" ]]; then
-    CENTRAL_API="$1"
-    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
-    if [[ "$RESPONSE_CODE" == "200" ]]; then
-        echo "推送到 Central API 成功 ($CENTRAL_API)"
-    fi
-fi
