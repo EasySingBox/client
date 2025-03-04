@@ -80,7 +80,8 @@ function generate_singbox_server() {
         "tag": "dns-resolver"
       }
     ],
-    "independent_cache": true
+    "independent_cache": true,
+    "strategy": "ipv4_only"
   },
   "inbounds": [
     {
