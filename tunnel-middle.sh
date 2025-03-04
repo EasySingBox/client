@@ -269,10 +269,12 @@ function generate_singbox_server() {
       "tag": "direct"
     },
     {
-      "type": "anytls",
+      "type": "hysteria2",
       "tag": "tunnel-final",
       "server": "$FINAL_SERVER_IP",
       "server_port": $FINAL_SERVER_PORT,
+      "up_mbps": 1000,
+      "down_mbps": 1000,
       "password": "$FINAL_SERVER_PWD",
       "tls": {
         "enabled": true,
