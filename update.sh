@@ -32,10 +32,29 @@ function generate_password() {
 }
 
 function generate_port() {
-    H2_PORT=$((RANDOM % 64536 + 9000))
-    TUIC_PORT=$((RANDOM % 64536 + 9000))
-    REALITY_PORT=$((RANDOM % 64536 + 9000))
-    ANYTLS_PORT=$((RANDOM % 64536 + 9000))
+    # 定義範圍
+    MIN=33202
+    MAX=33220
+
+    # 用陣列來儲存隨機數
+    numbers=()
+
+    # 迴圈生成 4 個不重複的隨機數
+    while [ ${#numbers[@]} -lt 4 ]; do
+        # 生成範圍內的隨機數
+        num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
+
+        # 檢查是否已存在該數字
+        if [[ ! " ${numbers[@]} " =~ " $num " ]]; then
+            numbers+=($num)
+        fi
+    done
+
+    # 將隨機數賦值給變量
+    H2_PORT=${numbers[0]}
+    TUIC_PORT=${numbers[1]}
+    REALITY_PORT=${numbers[2]}
+    ANYTLS_PORT=${numbers[3]}
 }
 
 function generate_esb_config() {
