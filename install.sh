@@ -4,7 +4,6 @@
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
 apt install -y git
-apt install -y nginx
 apt install -y jq
 mkdir /etc/apt/keyrings/ > /dev/null
 # sing-box-beta

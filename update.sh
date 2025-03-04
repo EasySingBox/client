@@ -43,14 +43,12 @@ function generate_esb_config() {
     generate_reality_sid
     generate_password
     generate_port
-    WWW_DIR_RANDOM_ID=$(cat /proc/sys/kernel/random/uuid | cut -c 1-6)
 
     cat <<EOF > "$CONFIG_FILE"
 {
   "server_ip": "$SERVER_IP",
   "vps_org": "$VPS_ORG",
   "country": "$COUNTRY",
-  "www_dir_random_id": "$WWW_DIR_RANDOM_ID",
   "password": "$PASSWORD",
   "h2_port": $H2_PORT,
   "tuic_port": $TUIC_PORT,
@@ -68,7 +66,6 @@ function load_esb_config() {
         SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE")
         VPS_ORG=$(jq -r .vps_org "$CONFIG_FILE")
         COUNTRY=$(jq -r .country "$CONFIG_FILE")
-        WWW_DIR_RANDOM_ID=$(jq -r .www_dir_random_id "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
         H2_PORT=$(jq -r .h2_port "$CONFIG_FILE")
         TUIC_PORT=$(jq -r .tuic_port "$CONFIG_FILE")
@@ -87,7 +84,6 @@ function generate_singbox_server() {
     load_esb_config
 
     [[ ! -d "/var/www/html" ]] && mkdir -p "/var/www/html"
-    rm -rf $NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
 
@@ -147,58 +143,12 @@ EOF
     systemctl restart sing-box
 }
 
-function generate_clash_meta() {
-    [[ ! -d "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID" ]] && mkdir -p "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID"
-
-    cat <<EOF > "$NGINX_WWW_DIR/du.yaml"
-mode: rule
-ipv6: true
-log-level: silent
-allow-lan: false
-mixed-port: 7890
-unified-delay: true
-tcp-concurrent: true
-external-controller: :9090
-
-dns:
-  default-nameserver:
-    - 119.29.29.29
-    - 'https://1.1.1.1/dns-query'
-    - 8.8.8.8
-  nameserver:
-    - 119.29.29.29
-    - https://doh.pub/dns-query
-
-proxies:
-  - type: vless
-    cipher: none
-    name: "德国精品路线"
-    server: "$SERVER_IP"
-    port: $REALITY_PORT
-    udp: true
-    uuid: "$PASSWORD"
-    network: tcp
-    flow: xtls-rprx-vision
-    reality-opts:
-      public-key: "$PUBLIC_KEY"
-      short-id: "$REALITY_SID"
-    tls: true
-    servername: "yahoo.com"
-    client-fingerprint: "firefox"
-EOF
-
-    wget -O "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID/geoip.dat" https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
-    wget -O "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID/geosite.dat" https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
-    wget -O "$NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID/Country.mmdb" https://github.com/Loyalsoldier/geoip/raw/refs/heads/release/Country.mmdb
-}
-
 if [[ ! -f "$CONFIG_FILE" ]]; then
     generate_esb_config
 fi
 
 load_esb_config
 generate_singbox_server
-generate_clash_meta
 
 echo "重启 sing-box..."
 systemctl restart sing-box
@@ -209,15 +159,12 @@ systemctl restart nginx
 systemctl enable nginx
 
 clear
-echo -e "\e[1;33mClash.Meta\033[0m"
-echo -e "\e[1;32mhttp://$SERVER_IP/$WWW_DIR_RANDOM_ID/meta.yaml\033[0m"
+echo -e "\e[1;33mSuccess!\033[0m"
 
 if [[ -n "$1" ]]; then
     CENTRAL_API="$1"
-
-    cp $CONFIG_FILE $NGINX_WWW_DIR/$WWW_DIR_RANDOM_ID/
-    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://$CENTRAL_API/api/hello?name=$WWW_DIR_RANDOM_ID")
+    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -F "config=@$CONFIG_FILE")
     if [[ "$RESPONSE_CODE" == "200" ]]; then
-        echo -e "\e[1;32m推送到 Central API 成功 ($CENTRAL_API)\033[0m"
+        echo "推送到 Central API 成功 ($CENTRAL_API)"
     fi
 fi
