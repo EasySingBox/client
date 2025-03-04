@@ -17,8 +17,8 @@ echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
-ANYTLS_PORT=${1:-31315}
-echo "ANYTLS_PORT: $ANYTLS_PORT"
+SERVER_PORT=${1:-31315}
+echo "SERVER_PORT: $SERVER_PORT"
 function generate_esb_config() {
     IP_INFO=$(curl -s -4 ip.network/more)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
@@ -32,7 +32,7 @@ function generate_esb_config() {
   "vps_org": "$VPS_ORG",
   "country": "$COUNTRY",
   "password": "$PASSWORD",
-  "anytls_port": $ANYTLS_PORT
+  "server_port": $SERVER_PORT
 }
 EOF
 }
@@ -43,7 +43,7 @@ function load_esb_config() {
         VPS_ORG=$(jq -r .vps_org "$CONFIG_FILE")
         COUNTRY=$(jq -r .country "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
-        ANYTLS_PORT=$(jq -r .anytls_port "$CONFIG_FILE")
+        SERVER_PORT=$(jq -r .server_port "$CONFIG_FILE")
     else
         generate_esb_config
         load_esb_config
@@ -77,23 +77,25 @@ function generate_singbox_server() {
   },
   "inbounds": [
     {
-      "type": "anytls",
-      "tag": "anytls",
+      "type": "hysteria2",
+      "tag": "hy2",
       "listen": "::",
-      "listen_port": $ANYTLS_PORT,
+      "listen_port": $SERVER_PORT,
       "sniff": true,
       "sniff_override_destination": true,
+      "up_mbps": 500,
+      "down_mbps": 500,
       "users": [
         {
-          "name": "$PASSWORD",
+          "name": "user-jacob",
           "password": "$PASSWORD"
         }
       ],
       "tls": {
         "enabled": true,
         "alpn": "h3",
-        "certificate_path": "/etc/sing-box/cert.pem",
-        "key_path": "/etc/sing-box/private.key"
+        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
+        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
       }
     }
   ],
