@@ -6,8 +6,8 @@
 bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh?_=$(date +%s))
 
 
-#with Clash.Meta
-bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/install.sh?_=$(date +%s)) gen_meta
+#update
+bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh?_=$(date +%s))
 ```
 
 ### XanMod 内核的安装
