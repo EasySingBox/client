@@ -163,7 +163,7 @@ echo -e "\e[1;33mSuccess!\033[0m"
 
 if [[ -n "$1" ]]; then
     CENTRAL_API="$1"
-    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -F "config=@$CONFIG_FILE")
+    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
     if [[ "$RESPONSE_CODE" == "200" ]]; then
         echo "推送到 Central API 成功 ($CENTRAL_API)"
     fi
