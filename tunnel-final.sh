@@ -66,24 +66,6 @@ function generate_singbox_server() {
     "level": "error",
     "timestamp": true
   },
-  "dns": {
-    "servers": [
-      {
-        "type": "https",
-        "server": "cloudflare-dns.com",
-        "domain_resolver": "dns-resolver",
-        "tag": "dns"
-      },
-      {
-        "type": "udp",
-        "server": "1.1.1.1",
-        "detour": "direct",
-        "tag": "dns-resolver"
-      }
-    ],
-    "independent_cache": true,
-    "strategy": "ipv4_only"
-  },
   "inbounds": [
     {
       "type": "anytls",
@@ -111,20 +93,7 @@ function generate_singbox_server() {
       "type": "direct",
       "tag": "direct"
     }
-  ],
-  "route": {
-    "rules": [
-      {
-        "action": "sniff"
-      },
-      {
-        "protocol": "dns",
-        "action": "hijack-dns"
-      }
-    ],
-    "final": "direct",
-    "default_domain_resolver": "dns"
-  }
+  ]
 }
 EOF
 
