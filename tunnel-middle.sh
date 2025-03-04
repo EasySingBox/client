@@ -25,6 +25,7 @@ CENTRAL_API=${1:-""}
 FINAL_SERVER_IP=${4}
 FINAL_SERVER_PORT=${5}
 FINAL_SERVER_PWD=${6}
+VPS_ORG=${7}
 
 echo "开始生成配置..."
 
@@ -35,7 +36,6 @@ function get_ip_info() {
     IP_INFO=$(curl -s -4 ip.network/more)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
     COUNTRY=$(echo "$IP_INFO" | jq -r .country)
-    VPS_ORG=$(echo "$IP_INFO" | jq -r .asOrganization)
 }
 
 function generate_reality_keys() {
