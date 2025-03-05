@@ -170,8 +170,8 @@ function generate_singbox_server() {
       "listen_port": $H2_PORT,
       "sniff": true,
       "sniff_override_destination": true,
-      "up_mbps": 500,
-      "down_mbps": 500,
+      "up_mbps": 10000,
+      "down_mbps": 10000,
       "users": [
         {
           "name": "user-jacob",
@@ -273,8 +273,8 @@ function generate_singbox_server() {
       "tag": "tunnel-final",
       "server": "$FINAL_SERVER_IP",
       "server_port": $FINAL_SERVER_PORT,
-      "up_mbps": 1000,
-      "down_mbps": 1000,
+      "up_mbps": 20000,
+      "down_mbps": 20000,
       "password": "$FINAL_SERVER_PWD",
       "tls": {
         "enabled": true,
