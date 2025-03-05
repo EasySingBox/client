@@ -83,8 +83,8 @@ function generate_singbox_server() {
       "listen_port": $SERVER_PORT,
       "sniff": true,
       "sniff_override_destination": true,
-      "up_mbps": 1000,
-      "down_mbps": 1000,
+      "up_mbps": 10000,
+      "down_mbps": 10000,
       "users": [
         {
           "name": "user-jacob",
