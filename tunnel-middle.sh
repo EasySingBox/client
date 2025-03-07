@@ -97,14 +97,11 @@ function generate_esb_config() {
   "vps_org": "$VPS_ORG",
   "country": "$COUNTRY",
   "password": "$PASSWORD",
-  "h2_obfs_password": "$H2_OBFS_PASSWORD",
-  "h2_port": $H2_PORT,
   "tuic_port": $TUIC_PORT,
   "reality_port": $REALITY_PORT,
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
-  "private_key": "$PRIVATE_KEY",
-  "anytls_port": $ANYTLS_PORT
+  "private_key": "$PRIVATE_KEY"
 }
 EOF
 }
