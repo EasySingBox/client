@@ -26,6 +26,7 @@ FINAL_SERVER_IP=${4}
 FINAL_SERVER_PORT=${5}
 FINAL_SERVER_PWD=${6}
 VPS_ORG=${7}
+COUNTRY=${8}
 
 echo "CENTRAL_API: $CENTRAL_API"
 echo "FINAL_SERVER_IP: $FINAL_SERVER_IP"
@@ -40,7 +41,9 @@ SING_BOX_CONFIG_DIR="/etc/sing-box"
 function get_ip_info() {
     IP_INFO=$(curl -s -4 ip.network/more)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
-    COUNTRY=$(echo "$IP_INFO" | jq -r .country)
+    if [[ -n "$8" ]]; then
+        COUNTRY=$(echo "$IP_INFO" | jq -r .country)
+    fi
 }
 
 function generate_reality_keys() {
@@ -55,7 +58,6 @@ function generate_reality_sid() {
 
 function generate_password() {
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
-    H2_OBFS_PASSWORD=$(sing-box generate uuid | tr -d '\n')
 }
 
 function generate_port() {
@@ -67,7 +69,7 @@ function generate_port() {
     numbers=()
 
     # 迴圈生成 4 個不重複的隨機數
-    while [ ${#numbers[@]} -lt 4 ]; do
+    while [ ${#numbers[@]} -lt 2 ]; do
         # 生成範圍內的隨機數
         num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
 
@@ -78,10 +80,8 @@ function generate_port() {
     done
 
     # 將隨機數賦值給變量
-    H2_PORT=${numbers[0]}
-    TUIC_PORT=${numbers[1]}
-    REALITY_PORT=${numbers[2]}
-    ANYTLS_PORT=${numbers[3]}
+    TUIC_PORT=${numbers[0]}
+    REALITY_PORT=${numbers[1]}
 }
 
 function generate_esb_config() {
@@ -112,17 +112,12 @@ EOF
 function load_esb_config() {
     if [[ -f "$CONFIG_FILE" ]]; then
         SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE")
-        VPS_ORG=$(jq -r .vps_org "$CONFIG_FILE")
-        COUNTRY=$(jq -r .country "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
-        H2_OBFS_PASSWORD=$(jq -r .h2_obfs_password "$CONFIG_FILE")
-        H2_PORT=$(jq -r .h2_port "$CONFIG_FILE")
         TUIC_PORT=$(jq -r .tuic_port "$CONFIG_FILE")
         REALITY_PORT=$(jq -r .reality_port "$CONFIG_FILE")
         REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
         PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
         PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
-        ANYTLS_PORT=$(jq -r .anytls_port "$CONFIG_FILE")
     else
         generate_esb_config
         load_esb_config
