@@ -269,12 +269,11 @@ function generate_singbox_server() {
       "tag": "direct"
     },
     {
-      "type": "hysteria2",
+      "type": "tuic",
       "tag": "tunnel-final",
       "server": "$FINAL_SERVER_IP",
       "server_port": $FINAL_SERVER_PORT,
-      "up_mbps": 20000,
-      "down_mbps": 20000,
+      "uuid": "$FINAL_SERVER_PWD",
       "password": "$FINAL_SERVER_PWD",
       "tls": {
         "enabled": true,

@@ -77,20 +77,19 @@ function generate_singbox_server() {
   },
   "inbounds": [
     {
-      "type": "hysteria2",
-      "tag": "hy2",
+      "type": "tuic",
+      "tag": "tuic5",
       "listen": "::",
       "listen_port": $SERVER_PORT,
       "sniff": true,
       "sniff_override_destination": true,
-      "up_mbps": 10000,
-      "down_mbps": 10000,
       "users": [
         {
-          "name": "user-jacob",
+          "uuid": "$PASSWORD",
           "password": "$PASSWORD"
         }
       ],
+      "congestion_control": "bbr",
       "tls": {
         "enabled": true,
         "alpn": "h3",
