@@ -28,23 +28,23 @@ FINAL_SERVER_PWD=${6}
 VPS_ORG=${7}
 COUNTRY=${8}
 
+IP_INFO=$(curl -s -4 ip.network/more)
+SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
+if [[ -n "$8" ]]; then
+    COUNTRY=$(echo "$IP_INFO" | jq -r .country)
+fi
+
 echo "CENTRAL_API: $CENTRAL_API"
 echo "FINAL_SERVER_IP: $FINAL_SERVER_IP"
 echo "FINAL_SERVER_PORT: $FINAL_SERVER_PORT"
 echo "FINAL_SERVER_PWD: $FINAL_SERVER_PWD"
+echo "VPS_ORG: $VPS_ORG"
+echo "COUNTRY: $COUNTRY"
 
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
-
-function get_ip_info() {
-    IP_INFO=$(curl -s -4 ip.network/more)
-    SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
-    if [[ -n "$8" ]]; then
-        COUNTRY=$(echo "$IP_INFO" | jq -r .country)
-    fi
-}
 
 function generate_reality_keys() {
     XRAY_OUT=$(sing-box generate reality-keypair)
@@ -85,7 +85,6 @@ function generate_port() {
 }
 
 function generate_esb_config() {
-    get_ip_info
     generate_reality_keys
     generate_reality_sid
     generate_password
