@@ -30,7 +30,7 @@ COUNTRY=${8}
 
 IP_INFO=$(curl -s -4 ip.network/more)
 SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
-if [[ -n "$8" ]]; then
+if [[ -z "$8" ]]; then
     COUNTRY=$(echo "$IP_INFO" | jq -r .country)
 fi
 
