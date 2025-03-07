@@ -147,37 +147,6 @@ function generate_singbox_server() {
   },
   "inbounds": [
     {
-      "type": "hysteria2",
-      "tag": "hy2",
-      "listen": "::",
-      "listen_port": $H2_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "up_mbps": 500,
-      "down_mbps": 500,
-      "users": [
-        {
-          "name": "user-jacob",
-          "password": "$PASSWORD"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
-        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
-      },
-      "obfs": {
-        "type": "salamander",
-        "password": "$H2_OBFS_PASSWORD"
-      },
-      "masquerade": {
-        "type": "string",
-        "status_code": 500,
-        "content": "The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error with request ID: 839-234."
-      }
-    },
-    {
       "type": "tuic",
       "tag": "tuic5",
       "listen": "::",
@@ -223,26 +192,6 @@ function generate_singbox_server() {
           "private_key": "$PRIVATE_KEY",
           "short_id": "$REALITY_SID"
         }
-      }
-    },
-    {
-      "type": "anytls",
-      "tag": "anytls",
-      "listen": "::",
-      "listen_port": $ANYTLS_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "users": [
-        {
-          "name": "$PASSWORD",
-          "password": "$PASSWORD"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "/etc/sing-box/cert.pem",
-        "key_path": "/etc/sing-box/private.key"
       }
     }
   ],
