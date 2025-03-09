@@ -28,6 +28,4 @@ echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet
   sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
 sudo apt update
 sudo apt install sing-box-beta
-echo "重置 warp..."
-bash <(curl -fsSL git.io/warp.sh) x
 bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update-nonf.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX
