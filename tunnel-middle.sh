@@ -235,8 +235,8 @@ function generate_singbox_server() {
             "server": "yahoo.com",
             "server_port": 443
           },
-          "private_key": "$PRIVATE_KEY_M",
-          "short_id": "$REALITY_SID_M"
+          "private_key": "$PRIVATE_KEY",
+          "short_id": "$REALITY_SID"
         }
       }
     },
@@ -283,8 +283,8 @@ function generate_singbox_server() {
             "server": "yahoo.com",
             "server_port": 443
           },
-          "private_key": "$PRIVATE_KEY",
-          "short_id": "$REALITY_SID"
+          "private_key": "$PRIVATE_KEY_M",
+          "short_id": "$REALITY_SID_M"
         }
       }
     }
