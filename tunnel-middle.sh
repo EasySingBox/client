@@ -107,8 +107,8 @@ EOF
 
 function generate_esb_m_config() {
     XRAY_OUT_M=$(sing-box generate reality-keypair)
-    PRIVATE_KEY_M=$(echo "$XRAY_OUT" | grep "PrivateKey" | awk '{print $2}')
-    PUBLIC_KEY_M=$(echo "$XRAY_OUT" | grep "PublicKey" | awk '{print $2}')
+    PRIVATE_KEY_M=$(echo "$XRAY_OUT_M" | grep "PrivateKey" | awk '{print $2}')
+    PUBLIC_KEY_M=$(echo "$XRAY_OUT_M" | grep "PublicKey" | awk '{print $2}')
     REALITY_SID_M=$(sing-box generate rand 4 --hex | tr -d '\n')
     PASSWORD_M=$(sing-box generate uuid | tr -d '\n')
 
