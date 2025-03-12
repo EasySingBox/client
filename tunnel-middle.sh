@@ -28,10 +28,10 @@ FINAL_SERVER_PWD=${4}
 VPS_ORG_M=${5}
 COUNTRY_M=${6}
 
-IP_INFO=$(curl -s -4 api.ip.sb/geoip)
+IP_INFO=$(curl -s -4 ip.network/more)
 SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
-COUNTRY=$(echo "$IP_INFO" | jq -r .country_code)
-VPS_ORG=$(echo "$IP_INFO" | jq -r .organization)
+COUNTRY=$(echo "$IP_INFO" | jq -r .country)
+VPS_ORG=$(echo "$IP_INFO" | jq -r .asOrganization)
 
 echo "CENTRAL_API: $CENTRAL_API"
 echo "FINAL_SERVER_IP: $FINAL_SERVER_IP"
