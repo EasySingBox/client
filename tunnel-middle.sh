@@ -6,7 +6,7 @@
 # 檢查是否提供了第一個參數
 if [ -z "$1" ]; then
     echo "錯誤：第一個參數 CENTRAL_API 必須填寫！"
-    echo "使用方式: bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-middle.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
+    echo "使用方式: bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/tunnel-middle.sh) <CENTRAL_API> [FINAL_SERVER_IP] [FINAL_SERVER_PORT] [FINAL_SERVER_PWD] [FINAL_SERVER_VPS_ORG] [FINAL_SERVER_COUNTRY]"
     exit 1
 fi
 
@@ -22,11 +22,11 @@ sudo apt update
 sudo apt install sing-box-beta
 
 CENTRAL_API=${1:-""}
-FINAL_SERVER_IP=${4}
-FINAL_SERVER_PORT=${5}
-FINAL_SERVER_PWD=${6}
-VPS_ORG_M=${7}
-COUNTRY_M=${8}
+FINAL_SERVER_IP=${2}
+FINAL_SERVER_PORT=${3}
+FINAL_SERVER_PWD=${4}
+VPS_ORG_M=${5}
+COUNTRY_M=${6}
 
 IP_INFO=$(curl -s -4 api.ip.sb/geoip)
 SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
