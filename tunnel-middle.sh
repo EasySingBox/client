@@ -25,45 +25,52 @@ CENTRAL_API=${1:-""}
 FINAL_SERVER_IP=${4}
 FINAL_SERVER_PORT=${5}
 FINAL_SERVER_PWD=${6}
-VPS_ORG=${7}
-COUNTRY=${8}
+VPS_ORG_M=${7}
+COUNTRY_M=${8}
 
-IP_INFO=$(curl -s -4 ip.network/more)
+IP_INFO=$(curl -s -4 api.ip.sb/geoip)
 SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
-if [[ -z "$8" ]]; then
-    COUNTRY=$(echo "$IP_INFO" | jq -r .country)
-fi
+COUNTRY=$(echo "$IP_INFO" | jq -r .country_code)
+VPS_ORG=$(echo "$IP_INFO" | jq -r .organization)
 
 echo "CENTRAL_API: $CENTRAL_API"
 echo "FINAL_SERVER_IP: $FINAL_SERVER_IP"
 echo "FINAL_SERVER_PORT: $FINAL_SERVER_PORT"
 echo "FINAL_SERVER_PWD: $FINAL_SERVER_PWD"
-echo "VPS_ORG: $VPS_ORG"
-echo "COUNTRY: $COUNTRY"
+echo "FINAL_SERVER_VPS_ORG: $VPS_ORG_M"
+echo "FINAL_SERVER_COUNTRY: $COUNTRY_M"
 
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
+CONFIG_FILE_M="$HOME/esb-m.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 
-function generate_reality_keys() {
+
+# 定義範圍
+MIN=10000
+MAX=60000
+numbers=()
+while [ ${#numbers[@]} -lt 4 ]; do
+    num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
+    if [[ ! " ${numbers[@]} " =~ " $num " ]]; then
+        numbers+=($num)
+    fi
+done
+TUIC_PORT=${numbers[0]}
+REALITY_PORT=${numbers[1]}
+TUIC_PORT_M=${numbers[2]}
+REALITY_PORT_M=${numbers[3]}
+
+function generate_esb_config() {
     XRAY_OUT=$(sing-box generate reality-keypair)
     PRIVATE_KEY=$(echo "$XRAY_OUT" | grep "PrivateKey" | awk '{print $2}')
     PUBLIC_KEY=$(echo "$XRAY_OUT" | grep "PublicKey" | awk '{print $2}')
-}
-
-function generate_reality_sid() {
     REALITY_SID=$(sing-box generate rand 4 --hex | tr -d '\n')
-}
-
-function generate_password() {
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
-}
-
-function generate_port() {
     # 定義範圍
-    MIN=${2:-10000}
-    MAX=${3:-65535}
+    MIN=10000
+    MAX=60000
 
     # 用陣列來儲存隨機數
     numbers=()
@@ -82,13 +89,6 @@ function generate_port() {
     # 將隨機數賦值給變量
     TUIC_PORT=${numbers[0]}
     REALITY_PORT=${numbers[1]}
-}
-
-function generate_esb_config() {
-    generate_reality_keys
-    generate_reality_sid
-    generate_password
-    generate_port
 
     cat <<EOF > "$CONFIG_FILE"
 {
@@ -101,6 +101,28 @@ function generate_esb_config() {
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
   "private_key": "$PRIVATE_KEY"
+}
+EOF
+}
+
+function generate_esb_m_config() {
+    XRAY_OUT_M=$(sing-box generate reality-keypair)
+    PRIVATE_KEY_M=$(echo "$XRAY_OUT" | grep "PrivateKey" | awk '{print $2}')
+    PUBLIC_KEY_M=$(echo "$XRAY_OUT" | grep "PublicKey" | awk '{print $2}')
+    REALITY_SID_M=$(sing-box generate rand 4 --hex | tr -d '\n')
+    PASSWORD_M=$(sing-box generate uuid | tr -d '\n')
+
+    cat <<EOF > "$CONFIG_FILE_M"
+{
+  "server_ip": "$SERVER_IP",
+  "vps_org": "$VPS_ORG_M",
+  "country": "$COUNTRY_M",
+  "password": "$PASSWORD_M",
+  "tuic_port": $TUIC_PORT_M,
+  "reality_port": $REALITY_PORT_M,
+  "reality_sid": "$REALITY_SID_M",
+  "public_key": "$PUBLIC_KEY_M",
+  "private_key": "$PRIVATE_KEY_M"
 }
 EOF
 }
@@ -120,8 +142,24 @@ function load_esb_config() {
     fi
 }
 
+function load_esb_m_config() {
+    if [[ -f "$CONFIG_FILE_M" ]]; then
+        SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE_M")
+        PASSWORD_M=$(jq -r .password "$CONFIG_FILE_M")
+        TUIC_PORT_M=$(jq -r .tuic_port "$CONFIG_FILE_M")
+        REALITY_PORT_M=$(jq -r .reality_port "$CONFIG_FILE_M")
+        REALITY_SID_M=$(jq -r .reality_sid "$CONFIG_FILE_M")
+        PUBLIC_KEY_M=$(jq -r .public_key "$CONFIG_FILE_M")
+        PRIVATE_KEY_M=$(jq -r .private_key "$CONFIG_FILE_M")
+    else
+        generate_esb_m_config
+        load_esb_m_config
+    fi
+}
+
 function generate_singbox_server() {
     load_esb_config
+    load_esb_m_config
 
     [[ ! -d "/var/www/html" ]] && mkdir -p "/var/www/html"
     rm -rf $SING_BOX_CONFIG_DIR
@@ -197,6 +235,54 @@ function generate_singbox_server() {
             "server": "yahoo.com",
             "server_port": 443
           },
+          "private_key": "$PRIVATE_KEY_M",
+          "short_id": "$REALITY_SID_M"
+        }
+      }
+    },
+    {
+      "type": "tuic",
+      "tag": "tuic5-m",
+      "listen": "::",
+      "listen_port": $TUIC_PORT_M,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "users": [
+        {
+          "uuid": "$PASSWORD_M",
+          "password": "$PASSWORD_M"
+        }
+      ],
+      "congestion_control": "bbr",
+      "tls": {
+        "enabled": true,
+        "alpn": "h3",
+        "certificate_path": "/etc/sing-box/cert.pem",
+        "key_path": "/etc/sing-box/private.key"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "vless-m",
+      "listen": "::",
+      "listen_port": $REALITY_PORT_M,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "users": [
+        {
+          "uuid": "$PASSWORD_M",
+          "flow": "xtls-rprx-vision"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "server_name": "yahoo.com",
+        "reality": {
+          "enabled": true,
+          "handshake": {
+            "server": "yahoo.com",
+            "server_port": 443
+          },
           "private_key": "$PRIVATE_KEY",
           "short_id": "$REALITY_SID"
         }
@@ -235,10 +321,17 @@ function generate_singbox_server() {
           "tuic5",
           "vless"
         ],
+        "outbound": "direct"
+      },
+      {
+        "inbound": [
+          "tuic5-m",
+          "vless-m"
+        ],
         "outbound": "tunnel-final"
       }
     ],
-    "final": "tunnel-final",
+    "final": "direct",
     "default_domain_resolver": "dns"
   }
 }
@@ -249,6 +342,10 @@ EOF
 
 if [[ ! -f "$CONFIG_FILE" ]]; then
     generate_esb_config
+fi
+
+if [[ ! -f "$CONFIG_FILE_M" ]]; then
+    generate_esb_m_config
 fi
 
 load_esb_config
@@ -269,6 +366,13 @@ if [[ -n "$1" ]]; then
     CENTRAL_API="$1"
     RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
     if [[ "$RESPONSE_CODE" == "200" ]]; then
-        echo "推送到 Central API 成功 ($CENTRAL_API)"
+        echo "$CONFIG_FILE 推送到 Central API 成功 ($CENTRAL_API)"
+    fi
+fi
+if [[ -n "$1" ]]; then
+    CENTRAL_API="$1"
+    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE_M)
+    if [[ "$RESPONSE_CODE" == "200" ]]; then
+        echo "$CONFIG_FILE_M 推送到 Central API 成功 ($CENTRAL_API)"
     fi
 fi

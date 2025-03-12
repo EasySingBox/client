@@ -20,10 +20,10 @@ SING_BOX_CONFIG_DIR="/etc/sing-box"
 SERVER_PORT=${1:-31315}
 echo "SERVER_PORT: $SERVER_PORT"
 function generate_esb_config() {
-    IP_INFO=$(curl -s -4 ip.network/more)
+    IP_INFO=$(curl -s -4 api.ip.sb/geoip)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
-    COUNTRY=$(echo "$IP_INFO" | jq -r .country)
-    VPS_ORG=$(echo "$IP_INFO" | jq -r .asOrganization)
+    COUNTRY=$(echo "$IP_INFO" | jq -r .country_code)
+    VPS_ORG=$(echo "$IP_INFO" | jq -r .organization)
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
 
     cat <<EOF > "$CONFIG_FILE"
