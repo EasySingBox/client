@@ -29,7 +29,7 @@ sudo apt update
 
 #检查CPU支持内核版本
 #根据输出的内容，你可以清楚地看到v2、v3或v4的标识，据此选择对应的 XanMod 内核
-awk -f <(wget -O - https://dl.xanmod.org/check_x86-64_psabi.sh)
+awk -f <(wget --inet4-only -O - https://dl.xanmod.org/check_x86-64_psabi.sh)
 
 #安装内核
 sudo apt install linux-xanmod-edge-x64v3

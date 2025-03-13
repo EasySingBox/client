@@ -119,8 +119,8 @@ function generate_singbox_server() {
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
 
-    wget -O "$SING_BOX_CONFIG_DIR/cert.pem" https://github.com/zmlu/easy-sing-box/raw/main/cert/cert.pem
-    wget -O "$SING_BOX_CONFIG_DIR/private.key" https://github.com/zmlu/easy-sing-box/raw/main/cert/private.key
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/cert.pem" https://github.com/zmlu/easy-sing-box/raw/main/cert/cert.pem
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/private.key" https://github.com/zmlu/easy-sing-box/raw/main/cert/private.key
 
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
