@@ -6,7 +6,7 @@
 # 檢查是否提供了第一個參數
 if [ -z "$1" ]; then
     echo "錯誤：第一個參數 CENTRAL_API 必須填寫！"
-    echo "使用方式: bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX] [SERVER_IP]"
+    echo "使用方式: bash <(curl -Ls https://github.com/zmlu/easy-sing-box/raw/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
     exit 1
 fi
 
@@ -18,17 +18,12 @@ NGINX_WWW_DIR="/var/www/html"
 CENTRAL_API="$1"
 MIN=${2:-10000}
 MAX=${3:-65535}
-SERVER_IP=${4}
 echo "CENTRAL_API: $CENTRAL_API"
 echo "RANDOM_PORT_MIN: $MIN"
 echo "RANDOM_PORT_MAX: $MAX"
-echo "SERVER_IP: $SERVER_IP"
-
 function get_ip_info() {
     IP_INFO=$(curl -s -4 ip.network/more)
-    if [ -z "$4" ]; then
-      SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
-    fi
+    SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
     COUNTRY=$(echo "$IP_INFO" | jq -r .country)
     VPS_ORG=$(echo "$IP_INFO" | jq -r .asOrganization)
 }
@@ -99,6 +94,7 @@ EOF
 
 function load_esb_config() {
     if [[ -f "$CONFIG_FILE" ]]; then
+        SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE")
         VPS_ORG=$(jq -r .vps_org "$CONFIG_FILE")
         COUNTRY=$(jq -r .country "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
