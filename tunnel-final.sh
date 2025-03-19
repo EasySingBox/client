@@ -57,8 +57,8 @@ function generate_singbox_server() {
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
 
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/cert.pem" https://forge.mql5.io/easy-sing-box/client/raw/main/cert/cert.pem
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/private.key" https://forge.mql5.io/easy-sing-box/client/raw/main/cert/private.key
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/cert.pem" https://codeberg.org/easy-sing-box/client/raw/main/cert/cert.pem
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/private.key" https://codeberg.org/easy-sing-box/client/raw/main/cert/private.key
 
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {

@@ -7,13 +7,13 @@
 #### Install
 
 ```shell
-bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/install.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/install.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 ```
 
 #### Update
 
 ```shell
-bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/update.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 ```
 
 ### Normal without wg-quick
@@ -22,14 +22,14 @@ bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/update.sh?_=
 
 ```shell
 #Install
-bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/install-nonf.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/install-nonf.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 ```
 
 #### Update
 
 ```shell
 #Update
-bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/update-nonf.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update-nonf.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 ```
 
 ### Tunnel
@@ -37,12 +37,12 @@ bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/update-nonf.
 #### Middle VPS
 
 ```shell
-bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/tunnel-middle.sh?_=$(date +%s)) <CENTRAL_API> <RANDOM_PORT_MIN> <RANDOM_PORT_MAX> <RANDOM_PORT_MAX> <FINAL_SERVER_IP> <FINAL_SERVER_PORT> <FINAL_SERVER_PWD>
+bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/tunnel-middle.sh?_=$(date +%s)) <CENTRAL_API> <RANDOM_PORT_MIN> <RANDOM_PORT_MAX> <RANDOM_PORT_MAX> <FINAL_SERVER_IP> <FINAL_SERVER_PORT> <FINAL_SERVER_PWD>
 ```
 #### Final VPS
 
 ```shell
-bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/tunnel-final.sh?_=$(date +%s)) [SERVER_PORT]
+bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/tunnel-final.sh?_=$(date +%s)) [SERVER_PORT]
 ```
 
 ## XanMod Core installation
@@ -58,10 +58,10 @@ wget -qO - https://dl.xanmod.org/gpg.key | sudo apt-key --keyring /etc/apt/trust
 sudo apt update
 
 # check cpu versions
-awk -f <(wget --inet4-only -O - https://dl.xanmod.org/check_x86-64_psabi.sh)
+awk -f <(wget -O - https://dl.xanmod.org/check_x86-64_psabi.sh)
 
 # install
-sudo apt install linux-xanmod-edge-x64v3
+sudo apt update && sudo apt install linux-xanmod-edge-x64v4
 
 reboot
 

@@ -6,7 +6,7 @@
 # 檢查是否提供了第一個參數
 if [ -z "$1" ]; then
     echo "錯誤：第一個參數 CENTRAL_API 必須填寫！"
-    echo "使用方式: bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/install.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
+    echo "使用方式: bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/install.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
     exit 1
 fi
 
@@ -28,4 +28,4 @@ echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet
   sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
 sudo apt update
 sudo apt install sing-box-beta
-bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/update-nonf.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX
+bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update-nonf.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX

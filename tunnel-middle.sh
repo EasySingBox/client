@@ -6,7 +6,7 @@
 # 檢查是否提供了第一個參數
 if [ -z "$1" ]; then
     echo "錯誤：第一個參數 CENTRAL_API 必須填寫！"
-    echo "使用方式: bash <(curl -Ls https://forge.mql5.io/easy-sing-box/client/raw/main/tunnel-middle.sh) <CENTRAL_API> [FINAL_SERVER_IP] [FINAL_SERVER_PORT] [FINAL_SERVER_PWD] [FINAL_SERVER_VPS_ORG] [FINAL_SERVER_COUNTRY]"
+    echo "使用方式: bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/tunnel-middle.sh) <CENTRAL_API> [FINAL_SERVER_IP] [FINAL_SERVER_PORT] [FINAL_SERVER_PWD] [FINAL_SERVER_VPS_ORG] [FINAL_SERVER_COUNTRY]"
     exit 1
 fi
 
@@ -165,8 +165,8 @@ function generate_singbox_server() {
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
 
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/cert.pem" https://forge.mql5.io/easy-sing-box/client/raw/main/cert/cert.pem
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/private.key" https://forge.mql5.io/easy-sing-box/client/raw/main/cert/private.key
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/cert.pem" https://codeberg.org/easy-sing-box/client/raw/main/cert/cert.pem
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/private.key" https://codeberg.org/easy-sing-box/client/raw/main/cert/private.key
 
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
