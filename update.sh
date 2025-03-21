@@ -131,52 +131,13 @@ function generate_singbox_server() {
   "dns": {
     "servers": [
       {
-        "type": "https",
-        "server": "cloudflare-dns.com",
-        "domain_resolver": "dns-resolver",
+        "type": "local",
         "tag": "dns"
-      },
-      {
-        "type": "udp",
-        "server": "1.1.1.1",
-        "tag": "dns-resolver"
       }
     ],
-    "independent_cache": true,
-    "strategy": "ipv4_only"
+    "independent_cache": true
   },
   "inbounds": [
-    {
-      "type": "hysteria2",
-      "tag": "hy2",
-      "listen": "::",
-      "listen_port": $H2_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "up_mbps": 10000,
-      "down_mbps": 10000,
-      "users": [
-        {
-          "name": "user-jacob",
-          "password": "$PASSWORD"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
-        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
-      },
-      "obfs": {
-        "type": "salamander",
-        "password": "$H2_OBFS_PASSWORD"
-      },
-      "masquerade": {
-        "type": "string",
-        "status_code": 500,
-        "content": "The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error with request ID: 839-234."
-      }
-    },
     {
       "type": "tuic",
       "tag": "tuic5",
@@ -224,39 +185,12 @@ function generate_singbox_server() {
           "short_id": "$REALITY_SID"
         }
       }
-    },
-    {
-      "type": "anytls",
-      "tag": "anytls",
-      "listen": "::",
-      "listen_port": $ANYTLS_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "users": [
-        {
-          "name": "$PASSWORD",
-          "password": "$PASSWORD"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "/etc/sing-box/cert.pem",
-        "key_path": "/etc/sing-box/private.key"
-      }
     }
   ],
   "outbounds": [
     {
       "type": "direct",
-      "tag": "direct",
-      "domain_strategy": "ipv4_only"
-    },
-    {
-      "type": "direct",
-      "tag": "wgcf",
-      "routing_mark": 51888,
-      "domain_strategy": "ipv6_only"
+      "tag": "direct"
     }
   ],
   "route": {
@@ -273,31 +207,6 @@ function generate_singbox_server() {
           "stun"
         ],
         "outbound": "direct"
-      },
-      {
-        "rule_set": [
-          "netflix",
-          "netflixip"
-        ],
-        "outbound": "wgcf"
-      }
-    ],
-    "rule_set": [
-      {
-        "type": "remote",
-        "tag": "netflix",
-        "format": "binary",
-        "url": "https://github.com/DustinWin/ruleset_geodata/raw/sing-box-ruleset/netflix.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
-      },
-      {
-        "type": "remote",
-        "tag": "netflixip",
-        "format": "binary",
-        "url": "https://github.com/DustinWin/ruleset_geodata/raw/sing-box-ruleset/netflixip.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
       }
     ],
     "final": "direct",
@@ -319,10 +228,6 @@ generate_singbox_server
 echo "重启 sing-box..."
 systemctl restart sing-box
 systemctl enable sing-box
-
-echo "重启 nginx..."
-systemctl restart nginx
-systemctl enable nginx
 
 clear
 echo -e "\e[1;33mSuccess!\033[0m"
