@@ -177,19 +177,11 @@ function generate_singbox_server() {
   "dns": {
     "servers": [
       {
-        "type": "https",
-        "server": "cloudflare-dns.com",
-        "domain_resolver": "dns-resolver",
+        "type": "local",
         "tag": "dns"
-      },
-      {
-        "type": "udp",
-        "server": "1.1.1.1",
-        "tag": "dns-resolver"
       }
     ],
-    "independent_cache": true,
-    "strategy": "ipv4_only"
+    "independent_cache": true
   },
   "inbounds": [
     {
