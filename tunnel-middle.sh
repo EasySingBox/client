@@ -206,30 +206,23 @@ function generate_singbox_server() {
       }
     },
     {
-      "type": "vless",
-      "tag": "vless",
+      "type": "anytls",
+      "tag": "anytls",
       "listen": "::",
-      "listen_port": $REALITY_PORT,
+      "listen_port": $ANYTLS_PORT,
       "sniff": true,
       "sniff_override_destination": true,
       "users": [
         {
-          "uuid": "$PASSWORD",
-          "flow": "xtls-rprx-vision"
+          "name": "$PASSWORD",
+          "password": "$PASSWORD"
         }
       ],
       "tls": {
         "enabled": true,
-        "server_name": "yahoo.com",
-        "reality": {
-          "enabled": true,
-          "handshake": {
-            "server": "yahoo.com",
-            "server_port": 443
-          },
-          "private_key": "$PRIVATE_KEY",
-          "short_id": "$REALITY_SID"
-        }
+        "alpn": "h3",
+        "certificate_path": "/etc/sing-box/cert.pem",
+        "key_path": "/etc/sing-box/private.key"
       }
     },
     {
@@ -254,30 +247,23 @@ function generate_singbox_server() {
       }
     },
     {
-      "type": "vless",
-      "tag": "vless-m",
+      "type": "anytls",
+      "tag": "anytls-m",
       "listen": "::",
-      "listen_port": $REALITY_PORT_M,
+      "listen_port": $ANYTLS_PORT,
       "sniff": true,
       "sniff_override_destination": true,
       "users": [
         {
-          "uuid": "$PASSWORD_M",
-          "flow": "xtls-rprx-vision"
+          "name": "$PASSWORD_M",
+          "password": "$PASSWORD_M"
         }
       ],
       "tls": {
         "enabled": true,
-        "server_name": "yahoo.com",
-        "reality": {
-          "enabled": true,
-          "handshake": {
-            "server": "yahoo.com",
-            "server_port": 443
-          },
-          "private_key": "$PRIVATE_KEY_M",
-          "short_id": "$REALITY_SID_M"
-        }
+        "alpn": "h3",
+        "certificate_path": "/etc/sing-box/cert.pem",
+        "key_path": "/etc/sing-box/private.key"
       }
     }
   ],
@@ -311,14 +297,14 @@ function generate_singbox_server() {
       {
         "inbound": [
           "tuic5",
-          "vless"
+          "anytls"
         ],
         "outbound": "direct"
       },
       {
         "inbound": [
           "tuic5-m",
-          "vless-m"
+          "anytls-m"
         ],
         "outbound": "tunnel-final"
       }
