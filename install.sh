@@ -27,5 +27,5 @@ sudo chmod a+r /etc/apt/keyrings/sagernet.asc
 echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *" | \
   sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
 sudo apt update
-sudo apt install sing-box-beta
+sudo apt install -y sing-box
 bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX

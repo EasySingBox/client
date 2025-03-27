@@ -19,7 +19,7 @@ sudo chmod a+r /etc/apt/keyrings/sagernet.asc
 echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *" | \
   sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
 sudo apt update
-sudo apt install sing-box-beta
+sudo apt install -y sing-box
 
 CENTRAL_API=${1:-""}
 FINAL_SERVER_IP=${2}
