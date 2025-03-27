@@ -111,7 +111,7 @@ function generate_singbox_server() {
 }
 EOF
 
-    systemctl restart sing-box
+    systemctl restart sing-box-beta
 }
 
 if [[ ! -f "$CONFIG_FILE" ]]; then
@@ -122,7 +122,7 @@ load_esb_config
 generate_singbox_server
 
 echo "重启 sing-box..."
-systemctl restart sing-box
+systemctl restart sing-box-beta
 systemctl enable sing-box
 
 clear
