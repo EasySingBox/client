@@ -7,12 +7,7 @@ apt install -y git
 apt install -y jq
 mkdir /etc/apt/keyrings/ > /dev/null
 # sing-box-beta
-sudo curl -fsSL https://sing-box.app/gpg.key -o /etc/apt/keyrings/sagernet.asc
-sudo chmod a+r /etc/apt/keyrings/sagernet.asc
-echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *" | \
-  sudo tee /etc/apt/sources.list.d/sagernet.list > /dev/null
-sudo apt update
-sudo apt install -y sing-box
+bash <(curl -fsSL https://codeberg.org/easy-sing-box/tools/raw/main/deb-install-beta.sh)
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
