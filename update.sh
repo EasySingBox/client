@@ -169,21 +169,12 @@ function generate_singbox_server() {
       "users": [
         {
           "uuid": "$PASSWORD",
-          "flow": "xtls-rprx-vision"
+          "flow": ""
         }
       ],
       "tls": {
         "enabled": true,
-        "server_name": "yahoo.com",
-        "reality": {
-          "enabled": true,
-          "handshake": {
-            "server": "yahoo.com",
-            "server_port": 443
-          },
-          "private_key": "$PRIVATE_KEY",
-          "short_id": "$REALITY_SID"
-        }
+        "server_name": "yahoo.com"
       }
     }
   ],
