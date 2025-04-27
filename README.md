@@ -71,7 +71,7 @@ reboot
 dpkg --list | egrep -i --color 'linux-image|linux-headers'
 
 # remove linux-core
-sudo apt remove linux-image-5.10.0-26-amd64
+sudo apt remove linux-image-virtual
 
 # remove linux-core-config
 sudo apt purge linux-image-amd64

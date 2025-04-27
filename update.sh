@@ -160,23 +160,30 @@ function generate_singbox_server() {
       }
     },
     {
-      "type": "anytls",
-      "tag": "anytls",
+      "type": "vless",
+      "tag": "vless",
       "listen": "::",
-      "listen_port": $ANYTLS_PORT,
+      "listen_port": $REALITY_PORT,
       "sniff": true,
       "sniff_override_destination": true,
       "users": [
         {
-          "name": "$PASSWORD",
-          "password": "$PASSWORD"
+          "uuid": "$PASSWORD",
+          "flow": "xtls-rprx-vision"
         }
       ],
       "tls": {
         "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "/etc/sing-box/cert.pem",
-        "key_path": "/etc/sing-box/private.key"
+        "server_name": "yahoo.com",
+        "reality": {
+          "enabled": true,
+          "handshake": {
+            "server": "yahoo.com",
+            "server_port": 443
+          },
+          "private_key": "$PRIVATE_KEY",
+          "short_id": "$REALITY_SID"
+        }
       }
     }
   ],
