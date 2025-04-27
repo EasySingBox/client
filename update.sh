@@ -174,7 +174,10 @@ function generate_singbox_server() {
       ],
       "tls": {
         "enabled": true,
-        "server_name": "yahoo.com"
+        "server_name": "yahoo.com",
+        "alpn": "h3",
+        "certificate_path": "/etc/sing-box/cert.pem",
+        "key_path": "/etc/sing-box/private.key"
       }
     }
   ],
