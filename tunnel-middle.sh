@@ -196,9 +196,7 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "alpn": [
-          "h3",
-          "h2",
-          "http/1.1"
+          "h3"
         ],
         "certificate_path": "/etc/sing-box/cert.pem",
         "key_path": "/etc/sing-box/private.key"
@@ -220,7 +218,6 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "alpn": [
-          "h3",
           "h2",
           "http/1.1"
         ],
