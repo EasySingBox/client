@@ -195,7 +195,11 @@ function generate_singbox_server() {
       "congestion_control": "bbr",
       "tls": {
         "enabled": true,
-        "alpn": "h3",
+        "alpn": [
+          "h3",
+          "h2",
+          "http/1.1"
+        ],
         "certificate_path": "/etc/sing-box/cert.pem",
         "key_path": "/etc/sing-box/private.key"
       }
@@ -215,7 +219,11 @@ function generate_singbox_server() {
       ],
       "tls": {
         "enabled": true,
-        "alpn": "h3",
+        "alpn": [
+          "h3",
+          "h2",
+          "http/1.1"
+        ],
         "certificate_path": "/etc/sing-box/cert.pem",
         "key_path": "/etc/sing-box/private.key"
       }
