@@ -121,6 +121,8 @@ function generate_singbox_server() {
 
     wget --inet4-only -O "$SING_BOX_CONFIG_DIR/cert.pem" https://codeberg.org/easy-sing-box/client/raw/main/cert/cert.pem
     wget --inet4-only -O "$SING_BOX_CONFIG_DIR/private.key" https://codeberg.org/easy-sing-box/client/raw/main/cert/private.key
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/ruleset/netflix.srs" https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/ruleset/netflixip.srs" https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs
 
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
@@ -231,20 +233,16 @@ function generate_singbox_server() {
     ],
     "rule_set": [
       {
-        "type": "remote",
+        "type": "local",
         "tag": "netflix",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
+        "path": "$SING_BOX_CONFIG_DIR/ruleset/netflix.srs"
       },
       {
-        "type": "remote",
+        "type": "local",
         "tag": "netflixip",
         "format": "binary",
-        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs",
-        "download_detour": "direct",
-        "update_interval": "24h0m0s"
+        "path": "$SING_BOX_CONFIG_DIR/ruleset/netflixip.srs"
       }
     ],
     "final": "direct",
