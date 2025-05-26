@@ -234,14 +234,14 @@ function generate_singbox_server() {
         "type": "remote",
         "tag": "netflix",
         "format": "binary",
-        "url": "https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/netflix.srs",
+        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs",
         "update_interval": "24h0m0s"
       },
       {
         "type": "remote",
         "tag": "netflixip",
         "format": "binary",
-        "url": "https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/netflixip.srs",
+        "url": "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs",
         "update_interval": "24h0m0s"
       }
     ],
@@ -250,8 +250,6 @@ function generate_singbox_server() {
   }
 }
 EOF
-
-    systemctl restart sing-box
 }
 
 if [[ ! -f "$CONFIG_FILE" ]]; then
@@ -260,6 +258,25 @@ fi
 
 load_esb_config
 generate_singbox_server
+
+cat <<EOF > "/usr/lib/systemd/system/sing-box.service"
+[Unit]
+Description=sing-box service
+Documentation=https://sing-box.sagernet.org
+After=network.target nss-lookup.target network-online.target
+
+[Service]
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
+ExecStart=/usr/bin/sing-box -D /var/lib/sing-box -C /etc/sing-box run
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=10s
+LimitNOFILE=infinity
+
+[Install]
+WantedBy=multi-user.target
+EOF
 
 echo "重启 sing-box..."
 systemctl restart sing-box

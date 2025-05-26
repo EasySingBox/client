@@ -23,5 +23,5 @@ apt install -y jq
 mkdir /etc/apt/keyrings/ > /dev/null
 bash <(curl -fsSL git.io/warp.sh) x
 # sing-box-beta
-bash <(curl -fsSL https://codeberg.org/easy-sing-box/tools/raw/main/deb-install-beta.sh)
+curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX

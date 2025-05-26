@@ -7,7 +7,7 @@ apt install -y git
 apt install -y jq
 mkdir /etc/apt/keyrings/ > /dev/null
 # sing-box-beta
-bash <(curl -fsSL https://codeberg.org/easy-sing-box/tools/raw/main/deb-install-beta.sh)
+curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
