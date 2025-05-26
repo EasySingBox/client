@@ -133,19 +133,11 @@ function generate_singbox_server() {
   "dns": {
     "servers": [
       {
-        "tag": "dns",
-        "address": "https://doh-de.blahdns.com/dns-query",
-        "address_resolver": "dns-resolver",
-        "detour": "direct"
-      },
-      {
-        "tag": "dns-resolver",
-        "address": "1.1.1.1",
-        "detour": "direct"
+        "type": "local",
+        "tag": "dns"
       }
     ],
-    "independent_cache": true,
-    "strategy": "ipv4_only"
+    "independent_cache": true
   },
   "inbounds": [
     {
