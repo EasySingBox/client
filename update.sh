@@ -131,11 +131,19 @@ function generate_singbox_server() {
   "dns": {
     "servers": [
       {
-        "type": "local",
-        "tag": "dns"
+        "tag": "dns",
+        "address": "https://doh-de.blahdns.com/dns-query",
+        "address_resolver": "dns-resolver",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-resolver",
+        "address": "1.1.1.1",
+        "detour": "direct"
       }
     ],
-    "independent_cache": true
+    "independent_cache": true,
+    "strategy": "ipv4_only"
   },
   "inbounds": [
     {
@@ -188,7 +196,14 @@ function generate_singbox_server() {
   "outbounds": [
     {
       "type": "direct",
-      "tag": "direct"
+      "tag": "direct",
+      "domain_strategy": "ipv4_only"
+    },
+    {
+      "type": "direct",
+      "tag": "wgcf",
+      "routing_mark": 51888,
+      "domain_strategy": "ipv6_only"
     }
   ],
   "route": {
@@ -205,6 +220,29 @@ function generate_singbox_server() {
           "stun"
         ],
         "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "netflix",
+          "netflixip"
+        ],
+        "outbound": "wgcf"
+      },
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "netflix",
+        "format": "binary",
+        "url": "https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/netflix.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "netflixip",
+        "format": "binary",
+        "url": "https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/netflixip.srs",
+        "update_interval": "24h0m0s"
       }
     ],
     "final": "direct",
