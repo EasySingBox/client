@@ -137,7 +137,7 @@ function generate_singbox_server() {
     ],
     "independent_cache": true
   },
-  "inbounds": [{
+  "inbounds": [
     {
       "type": "hysteria2",
       "tag": "hy2",
