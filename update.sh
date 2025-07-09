@@ -158,6 +158,15 @@ function generate_singbox_server() {
         "alpn": "h3",
         "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
         "key_path": "$SING_BOX_CONFIG_DIR/private.key"
+      },
+      "obfs": {
+        "type": "salamander",
+        "password": "$H2_OBFS_PASSWORD"
+      },
+      "masquerade": {
+        "type": "string",
+        "status_code": 500,
+        "content": "The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error with request ID: 839-234."
       }
     },
     {
