@@ -21,7 +21,6 @@ echo "RANDOM_PORT_MAX: $RANDOM_PORT_MAX"
 apt install -y git
 apt install -y jq
 mkdir /etc/apt/keyrings/ > /dev/null
-bash <(curl -fsSL git.io/warp.sh) x
 # sing-box-beta
 curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX
