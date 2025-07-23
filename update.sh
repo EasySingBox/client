@@ -25,7 +25,8 @@ function get_ip_info() {
     IP_INFO=$(curl -s -4 ip.network/more)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
     COUNTRY=$(echo "$IP_INFO" | jq -r .country)
-    VPS_ORG=$(echo "$IP_INFO" | jq -r .asOrganization)
+    VPS_ORG_FULL=$(echo "$IP_INFO" | jq -r .asOrganization)
+    VPS_ORG=$(echo "$VPS_ORG_FULL" | cut -d' ' -f1)
 }
 
 function generate_password() {
