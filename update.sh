@@ -39,6 +39,7 @@ function generate_reality_sid() {
 }
 
 function generate_password() {
+    SS_PASSWORD=$(sing-box generate rand --base64 32 | tr -d '\n')
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
     H2_OBFS_PASSWORD=$(sing-box generate uuid | tr -d '\n')
 }
@@ -50,7 +51,7 @@ function generate_port() {
     numbers=()
 
     # 迴圈生成 4 個不重複的隨機數
-    while [ ${#numbers[@]} -lt 4 ]; do
+    while [ ${#numbers[@]} -lt 5 ]; do
         # 生成範圍內的隨機數
         num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
 
@@ -61,10 +62,11 @@ function generate_port() {
     done
 
     # 將隨機數賦值給變量
-    H2_PORT=${numbers[0]}
-    TUIC_PORT=${numbers[1]}
-    REALITY_PORT=${numbers[2]}
-    ANYTLS_PORT=${numbers[3]}
+    SS_PORT=${numbers[0]}
+    ANYTLS_PORT=${numbers[1]}
+    H2_PORT=${numbers[2]}
+    TUIC_PORT=${numbers[3]}
+    REALITY_PORT=${numbers[4]}
 }
 
 function generate_esb_config() {
@@ -80,6 +82,9 @@ function generate_esb_config() {
   "vps_org": "$VPS_ORG",
   "country": "$COUNTRY",
   "password": "$PASSWORD",
+  "ss_password": "$SS_PASSWORD",
+  "ss_port": $SS_PORT,
+  "anytls_port": $ANYTLS_PORT
   "h2_obfs_password": "$H2_OBFS_PASSWORD",
   "h2_port": $H2_PORT,
   "tuic_port": $TUIC_PORT,
@@ -87,7 +92,6 @@ function generate_esb_config() {
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
   "private_key": "$PRIVATE_KEY",
-  "anytls_port": $ANYTLS_PORT
 }
 EOF
 }
@@ -98,6 +102,9 @@ function load_esb_config() {
         VPS_ORG=$(jq -r .vps_org "$CONFIG_FILE")
         COUNTRY=$(jq -r .country "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
+        SS_PASSWORD=$(jq -r .ss_password "$CONFIG_FILE")
+        SS_PORT=$(jq -r .ss_port "$CONFIG_FILE")
+        ANYTLS_PORT=$(jq -r .anytls_port "$CONFIG_FILE")
         H2_OBFS_PASSWORD=$(jq -r .h2_obfs_password "$CONFIG_FILE")
         H2_PORT=$(jq -r .h2_port "$CONFIG_FILE")
         TUIC_PORT=$(jq -r .tuic_port "$CONFIG_FILE")
@@ -105,7 +112,6 @@ function load_esb_config() {
         REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
         PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
         PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
-        ANYTLS_PORT=$(jq -r .anytls_port "$CONFIG_FILE")
     else
         generate_esb_config
         load_esb_config
@@ -139,12 +145,50 @@ function generate_singbox_server() {
   },
   "inbounds": [
     {
+      "type": "shadowsocks",
+      "tag": "ss",
+      "listen": "::",
+      "listen_port": $SS_PORT,
+      "tcp_fast_open": true,
+      "tcp_multi_path": true,
+      "method": "2022-blake3-chacha20-poly1305",
+      "password": "$SS_PASSWORD",
+      "multiplex": {
+        "enabled": true,
+        "padding": true,
+        "brutal": {
+          "enabled": true,
+          "up_mbps": 500,
+          "down_mbps": 500
+        }
+      }
+    },
+    {
+      "type": "anytls",
+      "tag": "anytls",
+      "listen": "::",
+      "listen_port": $ANYTLS_PORT,
+      "users": [
+        {
+          "name": "$PASSWORD",
+          "password": "$PASSWORD"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "alpn": [
+          "h2",
+          "http/1.1"
+        ],
+        "certificate_path": "/etc/sing-box/cert.pem",
+        "key_path": "/etc/sing-box/private.key"
+      }
+    },
+    {
       "type": "hysteria2",
       "tag": "hy2",
       "listen": "::",
       "listen_port": $H2_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
       "up_mbps": 500,
       "down_mbps": 500,
       "users": [
@@ -174,8 +218,6 @@ function generate_singbox_server() {
       "tag": "vless",
       "listen": "::",
       "listen_port": $REALITY_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
       "users": [
         {
           "uuid": "$PASSWORD",
@@ -201,8 +243,6 @@ function generate_singbox_server() {
       "tag": "tuic5",
       "listen": "::",
       "listen_port": $TUIC_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
       "users": [
         {
           "uuid": "$PASSWORD",
@@ -214,29 +254,6 @@ function generate_singbox_server() {
         "enabled": true,
         "alpn": [
           "h3"
-        ],
-        "certificate_path": "/etc/sing-box/cert.pem",
-        "key_path": "/etc/sing-box/private.key"
-      }
-    },
-    {
-      "type": "anytls",
-      "tag": "anytls",
-      "listen": "::",
-      "listen_port": $ANYTLS_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "users": [
-        {
-          "name": "$PASSWORD",
-          "password": "$PASSWORD"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "alpn": [
-          "h2",
-          "http/1.1"
         ],
         "certificate_path": "/etc/sing-box/cert.pem",
         "key_path": "/etc/sing-box/private.key"

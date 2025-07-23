@@ -23,4 +23,7 @@ apt install -y jq
 mkdir /etc/apt/keyrings/ > /dev/null
 # sing-box-beta
 curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
+
+bash <(curl -fsSL https://tcp.hy2.sh/)
+
 bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX
