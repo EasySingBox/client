@@ -65,8 +65,13 @@ uname -mrs
 modinfo tcp_bbr
 ```
 
-## Enable bbr
+## Check tcp-brutal startup successfully
 
 ```shell
-wget --no-check-certificate -O /opt/bbr.sh https://raw.githubusercontent.com/zmlu/across/master/bbr.sh && chmod 755 /opt/bbr.sh && /opt/bbr.sh
+dkms status
 ```
+output:
+```text
+tcp-brutal/1.0.3, 6.13.8-x64v3-xanmod1, x86_64: installed
+```
+If failed, check [https://github.com/apernet/tcp-brutal/issues/7](https://github.com/apernet/tcp-brutal/issues/7)
