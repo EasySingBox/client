@@ -91,7 +91,7 @@ function generate_esb_config() {
   "reality_port": $REALITY_PORT,
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
-  "private_key": "$PRIVATE_KEY",
+  "private_key": "$PRIVATE_KEY"
 }
 EOF
 }
