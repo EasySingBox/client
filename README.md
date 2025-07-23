@@ -2,15 +2,13 @@
 
 ## Install & update
 
-### Normal with wg-quick
-
-#### Install
+### Install
 
 ```shell
 bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/install.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 ```
 
-#### Update
+### Update
 
 ```shell
 bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
