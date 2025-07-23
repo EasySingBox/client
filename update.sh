@@ -30,6 +30,7 @@ function get_ip_info() {
 
 function generate_password() {
     SS_PASSWORD=$(sing-box generate rand --base64 32 | tr -d '\n')
+    PASSWORD=$(sing-box generate uuid | tr -d '\n')
 }
 
 function generate_port() {
