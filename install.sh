@@ -20,6 +20,8 @@ echo "RANDOM_PORT_MAX: $RANDOM_PORT_MAX"
 
 apt install -y git
 apt install -y jq
+apt install -y gcc
+
 mkdir /etc/apt/keyrings/ > /dev/null
 # sing-box-beta
 curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta

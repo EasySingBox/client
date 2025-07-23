@@ -84,7 +84,7 @@ function generate_esb_config() {
   "password": "$PASSWORD",
   "ss_password": "$SS_PASSWORD",
   "ss_port": $SS_PORT,
-  "anytls_port": $ANYTLS_PORT
+  "anytls_port": $ANYTLS_PORT,
   "h2_obfs_password": "$H2_OBFS_PASSWORD",
   "h2_port": $H2_PORT,
   "tuic_port": $TUIC_PORT,
