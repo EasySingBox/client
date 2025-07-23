@@ -65,6 +65,7 @@ function generate_esb_config() {
   "server_ip": "$SERVER_IP",
   "vps_org": "$VPS_ORG",
   "country": "$COUNTRY",
+  "password": "$PASSWORD",
   "ss_password": "$SS_PASSWORD",
   "ss_port": $SS_PORT,
   "anytls_port": $ANYTLS_PORT
