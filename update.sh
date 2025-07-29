@@ -122,7 +122,7 @@ function generate_singbox_server() {
       "listen_port": $SS_PORT,
       "tcp_fast_open": true,
       "tcp_multi_path": true,
-      "method": "2022-blake3-chacha20-poly1305",
+      "method": "2022-blake3-aes-256-gcm",
       "password": "$SS_PASSWORD",
       "multiplex": {
         "enabled": true,
