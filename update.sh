@@ -3,13 +3,6 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
-# 檢查是否提供了第一個參數
-if [ -z "$1" ]; then
-    echo "錯誤：第一個參數 CENTRAL_API 必須填寫！"
-    echo "使用方式: bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
-    exit 1
-fi
-
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
@@ -18,7 +11,9 @@ NGINX_WWW_DIR="/var/www/html"
 CENTRAL_API="$1"
 MIN=${2:-10000}
 MAX=${3:-65535}
+if [ -z "$1" ]; then
 echo "CENTRAL_API: $CENTRAL_API"
+fi
 echo "RANDOM_PORT_MIN: $MIN"
 echo "RANDOM_PORT_MAX: $MAX"
 function get_ip_info() {
@@ -218,7 +213,9 @@ systemctl enable sing-box
 clear
 echo -e "\e[1;33mSuccess!\033[0m"
 
-RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
-if [[ "$RESPONSE_CODE" == "200" ]]; then
-    echo "推送到 Central API 成功 ($CENTRAL_API)"
+if [ -z "$1" ]; then
+  RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
+  if [[ "$RESPONSE_CODE" == "200" ]]; then
+      echo "推送到 Central API 成功 ($CENTRAL_API)"
+  fi
 fi
