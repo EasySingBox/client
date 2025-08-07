@@ -199,6 +199,30 @@ ipv6 = true
 EOF
 }
 
+# 开放端口 (ufw 和 iptables)
+open_port() {
+    local PORT=$1
+    # 检查 ufw 是否已安装
+    if command -v ufw &> /dev/null; then
+        echo -e "${CYAN}在 UFW 中开放端口 $PORT${RESET}"
+        ufw allow "$PORT"/tcp
+    fi
+
+    # 检查 iptables 是否已安装
+    if command -v iptables &> /dev/null; then
+        echo -e "${CYAN}在 iptables 中开放端口 $PORT${RESET}"
+        iptables -I INPUT -p tcp --dport "$PORT" -j ACCEPT
+
+        # 创建 iptables 规则保存目录（如果不存在）
+        if [ ! -d "/etc/iptables" ]; then
+            mkdir -p /etc/iptables
+        fi
+
+        # 尝试保存规则，如果失败则不中断脚本
+        iptables-save > /etc/iptables/rules.v4 || true
+    fi
+}
+
 if [[ ! -f "$CONFIG_FILE" ]]; then
     generate_esb_config
 fi
@@ -254,6 +278,8 @@ systemctl restart sing-box
 systemctl enable sing-box
 systemctl enable snell
 systemctl restart snell
+
+open_port "$SNELL_PORT"
 
 clear
 echo -e "\e[1;33mSuccess!\033[0m"
