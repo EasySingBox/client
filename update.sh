@@ -185,17 +185,14 @@ EOF
 
 function generate_snell_server() {
     load_esb_config
-
     rm -rf $SNELL_CONFIG_DIR
     mkdir -p "$SNELL_CONFIG_DIR"
-
-        # 创建配置文件
     # 创建配置文件
     cat <<EOF > "$SNELL_CONFIG_DIR/snell-main.conf"
 [snell-server]
 listen = ::0:${SNELL_PORT}
 psk = ${SNELL_PASSWORD}
-ipv6 = true
+ipv6 = false
 EOF
 }
 
