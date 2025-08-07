@@ -15,11 +15,33 @@ apt install -y git jq gcc wget unzip curl
 mkdir /etc/apt/keyrings/ > /dev/null
 
 # install Snell
+# 获取 Snell v5 最新版本
+get_latest_snell_v5_version() {
+    # 先抓 beta 版
+    v5_beta=$(curl -s https://manual.nssurge.com/others/snell.html | grep -oP 'snell-server-v\K5\.[0-9]+\.[0-9]+b[0-9]+' | head -n 1)
+    if [ -z "$v5_beta" ]; then
+        v5_beta=$(curl -s https://kb.nssurge.com/surge-knowledge-base/zh/release-notes/snell | grep -oP 'snell-server-v\K5\.[0-9]+\.[0-9]+b[0-9]+' | head -n 1)
+    fi
+    if [ -n "$v5_beta" ]; then
+        echo "v${v5_beta}"
+        return
+    fi
+    # 再抓正式版，过滤掉带 b 的 beta 版本
+    v5_release=$(curl -s https://manual.nssurge.com/others/snell.html | grep -oP 'snell-server-v\K5\.[0-9]+\.[0-9]+[a-z0-9]*' | grep -v b | head -n 1)
+    if [ -z "$v5_release" ]; then
+        v5_release=$(curl -s https://kb.nssurge.com/surge-knowledge-base/zh/release-notes/snell | grep -oP 'snell-server-v\K5\.[0-9]+\.[0-9]+[a-z0-9]*' | grep -v b | head -n 1)
+    fi
+    if [ -n "$v5_release" ]; then
+        echo "v${v5_release}"
+    else
+        echo "v5.0.0"
+    fi
+}
 # 获取 Snell 下载 URL
 get_snell_download_url() {
     local version=$1
     local arch=$(uname -m)
-
+    SNELL_VERSION=$(get_latest_snell_v5_version)
     if [ "$version" = "v5" ]; then
         # v5 版本自动拼接下载链接
         case ${arch} in
