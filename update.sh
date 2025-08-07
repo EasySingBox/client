@@ -7,15 +7,17 @@ echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
-NGINX_WWW_DIR="/var/www/html"
+SNELL_CONFIG_DIR="/etc/snell"
 CENTRAL_API="$1"
 MIN=${2:-10000}
 MAX=${3:-65535}
+
 if [ -z "$1" ]; then
 echo "CENTRAL_API: $CENTRAL_API"
 fi
 echo "RANDOM_PORT_MIN: $MIN"
 echo "RANDOM_PORT_MAX: $MAX"
+
 function get_ip_info() {
     IP_INFO=$(curl -s -4 ip.network/more)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
@@ -27,28 +29,21 @@ function get_ip_info() {
 function generate_password() {
     SS_PASSWORD=$(sing-box generate rand --base64 32 | tr -d '\n')
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
+    SNELL_PASSWORD=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 20)
 }
 
 function generate_port() {
-    # 定義範圍
-
-    # 用陣列來儲存隨機數
     numbers=()
-
-    # 迴圈生成 4 個不重複的隨機數
-    while [ ${#numbers[@]} -lt 2 ]; do
-        # 生成範圍內的隨機數
+    while [ ${#numbers[@]} -lt 3 ]; do
         num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
-
-        # 檢查是否已存在該數字
         if [[ ! " ${numbers[@]} " =~ " $num " ]]; then
             numbers+=($num)
         fi
     done
 
-    # 將隨機數賦值給變量
     SS_PORT=${numbers[0]}
     ANYTLS_PORT=${numbers[1]}
+    SNELL_PORT=${numbers[2]}
 }
 
 function generate_esb_config() {
@@ -64,7 +59,9 @@ function generate_esb_config() {
   "password": "$PASSWORD",
   "ss_password": "$SS_PASSWORD",
   "ss_port": $SS_PORT,
-  "anytls_port": $ANYTLS_PORT
+  "anytls_port": $ANYTLS_PORT,
+  "snell_port": $SNELL_PORT,
+  "snell_password": $SNELL_PASSWORD
 }
 EOF
 }
@@ -78,6 +75,8 @@ function load_esb_config() {
         SS_PASSWORD=$(jq -r .ss_password "$CONFIG_FILE")
         SS_PORT=$(jq -r .ss_port "$CONFIG_FILE")
         ANYTLS_PORT=$(jq -r .anytls_port "$CONFIG_FILE")
+        SNELL_PORT=$(jq -r .snell_port "$CONFIG_FILE")
+        SNELL_PASSWORD=$(jq -r .snell_password "$CONFIG_FILE")
     else
         generate_esb_config
         load_esb_config
@@ -87,7 +86,6 @@ function load_esb_config() {
 function generate_singbox_server() {
     load_esb_config
 
-    [[ ! -d "/var/www/html" ]] && mkdir -p "/var/www/html"
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
 
@@ -180,6 +178,22 @@ function generate_singbox_server() {
 EOF
 }
 
+function generate_snell_server() {
+    load_esb_config
+
+    rm -rf $SNELL_CONFIG_DIR
+    mkdir -p "$SNELL_CONFIG_DIR"
+
+        # 创建配置文件
+    # 创建配置文件
+    cat <<EOF > "$SNELL_CONFIG_DIR/snell-server.conf"
+[snell-server]
+listen = ::0:${SNELL_PORT}
+psk = ${SNELL_PASSWORD}
+ipv6 = true
+EOF
+}
+
 if [[ ! -f "$CONFIG_FILE" ]]; then
     generate_esb_config
 fi
@@ -206,9 +220,35 @@ LimitNOFILE=infinity
 WantedBy=multi-user.target
 EOF
 
-echo "重启 sing-box..."
+# 创建 Systemd 服务文件
+cat <<EOF > "/lib/systemd/system/snell.service"
+[Unit]
+Description=Snell Proxy Service
+After=network.target
+
+[Service]
+Type=simple
+User=snell
+Group=snell
+ExecStart=${INSTALL_DIR}/snell-server -c /etc/snell/snell-server.conf
+AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_NET_ADMIN CAP_NET_RAW
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE CAP_NET_ADMIN CAP_NET_RAW
+LimitNOFILE=32768
+Restart=on-failure
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=snell-server
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+echo "重启 sing-box、snell..."
+systemctl daemon-reload
 systemctl restart sing-box
 systemctl enable sing-box
+systemctl enable snell
+systemctl restart snell
 
 clear
 echo -e "\e[1;33mSuccess!\033[0m"
