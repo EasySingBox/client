@@ -199,8 +199,8 @@ if [[ ! -f "$CONFIG_FILE" ]]; then
 fi
 
 load_esb_config
-generate_singbox_server
 
+generate_singbox_server
 cat <<EOF > "/usr/lib/systemd/system/sing-box.service"
 [Unit]
 Description=sing-box service
@@ -220,7 +220,7 @@ LimitNOFILE=infinity
 WantedBy=multi-user.target
 EOF
 
-# 创建 Systemd 服务文件
+generate_snell_server
 cat <<EOF > "/lib/systemd/system/snell.service"
 [Unit]
 Description=Snell Proxy Service
