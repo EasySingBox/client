@@ -61,7 +61,7 @@ function generate_esb_config() {
   "ss_port": $SS_PORT,
   "anytls_port": $ANYTLS_PORT,
   "snell_port": $SNELL_PORT,
-  "snell_password": $SNELL_PASSWORD
+  "snell_password": "$SNELL_PASSWORD"
 }
 EOF
 }
