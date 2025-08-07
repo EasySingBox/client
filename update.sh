@@ -151,16 +151,7 @@ function generate_singbox_server() {
       "tcp_fast_open": true,
       "tcp_multi_path": true,
       "method": "chacha20-ietf-poly1305",
-      "password": "$SS_PASSWORD",
-      "multiplex": {
-        "enabled": true,
-        "padding": true,
-        "brutal": {
-          "enabled": true,
-          "up_mbps": 500,
-          "down_mbps": 500
-        }
-      }
+      "password": "$SS_PASSWORD"
     },
     {
       "type": "anytls",
