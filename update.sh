@@ -186,7 +186,7 @@ function generate_snell_server() {
 
         # 创建配置文件
     # 创建配置文件
-    cat <<EOF > "$SNELL_CONFIG_DIR/snell-server.conf"
+    cat <<EOF > "$SNELL_CONFIG_DIR/users/snell-main.conf"
 [snell-server]
 listen = ::0:${SNELL_PORT}
 psk = ${SNELL_PASSWORD}
@@ -230,7 +230,7 @@ After=network.target
 Type=simple
 User=snell
 Group=snell
-ExecStart=${INSTALL_DIR}/snell-server -c /etc/snell/snell-server.conf
+ExecStart=/usr/local/bin/snell-server -c $SNELL_CONFIG_DIR/users/snell-main.conf
 AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_NET_ADMIN CAP_NET_RAW
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE CAP_NET_ADMIN CAP_NET_RAW
 LimitNOFILE=32768
