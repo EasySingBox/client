@@ -7,7 +7,7 @@ echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
-SNELL_CONFIG_DIR="/etc/snell"
+SNELL_CONFIG_DIR="/etc/snell/users"
 CENTRAL_API="$1"
 MIN=${2:-10000}
 MAX=${3:-65535}
@@ -186,7 +186,7 @@ function generate_snell_server() {
 
         # 创建配置文件
     # 创建配置文件
-    cat <<EOF > "$SNELL_CONFIG_DIR/users/snell-main.conf"
+    cat <<EOF > "$SNELL_CONFIG_DIR/snell-main.conf"
 [snell-server]
 listen = ::0:${SNELL_PORT}
 psk = ${SNELL_PASSWORD}
@@ -230,7 +230,7 @@ After=network.target
 Type=simple
 User=snell
 Group=snell
-ExecStart=/usr/local/bin/snell-server -c $SNELL_CONFIG_DIR/users/snell-main.conf
+ExecStart=/usr/local/bin/snell-server -c $SNELL_CONFIG_DIR/snell-main.conf
 AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_NET_ADMIN CAP_NET_RAW
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE CAP_NET_ADMIN CAP_NET_RAW
 LimitNOFILE=32768
