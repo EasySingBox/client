@@ -22,7 +22,7 @@ sudo apt update && sudo apt upgrade
 # add APT
 sudo apt install -y gnupg
 echo 'deb http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-kernel.list
-wget -qO - https://dl.xanmod.org/gpg.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
+wget --no-check-certificate -qO - https://gitlab.com/afrd.gpg | sudo apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
 
 sudo apt update
 
@@ -75,3 +75,19 @@ output:
 tcp-brutal/1.0.3, 6.13.8-x64v3-xanmod1, x86_64: installed
 ```
 If failed, check [https://github.com/apernet/tcp-brutal/issues/7](https://github.com/apernet/tcp-brutal/issues/7)
+
+```shell
+cat /var/lib/dkms/tcp-brutal/1.0.0/build/make.log
+```
+
+### `clang: not found`
+
+```bash
+sudo apt install clang
+```
+
+### `lld: not found`
+
+```bash
+sudo apt install lld
+```

@@ -14,7 +14,6 @@ echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
-SNELL_CONFIG_DIR="/etc/snell/users"
 CENTRAL_API="$1"
 MIN=${2:-10000}
 MAX=${3:-65535}
@@ -45,12 +44,11 @@ function generate_password() {
     SS_PASSWORD=$(sing-box generate rand --base64 32 | tr -d '\n')
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
     H2_OBFS_PASSWORD=$(sing-box generate uuid | tr -d '\n')
-    SNELL_PASSWORD=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 20)
 }
 
 function generate_port() {
     numbers=()
-    while [ ${#numbers[@]} -lt 6 ]; do
+    while [ ${#numbers[@]} -lt 5 ]; do
         num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
         if [[ ! " ${numbers[@]} " =~ " $num " ]]; then
             numbers+=($num)
@@ -62,7 +60,6 @@ function generate_port() {
     SS_PORT=${numbers[2]}
     REALITY_PORT=${numbers[3]}
     ANYTLS_PORT=${numbers[4]}
-    SNELL_PORT=${numbers[5]}
 }
 
 function generate_esb_config() {
@@ -88,8 +85,6 @@ function generate_esb_config() {
   "public_key": "$PUBLIC_KEY",
   "private_key": "$PRIVATE_KEY",
   "anytls_port": $ANYTLS_PORT,
-  "snell_port": $SNELL_PORT,
-  "snell_password": "$SNELL_PASSWORD"
 }
 EOF
 }
@@ -110,8 +105,6 @@ function load_esb_config() {
         PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
         PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
         ANYTLS_PORT=$(jq -r .anytls_port "$CONFIG_FILE")
-        SNELL_PORT=$(jq -r .snell_port "$CONFIG_FILE")
-        SNELL_PASSWORD=$(jq -r .snell_password "$CONFIG_FILE")
     else
         generate_esb_config
         load_esb_config
@@ -150,8 +143,17 @@ function generate_singbox_server() {
       "listen_port": $SS_PORT,
       "tcp_fast_open": true,
       "tcp_multi_path": true,
-      "method": "chacha20-ietf-poly1305",
-      "password": "$SS_PASSWORD"
+      "method": "2022-blake3-aes-256-gcm",
+      "password": "$SS_PASSWORD",
+      "multiplex": {
+        "enabled": true,
+        "padding": true,
+        "brutal": {
+          "enabled": true,
+          "up_mbps": 500,
+          "down_mbps": 500
+        }
+      }
     },
     {
       "type": "anytls",
@@ -275,19 +277,6 @@ function generate_singbox_server() {
 EOF
 }
 
-function generate_snell_server() {
-    load_esb_config
-    rm -rf $SNELL_CONFIG_DIR
-    mkdir -p "$SNELL_CONFIG_DIR"
-    # 创建配置文件
-    cat <<EOF > "$SNELL_CONFIG_DIR/snell-main.conf"
-[snell-server]
-listen = ::0:${SNELL_PORT}
-psk = ${SNELL_PASSWORD}
-ipv6 = false
-EOF
-}
-
 # 开放端口 (ufw 和 iptables)
 open_port() {
     local PORT=$1
@@ -338,37 +327,11 @@ LimitNOFILE=infinity
 WantedBy=multi-user.target
 EOF
 
-generate_snell_server
-cat <<EOF > "/lib/systemd/system/snell.service"
-[Unit]
-Description=Snell Proxy Service
-After=network.target
-
-[Service]
-Type=simple
-User=snell
-Group=snell
-ExecStart=/usr/local/bin/snell-server -c $SNELL_CONFIG_DIR/snell-main.conf
-AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_NET_ADMIN CAP_NET_RAW
-CapabilityBoundingSet=CAP_NET_BIND_SERVICE CAP_NET_ADMIN CAP_NET_RAW
-LimitNOFILE=32768
-Restart=on-failure
-StandardOutput=journal
-StandardError=journal
-SyslogIdentifier=snell-server
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-echo "重启 sing-box、snell..."
+echo "重启 sing-box..."
 systemctl daemon-reload
 systemctl restart sing-box
 systemctl enable sing-box
-systemctl enable snell
-systemctl restart snell
 
-open_port "$SNELL_PORT"
 
 clear
 echo -e "\e[1;33mSuccess!\033[0m"
