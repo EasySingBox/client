@@ -140,8 +140,6 @@ function generate_singbox_server() {
       "type": "shadowsocks",
       "tag": "ss",
       "listen": "127.0.0.1",
-      "tcp_fast_open": true,
-      "tcp_multi_path": true,
       "method": "2022-blake3-aes-256-gcm",
       "password": "$SS_PASSWORD",
       "multiplex": {
@@ -152,7 +150,9 @@ function generate_singbox_server() {
           "up_mbps": 500,
           "down_mbps": 500
         }
-      }
+      },
+      "tcp_fast_open": true,
+      "tcp_multi_path": true
     },
     {
       "type": "shadowtls",
@@ -169,9 +169,14 @@ function generate_singbox_server() {
       ],
       "handshake":{
         "server": "icloud.com",
-        "server_port": 443
+        "server_port": 443,
+        "tcp_fast_open": true,
+        "tcp_multi_path": true
       },
-      "strict_mode": true
+      "strict_mode": true,
+      "wildcard_sni": "authed",
+      "tcp_fast_open": true,
+      "tcp_multi_path": true
     },
     {
       "type": "anytls",
