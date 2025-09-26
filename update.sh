@@ -139,7 +139,7 @@ function generate_singbox_server() {
     {
       "type": "shadowsocks",
       "tag": "ss",
-      "listen": "::",
+      "listen": "127.0.0.1",
       "listen_port": $SS_PORT,
       "tcp_fast_open": true,
       "tcp_multi_path": true,
@@ -154,6 +154,24 @@ function generate_singbox_server() {
           "down_mbps": 500
         }
       }
+    },
+    {
+      "type": "shadowtls",
+      "tag": "shadowtls",
+      "version": 3,
+      "listen": "::",
+      "listen_port": 443,
+      "detour": "ss",
+      "users": [
+        {
+          "password": "$PASSWORD"
+        }
+      ],
+      "handshake":{
+        "server": "icloud.com",
+        "server_port": 443
+      },
+      "strict_mode": true
     },
     {
       "type": "anytls",
@@ -175,24 +193,6 @@ function generate_singbox_server() {
         "certificate_path": "/etc/sing-box/cert.pem",
         "key_path": "/etc/sing-box/private.key"
       }
-    },
-    {
-      "type": "shadowtls",
-      "tag": "shadowtls",
-      "version": 3,
-      "listen": "::",
-      "listen_port": 443,
-      "detour": "ss",
-      "users": [
-        {
-          "password": "$PASSWORD"
-        }
-      ],
-      "handshake":{
-        "server": "icloud.com",
-        "server_port": 443
-      },
-      "strict_mode": true
     },
     {
       "type": "tuic",
