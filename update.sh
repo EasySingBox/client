@@ -123,7 +123,7 @@ function generate_singbox_server() {
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
   "log": {
-    "level": "debug",
+    "level": "error",
     "timestamp": true
   },
   "dns": {
