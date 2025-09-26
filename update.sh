@@ -169,7 +169,7 @@ function generate_singbox_server() {
       ],
       "handshake":{
         "server": "douyin.com",
-        "server_port": 443,
+        "server_port": 443
       },
       "strict_mode": true,
       "wildcard_sni": "authed",
