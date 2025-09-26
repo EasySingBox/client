@@ -177,6 +177,24 @@ function generate_singbox_server() {
       }
     },
     {
+      "type": "shadowtls",
+      "tag": "shadowtls",
+      "version": 3,
+      "listen": "::",
+      "listen_port": 443,
+      "detour": "ss",
+      "users": [
+        {
+          "password": "$PASSWORD"
+        }
+      ],
+      "handshake":{
+        "server": "icloud.com",
+        "server_port": 443
+      },
+      "strict_mode": true
+    },
+    {
       "type": "tuic",
       "tag": "tuic5",
       "listen": "::",
