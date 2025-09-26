@@ -168,15 +168,13 @@ function generate_singbox_server() {
         }
       ],
       "handshake":{
-        "server": "icloud.com",
+        "server": "douyin.com",
         "server_port": 443,
-        "tcp_fast_open": true,
-        "tcp_multi_path": true
       },
       "strict_mode": true,
       "wildcard_sni": "authed",
       "tcp_fast_open": true,
-      "tcp_multi_path": true
+      "tcp_multi_path": false
     },
     {
       "type": "anytls",
