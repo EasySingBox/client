@@ -84,7 +84,7 @@ function generate_esb_config() {
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
   "private_key": "$PRIVATE_KEY",
-  "anytls_port": $ANYTLS_PORT,
+  "anytls_port": $ANYTLS_PORT
 }
 EOF
 }
