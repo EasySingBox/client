@@ -21,4 +21,4 @@ curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 bash <(curl -fsSL https://tcp.hy2.sh/)
 
 # gen config
-bash <(curl -Ls https://codeberg.org/easy-sing-box/client/raw/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX
+bash <(curl -Ls https://git.banmiya.org/easy-sing-box/client/raw/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX
