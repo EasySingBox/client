@@ -173,8 +173,7 @@ function generate_singbox_server() {
       },
       "strict_mode": true,
       "wildcard_sni": "authed",
-      "tcp_fast_open": true,
-      "tcp_multi_path": false
+      "tcp_fast_open": true
     },
     {
       "type": "anytls",
