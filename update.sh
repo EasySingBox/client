@@ -23,10 +23,10 @@ echo "RANDOM_PORT_MIN: $MIN"
 echo "RANDOM_PORT_MAX: $MAX"
 
 function get_ip_info() {
-    IP_INFO=$(curl -s -4 api.ip.sb/geoip)
-    SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
-    COUNTRY=$(echo "$IP_INFO" | jq -r .continent_code)
-    VPS_ORG_FULL=$(echo "$IP_INFO" | jq -r .asn_organization)
+    IP_INFO=$(curl -4 https://free.freeipapi.com/api/json)
+    SERVER_IP=$(echo "$IP_INFO" | jq -r .ipAddress)
+    COUNTRY=$(echo "$IP_INFO" | jq -r .countryCode)
+    VPS_ORG_FULL=$(echo "$IP_INFO" | jq -r .asnOrganization)
     VPS_ORG=$(echo "$VPS_ORG_FULL" | cut -d' ' -f1)
 }
 
