@@ -21,4 +21,4 @@ curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 bash <(curl -fsSL https://tcp.hy2.sh/)
 
 # gen config
-bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/central/refs/heads/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX
+bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX
