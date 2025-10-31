@@ -5,13 +5,13 @@
 ### Install
 
 ```shell
-bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/central/refs/heads/main/install.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/install.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 ```
 
 ### Update
 
 ```shell
-bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/central/refs/heads/main/update.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/update.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 ```
 
 ## XanMod Core installation
