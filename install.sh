@@ -14,6 +14,8 @@ echo "RANDOM_PORT_MAX: $RANDOM_PORT_MAX"
 apt install -y git jq gcc wget unzip curl
 mkdir /etc/apt/keyrings/ > /dev/null
 
+sudo apt remove sing-box-beta
+
 # install sing-box-beta
 curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 
