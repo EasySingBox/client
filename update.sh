@@ -353,7 +353,6 @@ systemctl restart sing-box
 systemctl enable sing-box
 
 
-clear
 echo -e "\e[1;33mSuccess!\033[0m"
 
 RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
