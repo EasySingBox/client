@@ -139,7 +139,7 @@ function generate_singbox_server() {
     {
       "type": "shadowsocks",
       "tag": "ss",
-      "listen": "127.0.0.1",
+      "listen": "::",
       "method": "2022-blake3-aes-256-gcm",
       "password": "$SS_PASSWORD",
       "multiplex": {
@@ -153,27 +153,6 @@ function generate_singbox_server() {
       },
       "tcp_fast_open": true,
       "tcp_multi_path": true
-    },
-    {
-      "type": "shadowtls",
-      "tag": "shadowtls",
-      "version": 3,
-      "listen": "::",
-      "listen_port": $SS_PORT,
-      "detour": "ss",
-      "users": [
-        {
-          "name": "$SS_PASSWORD",
-          "password": "$SS_PASSWORD"
-        }
-      ],
-      "handshake":{
-        "server": "douyin.com",
-        "server_port": 443
-      },
-      "strict_mode": true,
-      "wildcard_sni": "authed",
-      "tcp_fast_open": true
     },
     {
       "type": "anytls",
