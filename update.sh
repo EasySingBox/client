@@ -212,6 +212,10 @@ function generate_singbox_server() {
       ],
       "tls": {
         "enabled": true,
+        "alpn": [
+          "h2",
+          "http/1.1"
+        ],
         "server_name": "yahoo.com",
         "reality": {
           "enabled": true,
