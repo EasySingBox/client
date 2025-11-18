@@ -140,6 +140,9 @@ function generate_singbox_server() {
       "type": "shadowsocks",
       "tag": "ss",
       "listen": "::",
+      "listen_port": $SS_PORT,
+      "tcp_fast_open": true,
+      "tcp_multi_path": true,
       "method": "2022-blake3-aes-256-gcm",
       "password": "$SS_PASSWORD",
       "multiplex": {
@@ -150,9 +153,7 @@ function generate_singbox_server() {
           "up_mbps": 500,
           "down_mbps": 500
         }
-      },
-      "tcp_fast_open": true,
-      "tcp_multi_path": true
+      }
     },
     {
       "type": "anytls",
