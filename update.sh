@@ -204,12 +204,10 @@ function generate_singbox_server() {
       "tag": "vless",
       "listen": "::",
       "listen_port": $REALITY_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
       "users": [
         {
           "uuid": "$PASSWORD",
-          "flow": ""
+          "flow": "xtls-rprx-vision"
         }
       ],
       "tls": {
@@ -218,8 +216,17 @@ function generate_singbox_server() {
         "alpn": "h3",
         "certificate_path": "/etc/sing-box/cert.pem",
         "key_path": "/etc/sing-box/private.key"
+        "reality": {
+          "enabled": true,
+          "handshake": {
+            "server": "yahoo.com",
+            "server_port": 443
+          },
+          "private_key": "$PRIVATE_KEY",
+          "short_id": "$REALITY_SID"
+        }
       }
-    },
+    }
     {
       "type": "hysteria2",
       "tag": "hy2",
