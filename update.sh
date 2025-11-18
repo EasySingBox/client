@@ -216,7 +216,6 @@ function generate_singbox_server() {
           "h2",
           "http/1.1"
         ],
-        "server_name": "yahoo.com",
         "reality": {
           "enabled": true,
           "handshake": {
@@ -227,7 +226,7 @@ function generate_singbox_server() {
           "short_id": "$REALITY_SID"
         }
       }
-    }
+    },
     {
       "type": "hysteria2",
       "tag": "hy2",
