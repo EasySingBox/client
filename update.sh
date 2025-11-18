@@ -18,7 +18,9 @@ CENTRAL_API="$1"
 MIN=${2:-10000}
 MAX=${3:-65535}
 
+if [ -z "$1" ]; then
 echo "CENTRAL_API: $CENTRAL_API"
+fi
 echo "RANDOM_PORT_MIN: $MIN"
 echo "RANDOM_PORT_MAX: $MAX"
 
@@ -342,7 +344,9 @@ systemctl enable sing-box
 
 echo -e "\e[1;33mSuccess!\033[0m"
 
-RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
-if [[ "$RESPONSE_CODE" == "200" ]]; then
-    echo "推送到 Central API 成功 ($CENTRAL_API)"
+if [ -z "$CENTRAL_API" ]; then
+  RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
+  if [[ "$RESPONSE_CODE" == "200" ]]; then
+      echo "推送到 Central API 成功 ($CENTRAL_API)"
+  fi
 fi
