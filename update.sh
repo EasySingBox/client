@@ -3,24 +3,14 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
-# 檢查是否提供了第一個參數
-if [ -z "$1" ]; then
-    echo "錯誤：第一個參數 CENTRAL_API 必須填寫！"
-    echo "使用方式: bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/central/refs/heads/main/update.sh) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]"
-    exit 1
-fi
-
 echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 CENTRAL_API="$1"
-MIN=${2:-10000}
-MAX=${3:-65535}
+MIN=${1:-10000}
+MAX=${2:-65535}
 
-if [ -z "$1" ]; then
-echo "CENTRAL_API: $CENTRAL_API"
-fi
 echo "RANDOM_PORT_MIN: $MIN"
 echo "RANDOM_PORT_MAX: $MAX"
 
@@ -344,9 +334,4 @@ systemctl enable sing-box
 
 echo -e "\e[1;33mSuccess!\033[0m"
 
-if [ -z "$CENTRAL_API" ]; then
-  RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$CENTRAL_API/api/hello" -H "Content-Type: application/json" --data @$CONFIG_FILE)
-  if [[ "$RESPONSE_CODE" == "200" ]]; then
-      echo "推送到 Central API 成功 ($CENTRAL_API)"
-  fi
-fi
+cat $HOME/esb.config

@@ -3,9 +3,8 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
-CENTRAL_API=${1:-""}
-RANDOM_PORT_MIN=${2:-10000}
-RANDOM_PORT_MAX=${3:-65535}
+RANDOM_PORT_MIN=${1:-10000}
+RANDOM_PORT_MAX=${2:-65535}
 
 echo "CENTRAL_API: $CENTRAL_API"
 echo "RANDOM_PORT_MIN: $RANDOM_PORT_MIN"
@@ -24,4 +23,4 @@ curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 bash <(curl -fsSL https://tcp.hy2.sh/)
 
 # gen config
-bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/update.sh?_=$(date +%s)) $CENTRAL_API $RANDOM_PORT_MIN $RANDOM_PORT_MAX
+bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/update.sh?_=$(date +%s)) $RANDOM_PORT_MIN $RANDOM_PORT_MAX
