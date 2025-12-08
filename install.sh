@@ -6,7 +6,7 @@
 ARGO_DOMAIN=${1:-''}
 ARGO_AUTH=${2:-''}
 
-
+apt install -y jq
 
 IP_INFO=$(curl -4 https://free.freeipapi.com/api/json)
 SERVER_IP=$(echo "$IP_INFO" | jq -r .ipAddress)
