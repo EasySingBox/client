@@ -14,7 +14,7 @@ SERVER_IP=$(echo "$IP_INFO" | jq -r .ipAddress)
 COUNTRY=$(echo "$IP_INFO" | jq -r .countryCode)
 VPS_ORG_FULL=$(echo "$IP_INFO" | jq -r .asnOrganization)
 VPS_ORG=$(echo "$VPS_ORG_FULL" | cut -d' ' -f1)
-PASSWORD=$(openssl rand -hex 16 | sed 's/\(..\)/\1-/2;s/-$//')
+PASSWORD=$(cat /proc/sys/kernel/random/uuid)
 
 # gen config
 bash <(wget -qO- https://raw.githubusercontent.com/zmlu/sing-box/main/sing-box.sh) \
