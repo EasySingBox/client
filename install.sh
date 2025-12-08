@@ -28,6 +28,6 @@ bash <(wget -qO- https://raw.githubusercontent.com/zmlu/sing-box/main/sing-box.s
   --SUBSCRIBE=true \
   --ARGO=true \
   --ARGO_DOMAIN=$ARGO_DOMAIN \
-  --ARGO_AUTH='sudo cloudflared service install $ARGO_AUTH' \
+  --ARGO_AUTH="sudo cloudflared service install $ARGO_AUTH" \
   --PORT_HOPPING_RANGE 50000:51000 \
-  --NODE_NAME_CONFIRM='[$COUNTRY] $VPS_ORG'
+  --NODE_NAME_CONFIRM="[$COUNTRY] $VPS_ORG"
