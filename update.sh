@@ -111,6 +111,8 @@ function generate_singbox_server() {
 
     wget --inet4-only -O "$SING_BOX_CONFIG_DIR/cert.pem" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/cert.pem
     wget --inet4-only -O "$SING_BOX_CONFIG_DIR/private.key" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/private.key
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/netflix.srs" https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/netflixip.srs" https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs
 
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
@@ -250,7 +252,14 @@ function generate_singbox_server() {
   "outbounds": [
     {
       "type": "direct",
-      "tag": "direct"
+      "tag": "direct",
+      "domain_strategy": "ipv4_only"
+    },
+    {
+      "type": "direct",
+      "tag": "wgcf",
+      "routing_mark": 51888,
+      "domain_strategy": "ipv6_only"
     }
   ],
   "route": {
@@ -267,6 +276,27 @@ function generate_singbox_server() {
           "stun"
         ],
         "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "netflix",
+          "netflixip"
+        ],
+        "outbound": "wgcf"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "local",
+        "tag": "netflix",
+        "format": "binary",
+        "path": "$SING_BOX_CONFIG_DIR/netflix.srs"
+      },
+      {
+        "type": "local",
+        "tag": "netflixip",
+        "format": "binary",
+        "path": "$SING_BOX_CONFIG_DIR/netflixip.srs"
       }
     ],
     "final": "direct",
