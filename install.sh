@@ -3,8 +3,8 @@
 # 检查是否为root下运行
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
-ARGO_DOMAIN=${2:-''}
-$ARGO_AUTH=${3:-''}
+ARGO_DOMAIN=${1:-''}
+$ARGO_AUTH=${2:-''}
 
 echo "ARGO_DOMAIN: $ARGO_DOMAIN"
 echo "ARGO_AUTH: $ARGO_AUTH"
@@ -14,10 +14,7 @@ SERVER_IP=$(echo "$IP_INFO" | jq -r .ipAddress)
 COUNTRY=$(echo "$IP_INFO" | jq -r .countryCode)
 VPS_ORG_FULL=$(echo "$IP_INFO" | jq -r .asnOrganization)
 VPS_ORG=$(echo "$VPS_ORG_FULL" | cut -d' ' -f1)
-XRAY_OUT=$(sing-box generate reality-keypair)
-PRIVATE_KEY=$(echo "$XRAY_OUT" | grep "PrivateKey" | awk '{print $2}')
-PUBLIC_KEY=$(echo "$XRAY_OUT" | grep "PublicKey" | awk '{print $2}')
-PASSWORD=$(sing-box generate uuid | tr -d '\n')
+PASSWORD=$(openssl rand -hex 16 | sed 's/\(..\)/\1-/2;s/-$//')
 
 # gen config
 bash <(wget -qO- https://raw.githubusercontent.com/zmlu/sing-box/main/sing-box.sh) \
@@ -33,5 +30,4 @@ bash <(wget -qO- https://raw.githubusercontent.com/zmlu/sing-box/main/sing-box.s
   --ARGO_DOMAIN=$ARGO_DOMAIN \
   --ARGO_AUTH='sudo cloudflared service install $ARGO_AUTH' \
   --PORT_HOPPING_RANGE 50000:51000 \
-  --REALITY_PRIVATE=$PRIVATE_KEY \
-  --NODE_NAME_CONFIRM bucket
+  --NODE_NAME_CONFIRM='[$COUNTRY] $VPS_ORG'
