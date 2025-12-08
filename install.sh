@@ -4,7 +4,7 @@
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
 ARGO_DOMAIN=${1:-''}
-$ARGO_AUTH=${2:-''}
+ARGO_AUTH=${2:-''}
 
 echo "ARGO_DOMAIN: $ARGO_DOMAIN"
 echo "ARGO_AUTH: $ARGO_AUTH"
