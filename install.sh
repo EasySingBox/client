@@ -9,18 +9,6 @@ $ARGO_AUTH=${3:-''}
 echo "ARGO_DOMAIN: $ARGO_DOMAIN"
 echo "ARGO_AUTH: $ARGO_AUTH"
 
-apt install -y git jq gcc wget unzip curl
-mkdir /etc/apt/keyrings/ > /dev/null
-
-sudo apt remove -y sing-box
-sudo apt remove -y sing-box-beta
-
-# install sing-box-beta
-curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
-
-# install hy2-tcp
-bash <(curl -fsSL https://tcp.hy2.sh/)
-
 IP_INFO=$(curl -4 https://free.freeipapi.com/api/json)
 SERVER_IP=$(echo "$IP_INFO" | jq -r .ipAddress)
 COUNTRY=$(echo "$IP_INFO" | jq -r .countryCode)
