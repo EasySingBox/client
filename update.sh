@@ -7,7 +7,7 @@ echo "开始生成配置..."
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
-CENTRAL_API="$1"
+
 MIN=${1:-10000}
 MAX=${2:-65535}
 
@@ -253,13 +253,19 @@ function generate_singbox_server() {
     {
       "type": "direct",
       "tag": "direct",
-      "domain_strategy": "ipv4_only"
+      "domain_resolver": {
+        "server": "dns",
+        "strategy": "prefer_ipv4"
+      }
     },
     {
       "type": "direct",
       "tag": "wgcf",
       "routing_mark": 51888,
-      "domain_strategy": "ipv6_only"
+      "domain_resolver": {
+        "server": "dns",
+        "strategy": "ipv6_only"
+      }
     }
   ],
   "route": {
@@ -304,30 +310,6 @@ function generate_singbox_server() {
   }
 }
 EOF
-}
-
-# 开放端口 (ufw 和 iptables)
-open_port() {
-    local PORT=$1
-    # 检查 ufw 是否已安装
-    if command -v ufw &> /dev/null; then
-        echo -e "${CYAN}在 UFW 中开放端口 $PORT${RESET}"
-        ufw allow "$PORT"/tcp
-    fi
-
-    # 检查 iptables 是否已安装
-    if command -v iptables &> /dev/null; then
-        echo -e "${CYAN}在 iptables 中开放端口 $PORT${RESET}"
-        iptables -I INPUT -p tcp --dport "$PORT" -j ACCEPT
-
-        # 创建 iptables 规则保存目录（如果不存在）
-        if [ ! -d "/etc/iptables" ]; then
-            mkdir -p /etc/iptables
-        fi
-
-        # 尝试保存规则，如果失败则不中断脚本
-        iptables-save > /etc/iptables/rules.v4 || true
-    fi
 }
 
 if [[ ! -f "$CONFIG_FILE" ]]; then
