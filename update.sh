@@ -125,6 +125,12 @@ function generate_singbox_server() {
       {
         "type": "local",
         "tag": "dns"
+      },
+      {
+        "type": "https",
+        "server": "dns.google",
+        "tag": "dns-google",
+        "domain_resolver": "dns"
       }
     ],
     "independent_cache": true
@@ -251,11 +257,20 @@ function generate_singbox_server() {
     },
     {
       "type": "direct",
-      "tag": "wgcf",
+      "tag": "wgcf-ipv6",
       "routing_mark": 51888,
       "domain_resolver": {
         "server": "dns",
         "strategy": "ipv6_only"
+      }
+    }
+    {
+      "type": "direct",
+      "tag": "wgcf",
+      "routing_mark": 51888,
+      "domain_resolver": {
+        "server": "dns-google",
+        "strategy": "prefer_ipv4"
       }
     }
   ],
