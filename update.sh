@@ -263,7 +263,7 @@ function generate_singbox_server() {
         "server": "dns",
         "strategy": "ipv6_only"
       }
-    }
+    },
     {
       "type": "direct",
       "tag": "wgcf",
