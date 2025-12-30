@@ -294,7 +294,7 @@ function generate_singbox_server() {
           "netflix",
           "netflixip"
         ],
-        "outbound": "wgcf"
+        "outbound": "wgcf-ipv6"
       }
     ],
     "rule_set": [
