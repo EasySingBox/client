@@ -296,7 +296,7 @@ function generate_singbox_server() {
         "path": "$SING_BOX_CONFIG_DIR/netflixip.srs"
       }
     ],
-    "final": "direct",
+    "final": "wgcf",
     "default_domain_resolver": "dns"
   }
 }

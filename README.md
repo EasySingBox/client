@@ -30,7 +30,7 @@ sudo apt update
 awk -f <(wget -O - https://dl.xanmod.org/check_x86-64_psabi.sh)
 
 # install
-sudo apt update && sudo apt install linux-xanmod-edge-x64v4
+sudo apt update && sudo apt install linux-xanmod-edge-x64v3
 
 reboot
 
@@ -80,14 +80,8 @@ If failed, check [https://github.com/apernet/tcp-brutal/issues/7](https://github
 cat /var/lib/dkms/tcp-brutal/1.0.0/build/make.log
 ```
 
-### `clang: not found`
+### `clang: not found` or lld: not found
 
 ```bash
-sudo apt install clang
-```
-
-### `lld: not found`
-
-```bash
-sudo apt install lld
+sudo apt install -y clang lld
 ```
