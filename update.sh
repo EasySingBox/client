@@ -312,7 +312,7 @@ function generate_singbox_server() {
       }
     ],
     "final": "wgcf",
-    "default_domain_resolver": "dns"
+    "default_domain_resolver": "dns-google"
   }
 }
 EOF
