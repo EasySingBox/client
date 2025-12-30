@@ -139,15 +139,6 @@ function generate_singbox_server() {
       "tcp_multi_path": true,
       "method": "2022-blake3-aes-256-gcm",
       "password": "$SS_PASSWORD",
-      "multiplex": {
-        "enabled": true,
-        "padding": true,
-        "brutal": {
-          "enabled": true,
-          "up_mbps": 500,
-          "down_mbps": 500
-        }
-      }
     },
     {
       "type": "anytls",
@@ -228,11 +219,11 @@ function generate_singbox_server() {
       "listen_port": $H2_PORT,
       "sniff": true,
       "sniff_override_destination": true,
-      "up_mbps": 500,
-      "down_mbps": 500,
+      "up_mbps": 300,
+      "down_mbps": 150,
       "users": [
         {
-          "name": "user-jacob",
+          "name": "user-z",
           "password": "$PASSWORD"
         }
       ],
