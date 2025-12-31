@@ -125,6 +125,12 @@ function generate_singbox_server() {
       {
         "type": "local",
         "tag": "dns"
+      },
+      {
+        "type": "https",
+        "server": "dns.google",
+        "tag": "dns-google",
+        "domain_resolver": "dns"
       }
     ],
     "independent_cache": true
@@ -139,15 +145,6 @@ function generate_singbox_server() {
       "tcp_multi_path": true,
       "method": "2022-blake3-aes-256-gcm",
       "password": "$SS_PASSWORD",
-      "multiplex": {
-        "enabled": true,
-        "padding": true,
-        "brutal": {
-          "enabled": true,
-          "up_mbps": 500,
-          "down_mbps": 500
-        }
-      }
     },
     {
       "type": "anytls",
@@ -228,11 +225,11 @@ function generate_singbox_server() {
       "listen_port": $H2_PORT,
       "sniff": true,
       "sniff_override_destination": true,
-      "up_mbps": 500,
-      "down_mbps": 500,
+      "up_mbps": 300,
+      "down_mbps": 150,
       "users": [
         {
-          "name": "user-jacob",
+          "name": "user-z",
           "password": "$PASSWORD"
         }
       ],
@@ -260,11 +257,20 @@ function generate_singbox_server() {
     },
     {
       "type": "direct",
-      "tag": "wgcf",
+      "tag": "wgcf-ipv6",
       "routing_mark": 51888,
       "domain_resolver": {
         "server": "dns",
         "strategy": "ipv6_only"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "wgcf",
+      "routing_mark": 51888,
+      "domain_resolver": {
+        "server": "dns-google",
+        "strategy": "prefer_ipv4"
       }
     }
   ],
@@ -288,7 +294,7 @@ function generate_singbox_server() {
           "netflix",
           "netflixip"
         ],
-        "outbound": "wgcf"
+        "outbound": "wgcf-ipv6"
       }
     ],
     "rule_set": [
@@ -305,8 +311,8 @@ function generate_singbox_server() {
         "path": "$SING_BOX_CONFIG_DIR/netflixip.srs"
       }
     ],
-    "final": "direct",
-    "default_domain_resolver": "dns"
+    "final": "wgcf",
+    "default_domain_resolver": "dns-google"
   }
 }
 EOF
