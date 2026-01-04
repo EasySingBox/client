@@ -18,4 +18,4 @@ sudo apt remove -y sing-box
 curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 
 # gen config
-bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/update.sh?_=$(date +%s)) $RANDOM_PORT_MIN $RANDOM_PORT_MAX
+bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/main/update.sh?_=$(date +%s)) $RANDOM_PORT_MIN $RANDOM_PORT_MAX
