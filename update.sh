@@ -16,7 +16,7 @@ echo "RANDOM_PORT_MAX: $MAX"
 
 function get_ip_info() {
     IP_INFO=$(curl -4 https://ip.cloudflare.nyc.mn)
-    SERVER_IP=$(echo "$IP_INFO" | jq -r .ipAddress)
+    SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
 }
 
 function generate_reality_keys() {
