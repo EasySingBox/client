@@ -13,13 +13,9 @@ apt install -y git jq gcc wget unzip curl
 mkdir /etc/apt/keyrings/ > /dev/null
 
 sudo apt remove -y sing-box
-sudo apt remove -y sing-box-beta
 
 # install sing-box-beta
 curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
-
-# install hy2-tcp
-bash <(curl -fsSL https://tcp.hy2.sh/)
 
 # gen config
 bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/update.sh?_=$(date +%s)) $RANDOM_PORT_MIN $RANDOM_PORT_MAX
