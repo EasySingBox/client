@@ -150,7 +150,7 @@ function generate_singbox_server() {
           "password": "$PASSWORD"
         }
       ],
-      "congestion_control": "bbr",
+      "congestion_control": "cubic",
       "tls": {
         "enabled": true,
         "alpn": "h3",
@@ -282,8 +282,8 @@ generate_singbox_server
 
 cat <<EOF > "/usr/lib/systemd/system/sing-box.service"
 [Unit]
-Description=sing-box service
-Documentation=https://sing-box.sagernet.org
+Description=esb
+Documentation=https://esb.banmiya.org
 After=network.target nss-lookup.target network-online.target
 
 [Service]
@@ -294,6 +294,8 @@ ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 RestartSec=10s
 LimitNOFILE=infinity
+CPUSchedulingPolicy=rr
+CPUSchedulingPriority=99
 
 [Install]
 WantedBy=multi-user.target
