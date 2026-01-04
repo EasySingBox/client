@@ -15,11 +15,8 @@ echo "RANDOM_PORT_MIN: $MIN"
 echo "RANDOM_PORT_MAX: $MAX"
 
 function get_ip_info() {
-    IP_INFO=$(curl -4 https://free.freeipapi.com/api/json)
+    IP_INFO=$(curl -4 https://ip.cloudflare.nyc.mn)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ipAddress)
-    COUNTRY=$(echo "$IP_INFO" | jq -r .countryCode)
-    VPS_ORG_FULL=$(echo "$IP_INFO" | jq -r .asnOrganization)
-    VPS_ORG=$(echo "$VPS_ORG_FULL" | cut -d' ' -f1)
 }
 
 function generate_reality_keys() {
@@ -40,7 +37,7 @@ function generate_password() {
 
 function generate_port() {
     numbers=()
-    while [ ${#numbers[@]} -lt 5 ]; do
+    while [ ${#numbers[@]} -lt 4 ]; do
         num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
         if [[ ! " ${numbers[@]} " =~ " $num " ]]; then
             numbers+=($num)
@@ -51,7 +48,6 @@ function generate_port() {
     TUIC_PORT=${numbers[1]}
     SS_PORT=${numbers[2]}
     REALITY_PORT=${numbers[3]}
-    ANYTLS_PORT=${numbers[4]}
 }
 
 function generate_esb_config() {
@@ -64,8 +60,6 @@ function generate_esb_config() {
     cat <<EOF > "$CONFIG_FILE"
 {
   "server_ip": "$SERVER_IP",
-  "vps_org": "$VPS_ORG",
-  "country": "$COUNTRY",
   "password": "$PASSWORD",
   "ss_password": "$SS_PASSWORD",
   "ss_port": $SS_PORT,
@@ -75,8 +69,7 @@ function generate_esb_config() {
   "reality_port": $REALITY_PORT,
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
-  "private_key": "$PRIVATE_KEY",
-  "anytls_port": $ANYTLS_PORT
+  "private_key": "$PRIVATE_KEY"
 }
 EOF
 }
@@ -84,8 +77,6 @@ EOF
 function load_esb_config() {
     if [[ -f "$CONFIG_FILE" ]]; then
         SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE")
-        VPS_ORG=$(jq -r .vps_org "$CONFIG_FILE")
-        COUNTRY=$(jq -r .country "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
         SS_PASSWORD=$(jq -r .ss_password "$CONFIG_FILE")
         SS_PORT=$(jq -r .ss_port "$CONFIG_FILE")
@@ -96,7 +87,6 @@ function load_esb_config() {
         REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
         PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
         PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
-        ANYTLS_PORT=$(jq -r .anytls_port "$CONFIG_FILE")
     else
         generate_esb_config
         load_esb_config
@@ -135,40 +125,8 @@ function generate_singbox_server() {
       "tag": "ss",
       "listen": "::",
       "listen_port": $SS_PORT,
-      "tcp_fast_open": true,
-      "tcp_multi_path": true,
       "method": "2022-blake3-aes-256-gcm",
-      "password": "$SS_PASSWORD",
-      "multiplex": {
-        "enabled": true,
-        "padding": true,
-        "brutal": {
-          "enabled": true,
-          "up_mbps": 500,
-          "down_mbps": 500
-        }
-      }
-    },
-    {
-      "type": "anytls",
-      "tag": "anytls",
-      "listen": "::",
-      "listen_port": $ANYTLS_PORT,
-      "users": [
-        {
-          "name": "$PASSWORD",
-          "password": "$PASSWORD"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "alpn": [
-          "h2",
-          "http/1.1"
-        ],
-        "certificate_path": "/etc/sing-box/cert.pem",
-        "key_path": "/etc/sing-box/private.key"
-      }
+      "password": "$SS_PASSWORD"
     },
     {
       "type": "tuic",
@@ -186,9 +144,7 @@ function generate_singbox_server() {
       "congestion_control": "bbr",
       "tls": {
         "enabled": true,
-        "alpn": [
-          "h3"
-        ],
+        "alpn": "h3",
         "certificate_path": "/etc/sing-box/cert.pem",
         "key_path": "/etc/sing-box/private.key"
       }
@@ -206,10 +162,7 @@ function generate_singbox_server() {
       ],
       "tls": {
         "enabled": true,
-        "alpn": [
-          "h2",
-          "http/1.1"
-        ],
+        "alpn": "h3",
         "reality": {
           "enabled": true,
           "handshake": {
@@ -228,8 +181,6 @@ function generate_singbox_server() {
       "listen_port": $H2_PORT,
       "sniff": true,
       "sniff_override_destination": true,
-      "up_mbps": 500,
-      "down_mbps": 500,
       "users": [
         {
           "name": "user-jacob",
