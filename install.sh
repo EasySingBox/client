@@ -190,6 +190,9 @@ function generate_singbox_server() {
       "listen_port": $H2_PORT,
       "sniff": true,
       "sniff_override_destination": true,
+      "ignore_client_bandwidth": true,
+      "up_mbps": 1024,
+      "down_mbps": 1024,
       "users": [
         {
           "name": "user-jacob",
