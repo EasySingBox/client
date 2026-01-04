@@ -21,3 +21,5 @@ bash <(curl -fsSL http://git.io/warp.sh) x
 
 # gen config
 bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/main/update.sh?_=$(date +%s)) $RANDOM_PORT_MIN $RANDOM_PORT_MAX
+
+bash <(curl -fsSL http://git.io/warp.sh) rwg
