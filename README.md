@@ -1,17 +1,17 @@
 ## easy-sing-box
 
-## Install & update
+## Install
 
-### Install
+### sing-box
 
 ```shell
-bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/install.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/install.sh?_=$(date +%s)) [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
 ```
 
-### Update
+### shuduku
 
 ```shell
-bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/update.sh?_=$(date +%s)) <CENTRAL_API> [RANDOM_PORT_MIN] [RANDOM_PORT_MAX]
+bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/shuduku.sh?_=$(date +%s))
 ```
 
 ## XanMod Core installation

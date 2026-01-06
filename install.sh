@@ -20,7 +20,7 @@ mkdir /etc/apt/keyrings/ > /dev/null
 sudo apt remove -y sing-box
 
 # install sing-box-beta
-curl -fsSL https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/sing-box.sh | sh -s -- --beta
+curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 
 
 function get_ip_info() {
