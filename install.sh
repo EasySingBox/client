@@ -46,7 +46,7 @@ function generate_password() {
 
 function generate_port() {
     numbers=()
-    while [ ${#numbers[@]} -lt 4 ]; do
+    while [ ${#numbers[@]} -lt 5 ]; do
         num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
         if [[ ! " ${numbers[@]} " =~ " $num " ]]; then
             numbers+=($num)
@@ -57,6 +57,7 @@ function generate_port() {
     TUIC_PORT=${numbers[1]}
     SS_PORT=${numbers[2]}
     REALITY_PORT=${numbers[3]}
+    SUDOKU_PORT=${numbers[4]}
 }
 
 function generate_esb_config() {
@@ -75,6 +76,7 @@ function generate_esb_config() {
   "h2_obfs_password": "$H2_OBFS_PASSWORD",
   "h2_port": $H2_PORT,
   "tuic_port": $TUIC_PORT,
+  "sudoku_port": $SUDOKU_PORT,
   "reality_port": $REALITY_PORT,
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
@@ -92,6 +94,7 @@ function load_esb_config() {
         H2_OBFS_PASSWORD=$(jq -r .h2_obfs_password "$CONFIG_FILE")
         H2_PORT=$(jq -r .h2_port "$CONFIG_FILE")
         TUIC_PORT=$(jq -r .tuic_port "$CONFIG_FILE")
+        SUDOKU_PORT=$(jq -r .sudoku_port "$CONFIG_FILE")
         REALITY_PORT=$(jq -r .reality_port "$CONFIG_FILE")
         REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
         PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
@@ -302,6 +305,9 @@ CPUSchedulingPriority=99
 [Install]
 WantedBy=multi-user.target
 EOF
+
+
+bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/shuduku.sh?_=$(date +%s))
 
 echo "重启 sing-box..."
 systemctl daemon-reload
