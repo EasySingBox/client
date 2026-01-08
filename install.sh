@@ -113,8 +113,8 @@ function generate_singbox_server() {
 
     wget --inet4-only -O "$SING_BOX_CONFIG_DIR/cert.pem" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/cert.pem
     wget --inet4-only -O "$SING_BOX_CONFIG_DIR/private.key" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/private.key
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/netflix.srs" https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflix.srs
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/netflixip.srs" https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@sing-box-ruleset/netflixip.srs
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/netflix.srs" https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/netflix.srs
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/netflixip.srs" https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/netflixip.srs
 
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
