@@ -137,6 +137,8 @@ function generate_singbox_server() {
       "tag": "ss",
       "listen": "::",
       "listen_port": $SS_PORT,
+      "sniff": true,
+      "sniff_override_destination": true,
       "method": "2022-blake3-aes-256-gcm",
       "password": "$SS_PASSWORD"
     },
@@ -146,7 +148,7 @@ function generate_singbox_server() {
       "listen": "::",
       "listen_port": $TUIC_PORT,
       "sniff": true,
-      "sniff_override_destination": false,
+      "sniff_override_destination": true,
       "users": [
         {
           "uuid": "$PASSWORD",
@@ -166,6 +168,8 @@ function generate_singbox_server() {
       "tag": "vless",
       "listen": "::",
       "listen_port": $REALITY_PORT,
+      "sniff": true,
+      "sniff_override_destination": true,
       "users": [
         {
           "uuid": "$PASSWORD",
@@ -192,7 +196,7 @@ function generate_singbox_server() {
       "listen": "::",
       "listen_port": $H2_PORT,
       "sniff": true,
-      "sniff_override_destination": false,
+      "sniff_override_destination": true,
       "up_mbps": 1024,
       "down_mbps": 1024,
       "users": [
