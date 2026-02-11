@@ -146,7 +146,7 @@ function generate_singbox_server() {
       "listen": "::",
       "listen_port": $TUIC_PORT,
       "sniff": true,
-      "sniff_override_destination": true,
+      "sniff_override_destination": false,
       "users": [
         {
           "uuid": "$PASSWORD",
@@ -192,7 +192,7 @@ function generate_singbox_server() {
       "listen": "::",
       "listen_port": $H2_PORT,
       "sniff": true,
-      "sniff_override_destination": true,
+      "sniff_override_destination": false,
       "up_mbps": 1024,
       "down_mbps": 1024,
       "users": [
