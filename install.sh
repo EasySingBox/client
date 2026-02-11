@@ -306,9 +306,6 @@ CPUSchedulingPriority=99
 WantedBy=multi-user.target
 EOF
 
-
-bash <(curl -Ls https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/shuduku.sh?_=$(date +%s))
-
 echo "重启 sing-box..."
 systemctl daemon-reload
 systemctl restart sing-box
