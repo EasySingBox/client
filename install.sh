@@ -24,13 +24,17 @@ DOMAIN_NAME="$2"
 MIN=10000
 MAX=65535
 
-apt install -y git jq gcc wget unzip curl
+apt install -y git jq gcc wget unzip curl socat cron
 mkdir /etc/apt/keyrings/ > /dev/null
 
 sudo apt remove -y sing-box
 
 # install sing-box-beta
 curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
+
+# 安装 acme.sh
+curl https://get.acme.sh | sh
+ln -sf /root/.acme.sh/acme.sh /usr/local/bin/acme.sh
 
 
 function get_ip_info() {
@@ -216,11 +220,25 @@ function generate_singbox_server() {
     chown -R root:root "$ACME_DIR"
     chmod 700 "$ACME_DIR"
 
+    # 重建 sing-box 配置目录
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
 
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/cert.pem" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/cert.pem
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/private.key" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/private.key
+    # 申请并安装域名证书
+    echo "=========================================="
+    echo "[证书] 为域名 $DOMAIN_NAME 申请 Let's Encrypt 证书..."
+    echo "=========================================="
+    acme.sh --set-default-ca --server letsencrypt
+    acme.sh --issue -d "$DOMAIN_NAME" --standalone || {
+        echo "✗ 证书申请失败，请检查域名解析是否已生效以及 80 端口是否开放。"
+        exit 1
+    }
+    acme.sh --install-cert -d "$DOMAIN_NAME" --ecc \
+        --key-file       "$SING_BOX_CONFIG_DIR/private.key" \
+        --fullchain-file "$SING_BOX_CONFIG_DIR/cert.pem" \
+        --reloadcmd      "systemctl restart sing-box"
+    echo "✓ 证书已安装至 $SING_BOX_CONFIG_DIR"
+
     wget --inet4-only -O "$SING_BOX_CONFIG_DIR/netflix.srs" https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/netflix.srs
     wget --inet4-only -O "$SING_BOX_CONFIG_DIR/netflixip.srs" https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/netflixip.srs
 
@@ -256,12 +274,8 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "server_name": "$DOMAIN_NAME",
-        "acme": {
-          "domain": ["$DOMAIN_NAME"],
-          "email": "hello@banmiya.org",
-          "provider": "letsencrypt",
-          "data_directory": "/var/lib/sing-box/acme"
-        }
+        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
+        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
       },
     },
     {
