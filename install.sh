@@ -29,7 +29,7 @@ function get_ip_info() {
     COUNTRY=$(echo "$IP_INFO" | jq -r .country)
     ISP=$(echo "$IP_INFO" | jq -r .isp)
     ASN=$(echo "$IP_INFO" | jq -r .asn)
-    VPS_ORG=$(echo "$ISP" | sed "s/$ASN//" | xargs)
+    VPS_ISP=$(echo "$ISP" | sed "s/$ASN//" | xargs)
 }
 
 function generate_reality_keys() {
@@ -75,7 +75,7 @@ function generate_esb_config() {
 {
   "server_ip": "$SERVER_IP",
   "country": "$COUNTRY",
-  "vps_org": "$VPS_ORG",
+  "isp": "$VPS_ISP",
   "password": "$PASSWORD",
   "ss_password": "$SS_PASSWORD",
   "ss_port": $SS_PORT,
