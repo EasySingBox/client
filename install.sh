@@ -57,7 +57,7 @@ function generate_port() {
     TUIC_PORT=${numbers[1]}
     SS_PORT=${numbers[2]}
     REALITY_PORT=${numbers[3]}
-    SUDOKU_PORT=${numbers[4]}
+    NAIVE_PORT=${numbers[4]}
 }
 
 function generate_esb_config() {
@@ -76,7 +76,7 @@ function generate_esb_config() {
   "h2_obfs_password": "$H2_OBFS_PASSWORD",
   "h2_port": $H2_PORT,
   "tuic_port": $TUIC_PORT,
-  "sudoku_port": $SUDOKU_PORT,
+  "naive_port": $NAIVE_PORT,
   "reality_port": $REALITY_PORT,
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
@@ -94,7 +94,7 @@ function load_esb_config() {
         H2_OBFS_PASSWORD=$(jq -r .h2_obfs_password "$CONFIG_FILE")
         H2_PORT=$(jq -r .h2_port "$CONFIG_FILE")
         TUIC_PORT=$(jq -r .tuic_port "$CONFIG_FILE")
-        SUDOKU_PORT=$(jq -r .sudoku_port "$CONFIG_FILE")
+        NAIVE_PORT=$(jq -r .naive_port "$CONFIG_FILE")
         REALITY_PORT=$(jq -r .reality_port "$CONFIG_FILE")
         REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
         PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
@@ -132,6 +132,26 @@ function generate_singbox_server() {
     "independent_cache": true
   },
   "inbounds": [
+    {
+      "type": "naive",
+      "tag": "naive",
+      "network": "udp",
+      "listen": "::",
+      "listen_port": $NAIVE_PORT,
+      "users": [
+        {
+          "username": "zmlu",
+          "password": "$PASSWORD"
+        }
+      ],
+      "quic_congestion_control": "bbr2",
+      "tls": {
+        "enabled": true,
+        "alpn": "h3",
+        "certificate_path": "/etc/sing-box/cert.pem",
+        "key_path": "/etc/sing-box/private.key"
+      }
+    },
     {
       "type": "shadowsocks",
       "tag": "ss",
@@ -201,7 +221,7 @@ function generate_singbox_server() {
       "down_mbps": 1024,
       "users": [
         {
-          "name": "user-jacob",
+          "name": "zmlu",
           "password": "$PASSWORD"
         }
       ],
