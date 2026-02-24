@@ -305,8 +305,8 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "alpn": "h3",
-        "certificate_path": "/etc/sing-box/cert.pem",
-        "key_path": "/etc/sing-box/private.key"
+        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
+        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
       }
     },
     {
