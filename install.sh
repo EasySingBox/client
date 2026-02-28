@@ -259,7 +259,6 @@ function generate_singbox_server() {
     {
       "type": "naive",
       "tag": "naive",
-      "network": "udp",
       "listen": "::",
       "listen_port": 443,
       "users": [
@@ -268,7 +267,6 @@ function generate_singbox_server() {
           "password": "$PASSWORD"
         }
       ],
-      "quic_congestion_control": "bbr",
       "tls": {
         "enabled": true,
         "server_name": "$DOMAIN_NAME",
