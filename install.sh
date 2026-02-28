@@ -285,27 +285,6 @@ function generate_singbox_server() {
       "password": "$SS_PASSWORD"
     },
     {
-      "type": "tuic",
-      "tag": "tuic5",
-      "listen": "::",
-      "listen_port": $TUIC_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "users": [
-        {
-          "uuid": "$PASSWORD",
-          "password": "$PASSWORD"
-        }
-      ],
-      "congestion_control": "cubic",
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
-        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
-      }
-    },
-    {
       "type": "vless",
       "tag": "vless",
       "listen": "::",
@@ -477,9 +456,9 @@ NGINX_EOF
 nginx -t && systemctl restart nginx
 echo "✓ nginx 反向代理已配置 -> https://www.qq.com"
 
-echo "重启 warp..."
-bash <(curl -fsSL http://git.io/warp.sh) x
-bash <(curl -fsSL http://git.io/warp.sh) rwg
+#echo "重启 warp..."
+#bash <(curl -fsSL http://git.io/warp.sh) x
+#bash <(curl -fsSL http://git.io/warp.sh) rwg
 
 echo -e "\e[1;33mSuccess!\033[0m"
 
