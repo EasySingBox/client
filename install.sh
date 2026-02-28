@@ -285,6 +285,27 @@ function generate_singbox_server() {
       "password": "$SS_PASSWORD"
     },
     {
+      "type": "tuic",
+      "tag": "tuic5",
+      "listen": "::",
+      "listen_port": $TUIC_PORT,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "users": [
+        {
+          "uuid": "$PASSWORD",
+          "password": "$PASSWORD"
+        }
+      ],
+      "congestion_control": "bbr",
+      "tls": {
+        "enabled": true,
+        "alpn": "h3",
+        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
+        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
+      }
+    },
+    {
       "type": "vless",
       "tag": "vless",
       "listen": "::",
