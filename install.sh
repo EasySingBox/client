@@ -378,7 +378,7 @@ function generate_singbox_server() {
           "netflix",
           "netflixip"
         ],
-        "outbound": "wgcf"
+        "outbound": "direct"
       }
     ],
     "rule_set": [
