@@ -4,7 +4,6 @@
 [[ $EUID -ne 0 ]] && echo -e '\033[1;35m请在root用户下运行脚本\033[0m' && exit 1
 
 echo "开始生成配置..."
-bash <(curl -fsSL http://git.io/warp.sh) dwg
 
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
@@ -208,14 +207,6 @@ function load_esb_config() {
 function generate_singbox_server() {
     load_esb_config
 
-    # 检查并初始化 ACME 数据目录
-    ACME_DIR="/var/lib/sing-box/acme"
-    if [ ! -d "$ACME_DIR" ]; then
-        mkdir -p "$ACME_DIR"
-    fi
-    chown -R root:root "$ACME_DIR"
-    chmod 700 "$ACME_DIR"
-
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
 
@@ -259,8 +250,7 @@ function generate_singbox_server() {
         "acme": {
           "domain": ["$DOMAIN_NAME"],
           "email": "hello@banmiya.org",
-          "provider": "letsencrypt",
-          "data_directory": "/var/lib/sing-box/acme"
+          "provider": "letsencrypt"
         }
       },
     },
