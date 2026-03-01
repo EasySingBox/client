@@ -229,7 +229,7 @@ function generate_singbox_server() {
     echo "[证书] 为域名 $DOMAIN_NAME 申请 Let's Encrypt 证书..."
     echo "=========================================="
     acme.sh --set-default-ca --server letsencrypt
-    acme.sh --issue -d "$DOMAIN_NAME" --standalone --force || {
+    acme.sh --issue -d "$DOMAIN_NAME" --standalone || {
         echo "✗ 证书申请失败，请检查域名解析是否已生效以及 80 端口是否开放。"
         exit 1
     }
