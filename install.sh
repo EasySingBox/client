@@ -24,7 +24,7 @@ DOMAIN_NAME="$2"
 MIN=10000
 MAX=65535
 
-apt install -y git jq gcc wget unzip curl socat cron nginx
+apt install -y git jq gcc wget unzip curl socat cron
 mkdir /etc/apt/keyrings/ > /dev/null
 
 sudo apt remove -y sing-box
