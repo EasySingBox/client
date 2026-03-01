@@ -84,7 +84,6 @@ function generate_singbox_server() {
       "type": "tuic",
       "tag": "tuic5",
       "listen": "::",
-      "network": "udp",
       "listen_port": 443,
       "sniff": true,
       "sniff_override_destination": true,
@@ -107,7 +106,6 @@ function generate_singbox_server() {
       "tag": "vless",
       "listen": "::",
       "listen_port": 443,
-      "network": "tcp",
       "sniff": true,
       "sniff_override_destination": true,
       "users": [
