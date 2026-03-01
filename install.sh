@@ -26,10 +26,6 @@ curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 function get_ip_info() {
     IP_INFO=$(curl -4 https://ip.cloudflare.nyc.mn)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
-    COUNTRY=$(echo "$IP_INFO" | jq -r .country)
-    ISP=$(echo "$IP_INFO" | jq -r .isp)
-    ASN=$(echo "$IP_INFO" | jq -r .asn)
-    VPS_ISP=$(echo "$ISP" | sed "s/$ASN//" | xargs)
 }
 
 function generate_reality_keys() {
@@ -74,8 +70,6 @@ function generate_esb_config() {
     cat <<EOF > "$CONFIG_FILE"
 {
   "server_ip": "$SERVER_IP",
-  "country": "$COUNTRY",
-  "isp": "$VPS_ISP",
   "password": "$PASSWORD",
   "ss_password": "$SS_PASSWORD",
   "ss_port": $SS_PORT,
@@ -154,9 +148,9 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "alpn": "h3",
-        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
-        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
-      },
+        "certificate_path": "/etc/sing-box/cert.pem",
+        "key_path": "/etc/sing-box/private.key"
+      }
     },
     {
       "type": "shadowsocks",
