@@ -220,17 +220,11 @@ function generate_singbox_server() {
     echo "=========================================="
     echo "[证书] 为域名 $DOMAIN_NAME 申请 Let's Encrypt 证书..."
     echo "=========================================="
-    systemctl start nginx
     acme.sh --set-default-ca --server letsencrypt
-    CERT_DIR="$HOME/.acme.sh/${DOMAIN_NAME}_ecc"
-    if [ -f "$CERT_DIR/${DOMAIN_NAME}.cer" ]; then
-        echo "✓ 证书已存在，跳过申请直接安装..."
-    else
-        acme.sh --issue -d "$DOMAIN_NAME" --standalone || {
-            echo "✗ 证书申请失败，请检查域名解析是否已生效以及 80 端口是否开放。"
-            exit 1
-        }
-    fi
+    acme.sh --issue -d "$DOMAIN_NAME" --standalone --force || {
+        echo "✗ 证书申请失败，请检查域名解析是否已生效以及 80 端口是否开放。"
+        exit 1
+    }
     acme.sh --install-cert -d "$DOMAIN_NAME" --ecc \
         --key-file       "$SING_BOX_CONFIG_DIR/private.key" \
         --fullchain-file "$SING_BOX_CONFIG_DIR/cert.pem" \
@@ -460,24 +454,6 @@ echo "重启 sing-box..."
 systemctl daemon-reload
 systemctl restart sing-box
 systemctl enable sing-box
-
-echo "配置 nginx 反向代理..."
-cat <<'NGINX_EOF' > "/etc/nginx/sites-available/default"
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    location / {
-        proxy_pass https://www.qq.com;
-        proxy_set_header Host www.qq.com;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_ssl_server_name on;
-    }
-}
-NGINX_EOF
-nginx -t && systemctl restart nginx
-echo "✓ nginx 反向代理已配置 -> https://www.qq.com"
 
 echo "重启 warp..."
 bash <(curl -fsSL http://git.io/warp.sh) x
