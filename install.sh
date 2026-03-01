@@ -212,6 +212,14 @@ function load_esb_config() {
 function generate_singbox_server() {
     load_esb_config
 
+    # 检查并初始化 ACME 数据目录
+    ACME_DIR="/var/lib/sing-box/acme"
+    if [ ! -d "$ACME_DIR" ]; then
+        mkdir -p "$ACME_DIR"
+    fi
+    chown -R root:root "$ACME_DIR"
+    chmod 700 "$ACME_DIR"
+
     # 重建 sing-box 配置目录
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
