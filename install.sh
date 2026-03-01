@@ -19,6 +19,10 @@ curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 function generate_esb_config() {
     IP_INFO=$(curl -4 https://ip.cloudflare.nyc.mn)
     SERVER_IP=$(echo "$IP_INFO" | jq -r .ip)
+    COUNTRY=$(echo "$IP_INFO" | jq -r .country)
+    ISP=$(echo "$IP_INFO" | jq -r .isp)
+    ASN=$(echo "$IP_INFO" | jq -r .asn)
+    VPS_ISP=$(echo "$ISP" | sed "s/$ASN//" | xargs)
     XRAY_OUT=$(sing-box generate reality-keypair)
     PRIVATE_KEY=$(echo "$XRAY_OUT" | grep "PrivateKey" | awk '{print $2}')
     PUBLIC_KEY=$(echo "$XRAY_OUT" | grep "PublicKey" | awk '{print $2}')
@@ -28,6 +32,8 @@ function generate_esb_config() {
     cat <<EOF > "$CONFIG_FILE"
 {
   "server_ip": "$SERVER_IP",
+  "country": "$COUNTRY",
+  "isp": "$VPS_ISP",
   "password": "$PASSWORD",
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
