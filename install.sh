@@ -245,7 +245,7 @@ function generate_singbox_server() {
       "tag": "naive",
       "network": "udp",
       "listen": "::",
-      "listen_port": 443,
+      "listen_port": $NAIVE_PORT,
       "users": [
         {
           "username": "zmlu",
