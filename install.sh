@@ -8,20 +8,11 @@ echo "开始生成配置..."
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 
-if [ $# -lt 2 ] || [ $# -gt 2 ]; then
-    echo "用法: $0 <CLOUDFLARE_API_TOKEN> <DOMAIN_NAME>"
-    echo ""
-    echo "参数说明:"
-    echo "  CLOUDFLARE_API_TOKEN: Cloudflare API Token (需要 Zone:Read 和 DNS:Read 权限)"
-    echo "  DOMAIN_NAME: 完整域名，例如 app.example.com"
-    exit 1
-fi
+MIN=${1:-10000}
+MAX=${2:-65535}
 
-CLOUDFLARE_API_TOKEN="$1"
-DOMAIN_NAME="$2"
-
-MIN=10000
-MAX=65535
+echo "RANDOM_PORT_MIN: $RANDOM_PORT_MIN"
+echo "RANDOM_PORT_MAX: $RANDOM_PORT_MAX"
 
 apt install -y git jq gcc wget unzip curl
 mkdir /etc/apt/keyrings/ > /dev/null
@@ -73,88 +64,6 @@ function generate_port() {
     NAIVE_PORT=${numbers[4]}
 }
 
-function check_and_setup_dns() {
-    echo ""
-    echo "=========================================="
-    echo "[DNS 检查] 验证域名 $DOMAIN_NAME 的 DNS 记录..."
-    echo "=========================================="
-
-    API_BASE="https://api.cloudflare.com/client/v4"
-    WGET_ARGS=(--no-check-certificate -qO- --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" --header "Content-Type: application/json")
-
-    # 提取根域名
-    DOT_COUNT=$(echo "$DOMAIN_NAME" | grep -o "\." | wc -l)
-    if [ "$DOT_COUNT" -ge 2 ]; then
-        ROOT_DOMAIN=$(echo "$DOMAIN_NAME" | cut -d'.' -f2-)
-    else
-        ROOT_DOMAIN="$DOMAIN_NAME"
-    fi
-
-    # 获取 Zone ID
-    ZONE_RESPONSE=$(wget "${WGET_ARGS[@]}" "${API_BASE}/zones?name=${ROOT_DOMAIN}")
-    ZONE_ID=$(echo "$ZONE_RESPONSE" | grep -o '"id":"[a-f0-9]\{32\}"' | head -n 1 | cut -d'"' -f4)
-
-    if [ -z "$ZONE_ID" ]; then
-        echo "✗ 无法获取 Zone ID，请检查域名 $ROOT_DOMAIN 是否正确或 Token 权限 (Zone:Read)。"
-        exit 1
-    fi
-
-    echo "✓ Zone ID: $ZONE_ID"
-
-    # 检查并处理 A 记录 (IPv4)
-    ensure_dns_record "A" "$SERVER_IP"
-
-    # 检查并处理 AAAA 记录 (IPv6)
-    SERVER_IPV6=$(curl -6 -s --max-time 5 https://ip.cloudflare.nyc.mn | jq -r .ip 2>/dev/null)
-    if [ -n "$SERVER_IPV6" ] && [ "$SERVER_IPV6" != "null" ]; then
-        echo "✓ 检测到本机 IPv6 地址: $SERVER_IPV6"
-        ensure_dns_record "AAAA" "$SERVER_IPV6"
-    else
-        echo "- 本机不支持 IPv6，跳过 AAAA 记录检查。"
-    fi
-
-    echo ""
-}
-
-# 确保 DNS 记录存在且指向正确的 IP
-# 用法: ensure_dns_record <记录类型 A|AAAA> <目标IP>
-function ensure_dns_record() {
-    local RECORD_TYPE="$1"
-    local TARGET_IP="$2"
-
-    DNS_LIST=$(wget "${WGET_ARGS[@]}" "${API_BASE}/zones/${ZONE_ID}/dns_records?type=${RECORD_TYPE}&name=${DOMAIN_NAME}")
-    DNS_CONTENT=$(echo "$DNS_LIST" | grep -o '"content":"[^"]*"' | head -n 1 | cut -d'"' -f4)
-    EXISTING_DNS_ID=$(echo "$DNS_LIST" | grep -o '"id":"[a-f0-9]\{32\}"' | head -n 1 | cut -d'"' -f4)
-
-    if [ -z "$DNS_CONTENT" ]; then
-        echo "- 未找到 $RECORD_TYPE 记录，正在创建 $DOMAIN_NAME -> $TARGET_IP ..."
-        DNS_PAYLOAD="{\"name\":\"${DOMAIN_NAME}\",\"type\":\"${RECORD_TYPE}\",\"content\":\"${TARGET_IP}\",\"proxied\":false}"
-        DNS_RESPONSE=$(wget "${WGET_ARGS[@]}" --method=POST --body-data="$DNS_PAYLOAD" "${API_BASE}/zones/${ZONE_ID}/dns_records")
-        DNS_SUCCESS=$(echo "$DNS_RESPONSE" | grep -o '"success":[a-z]*' | head -n 1 | cut -d':' -f2)
-
-        if [ "$DNS_SUCCESS" != "true" ]; then
-            echo "✗ 创建 $RECORD_TYPE 记录失败: $DNS_RESPONSE"
-            exit 1
-        fi
-        echo "✓ $RECORD_TYPE 记录创建成功: $DOMAIN_NAME -> $TARGET_IP"
-
-    elif [ "$DNS_CONTENT" != "$TARGET_IP" ]; then
-        echo "- $RECORD_TYPE 记录指向 $DNS_CONTENT，正在更新为 $TARGET_IP ..."
-        DNS_PAYLOAD="{\"name\":\"${DOMAIN_NAME}\",\"type\":\"${RECORD_TYPE}\",\"content\":\"${TARGET_IP}\",\"proxied\":false}"
-        DNS_RESPONSE=$(wget "${WGET_ARGS[@]}" --method=PATCH --body-data="$DNS_PAYLOAD" "${API_BASE}/zones/${ZONE_ID}/dns_records/${EXISTING_DNS_ID}")
-        DNS_SUCCESS=$(echo "$DNS_RESPONSE" | grep -o '"success":[a-z]*' | head -n 1 | cut -d':' -f2)
-
-        if [ "$DNS_SUCCESS" != "true" ]; then
-            echo "✗ 更新 $RECORD_TYPE 记录失败: $DNS_RESPONSE"
-            exit 1
-        fi
-        echo "✓ $RECORD_TYPE 记录更新成功: $DOMAIN_NAME -> $TARGET_IP"
-
-    else
-        echo "✓ $RECORD_TYPE 记录验证通过: $DOMAIN_NAME -> $TARGET_IP"
-    fi
-}
-
 function generate_esb_config() {
     get_ip_info
     generate_reality_keys
@@ -165,7 +74,6 @@ function generate_esb_config() {
     cat <<EOF > "$CONFIG_FILE"
 {
   "server_ip": "$SERVER_IP",
-  "domain_name": "$DOMAIN_NAME",
   "country": "$COUNTRY",
   "isp": "$VPS_ISP",
   "password": "$PASSWORD",
@@ -186,7 +94,6 @@ EOF
 function load_esb_config() {
     if [[ -f "$CONFIG_FILE" ]]; then
         SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE")
-        DOMAIN_NAME=$(jq -r .domain_name "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
         SS_PASSWORD=$(jq -r .ss_password "$CONFIG_FILE")
         SS_PORT=$(jq -r .ss_port "$CONFIG_FILE")
@@ -246,12 +153,9 @@ function generate_singbox_server() {
       "quic_congestion_control": "bbr2",
       "tls": {
         "enabled": true,
-        "server_name": "$DOMAIN_NAME",
-        "acme": {
-          "domain": ["$DOMAIN_NAME"],
-          "email": "hello@banmiya.org",
-          "provider": "letsencrypt"
-        }
+        "alpn": "h3",
+        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
+        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
       },
     },
     {
@@ -408,8 +312,6 @@ if [[ ! -f "$CONFIG_FILE" ]]; then
 fi
 
 load_esb_config
-
-check_and_setup_dns
 
 generate_singbox_server
 
