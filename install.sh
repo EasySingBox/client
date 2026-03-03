@@ -94,6 +94,8 @@ function generate_singbox_server() {
         }
       ],
       "congestion_control": "bbr",
+      "tcp_fast_open": true,
+      "tcp_multi_path": true,
       "tls": {
         "enabled": true,
         "alpn": "h3",
@@ -114,6 +116,8 @@ function generate_singbox_server() {
           "flow": "xtls-rprx-vision"
         }
       ],
+      "tcp_fast_open": true,
+      "tcp_multi_path": true,
       "tls": {
         "enabled": true,
         "alpn": "h3",
