@@ -212,7 +212,7 @@ function generate_singbox_server() {
           "password": "$PASSWORD"
         }
       ],
-      "quic_congestion_control": "bbr2"
+      "quic_congestion_control": "bbr2",
       "tls": {
         "enabled": true,
         "server_name": "$DOMAIN_NAME",
