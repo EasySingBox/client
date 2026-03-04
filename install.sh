@@ -122,8 +122,8 @@ function generate_esb_config() {
 
     # 生成 ECH 密钥对
     ECH_OUTPUT=$(sing-box generate ech-keypair "$DOMAIN_NAME")
-    ECH_CONFIGS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH CONFIGS-----/,/-----END ECH CONFIGS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -Rsc '[rtrimstr("\n")]')
-    ECH_KEYS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH KEYS-----/,/-----END ECH KEYS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -Rsc '[rtrimstr("\n")]')
+    ECH_CONFIGS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH CONFIGS-----/,/-----END ECH CONFIGS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -R . | jq -sc '.')
+    ECH_KEYS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH KEYS-----/,/-----END ECH KEYS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -R . | jq -sc '.')
 
     cat <<EOF > "$CONFIG_FILE"
 {
@@ -192,6 +192,7 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "server_name": "$DOMAIN_NAME",
+        "alpn": ["h3"],
         "acme": {
           "domain": ["$DOMAIN_NAME"],
           "data_directory": "/etc/sing-box/certs",
