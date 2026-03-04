@@ -68,7 +68,8 @@ function generate_singbox_server() {
 {
   "log": {
     "level": "error",
-    "timestamp": true
+    "timestamp": true,
+    "disabled": true
   },
   "dns": {
     "servers": [
@@ -94,6 +95,7 @@ function generate_singbox_server() {
         }
       ],
       "tcp_fast_open": true,
+      "tcp_multi_path": true,
       "tls": {
         "enabled": true,
         "alpn": "h3",
@@ -127,12 +129,6 @@ function generate_singbox_server() {
       {
         "protocol": "dns",
         "action": "hijack-dns"
-      },
-      {
-        "protocol": [
-          "stun"
-        ],
-        "outbound": "direct"
       }
     ],
     "final": "direct",
