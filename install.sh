@@ -81,28 +81,6 @@ function generate_singbox_server() {
   },
   "inbounds": [
     {
-      "type": "tuic",
-      "tag": "tuic5",
-      "listen": "::",
-      "listen_port": 443,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "users": [
-        {
-          "uuid": "$PASSWORD",
-          "password": "$PASSWORD"
-        }
-      ],
-      "congestion_control": "bbr",
-      "tcp_fast_open": true,
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "/etc/sing-box/cert.pem",
-        "key_path": "/etc/sing-box/private.key"
-      }
-    },
-    {
       "type": "vless",
       "tag": "vless",
       "listen": "::",
