@@ -175,6 +175,7 @@ function generate_singbox_server() {
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
   "log": {
+    "disabled": true,
     "level": "error",
     "timestamp": true
   },
