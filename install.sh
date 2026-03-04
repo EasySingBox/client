@@ -160,7 +160,7 @@ function generate_singbox_server() {
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
   "log": {
-    "disabled": false,
+    "disabled": true,
     "level": "error",
     "timestamp": true
   },
@@ -193,7 +193,7 @@ function generate_singbox_server() {
         "enabled": true,
         "server_name": "$DOMAIN_NAME",
         "acme": {
-          "domain": ["$DOMAIN_NAME"],
+          "domain": "$DOMAIN_NAME",
           "data_directory": "/etc/sing-box/certs",
           "default_server_name": "$DOMAIN_NAME",
           "email": "hello@banmiya.org",
