@@ -192,6 +192,7 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "server_name": "$DOMAIN_NAME",
+        "alpn": ["h3"],
         "acme": {
           "domain": ["$DOMAIN_NAME"],
           "data_directory": "/etc/sing-box/certs",
