@@ -293,16 +293,12 @@ function generate_singbox_server() {
       "tag": "vless",
       "listen": "::",
       "listen_port": 443,
-      "sniff": true,
-      "sniff_override_destination": true,
       "users": [
         {
           "uuid": "$PASSWORD",
           "flow": "xtls-rprx-vision"
         }
       ],
-      "tcp_fast_open": true,
-      "tcp_multi_path": true,
       "tls": {
         "enabled": true,
         "alpn": "h3",
