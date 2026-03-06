@@ -23,9 +23,10 @@ CLOUDFLARE_API_TOKEN="$1"
 DOMAIN_NAME="$2"
 ZEROSSL_KEY_ID="$3"
 ZEROSSL_MAC_KEY="$4"
-CERT_DIR="$SING_BOX_CONFIG_DIR/certs/$DOMAIN_NAME"
+CERT_DIR="/etc/letsencrypt/live/$DOMAIN_NAME"
+ACME_WEBROOT="/var/www/certbot"
 
-apt install -y git jq gcc wget unzip curl socat cron certbot python3-certbot-dns-cloudflare
+apt install -y git jq gcc wget unzip curl socat cron certbot nginx dnsutils
 mkdir /etc/apt/keyrings/ > /dev/null
 
 sudo apt remove -y sing-box
@@ -155,6 +156,57 @@ function load_esb_config() {
     fi
 }
 
+function setup_nginx_for_acme() {
+    echo ""
+    echo "=========================================="
+    echo "[Nginx] 配置 HTTP-01 ACME 验证服务..."
+    echo "=========================================="
+
+    mkdir -p "$ACME_WEBROOT/.well-known/acme-challenge"
+
+    cat > "/etc/nginx/sites-available/acme" <<NGINXEOF
+server {
+    listen 80;
+    server_name $DOMAIN_NAME;
+    root $ACME_WEBROOT;
+    location /.well-known/acme-challenge/ {
+        root $ACME_WEBROOT;
+    }
+}
+NGINXEOF
+
+    ln -sf /etc/nginx/sites-available/acme /etc/nginx/sites-enabled/acme
+    rm -f /etc/nginx/sites-enabled/default
+    systemctl enable nginx
+    systemctl restart nginx
+    echo "✓ Nginx 已启动，监听 80 端口"
+}
+
+function wait_for_dns_propagation() {
+    echo ""
+    echo "=========================================="
+    echo "[DNS] 等待 $DOMAIN_NAME A 记录传播..."
+    echo "=========================================="
+
+    local MAX_WAIT=300
+    local INTERVAL=10
+    local ELAPSED=0
+
+    while [ $ELAPSED -lt $MAX_WAIT ]; do
+        RESOLVED_IP=$(dig +short A "$DOMAIN_NAME" @8.8.8.8 2>/dev/null | tail -n1)
+        if [ "$RESOLVED_IP" = "$SERVER_IP" ]; then
+            echo "✓ DNS 传播完成: $DOMAIN_NAME -> $SERVER_IP"
+            return 0
+        fi
+        echo "- 当前解析: ${RESOLVED_IP:-未解析}，${ELAPSED}/${MAX_WAIT}s，等待 ${INTERVAL}s..."
+        sleep $INTERVAL
+        ELAPSED=$((ELAPSED + INTERVAL))
+    done
+
+    echo "✗ DNS 传播超时 (${MAX_WAIT}s)，最后解析结果: ${RESOLVED_IP:-空}"
+    exit 1
+}
+
 function obtain_certificate() {
     echo ""
     echo "=========================================="
@@ -182,16 +234,9 @@ HOOKEOF
         echo "- 证书将在 $DAYS_LEFT 天后过期，重新申请..."
     fi
 
-    CF_CREDS_FILE="/etc/cloudflare.ini"
-    cat > "$CF_CREDS_FILE" <<CFEOF
-dns_cloudflare_api_token = $CLOUDFLARE_API_TOKEN
-CFEOF
-    chmod 600 "$CF_CREDS_FILE"
-
     certbot certonly \
-        --dns-cloudflare \
-        --dns-cloudflare-credentials "$CF_CREDS_FILE" \
-        --dns-cloudflare-propagation-seconds 30 \
+        --webroot \
+        --webroot-path "$ACME_WEBROOT" \
         --server https://acme.zerossl.com/v2/DV90 \
         --eab-kid "$ZEROSSL_KEY_ID" \
         --eab-hmac-key "$ZEROSSL_MAC_KEY" \
@@ -292,6 +337,10 @@ fi
 load_esb_config
 
 check_and_setup_dns
+
+setup_nginx_for_acme
+
+wait_for_dns_propagation
 
 obtain_certificate
 
