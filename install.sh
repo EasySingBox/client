@@ -126,6 +126,12 @@ function generate_esb_config() {
     VPS_ISP=$(echo "$ISP" | sed "s/$ASN//" | xargs)
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
 
+    # 生成 Reality 密钥对
+    XRAY_OUT=$(sing-box generate reality-keypair)
+    PRIVATE_KEY=$(echo "$XRAY_OUT" | grep "PrivateKey" | awk '{print $2}')
+    PUBLIC_KEY=$(echo "$XRAY_OUT" | grep "PublicKey" | awk '{print $2}')
+    REALITY_SID=$(sing-box generate rand 4 --hex | tr -d '\n')
+
     # 生成 ECH 密钥对
     ECH_OUTPUT=$(sing-box generate ech-keypair "$DOMAIN_NAME")
     ECH_CONFIGS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH CONFIGS-----/,/-----END ECH CONFIGS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -R . | jq -sc '.')
@@ -138,6 +144,9 @@ function generate_esb_config() {
   "country": "$COUNTRY",
   "isp": "$VPS_ISP",
   "password": "$PASSWORD",
+  "reality_sid": "$REALITY_SID",
+  "public_key": "$PUBLIC_KEY",
+  "private_key": "$PRIVATE_KEY",
   "ech_configs": $ECH_CONFIGS,
   "ech_keys": $ECH_KEYS
 }
@@ -148,6 +157,9 @@ function load_esb_config() {
     if [[ -f "$CONFIG_FILE" ]]; then
         SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
+        REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
+        PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
+        PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
         ECH_CONFIGS=$(jq -c '.ech_configs // []' "$CONFIG_FILE")
         ECH_KEYS=$(jq -c '.ech_keys // []' "$CONFIG_FILE")
     else
@@ -276,6 +288,35 @@ function generate_singbox_server() {
     "independent_cache": true
   },
   "inbounds": [
+    {
+      "type": "vless",
+      "tag": "vless",
+      "listen": "::",
+      "listen_port": 443,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "users": [
+        {
+          "uuid": "$PASSWORD",
+          "flow": "xtls-rprx-vision"
+        }
+      ],
+      "tcp_fast_open": true,
+      "tcp_multi_path": true,
+      "tls": {
+        "enabled": true,
+        "alpn": "h3",
+        "reality": {
+          "enabled": true,
+          "handshake": {
+            "server": "www.apple.com",
+            "server_port": 443
+          },
+          "private_key": "$PRIVATE_KEY",
+          "short_id": "$REALITY_SID"
+        }
+      }
+    },
     {
       "type": "naive",
       "tag": "naive-in",
