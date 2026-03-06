@@ -197,7 +197,7 @@ function generate_singbox_server() {
           "data_directory": "/etc/sing-box/certs",
           "default_server_name": "$DOMAIN_NAME",
           "email": "hello@banmiya.org",
-          "provider": "letsencrypt"
+          "provider": "zerossl"
         },
         "ech": {
           "enabled": false,
