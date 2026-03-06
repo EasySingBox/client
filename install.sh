@@ -8,17 +8,21 @@ echo "开始生成配置..."
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 
-if [ $# -lt 2 ] || [ $# -gt 2 ]; then
-    echo "用法: $0 <CLOUDFLARE_API_TOKEN> <DOMAIN_NAME>"
+if [ $# -lt 4 ] || [ $# -gt 4 ]; then
+    echo "用法: $0 <CLOUDFLARE_API_TOKEN> <DOMAIN_NAME> <KEY_ID> <MAC_KEY>"
     echo ""
     echo "参数说明:"
     echo "  CLOUDFLARE_API_TOKEN: Cloudflare API Token (需要 Zone:Read 和 DNS:Read 权限)"
     echo "  DOMAIN_NAME: 完整域名，例如 app.example.com"
+    echo "  KEY_ID: ZeroSSL EAB Key ID"
+    echo "  MAC_KEY: ZeroSSL EAB MAC Key"
     exit 1
 fi
 
 CLOUDFLARE_API_TOKEN="$1"
 DOMAIN_NAME="$2"
+KEY_ID="$3"
+MAC_KEY="$4"
 
 apt install -y git jq gcc wget unzip curl socat cron
 mkdir /etc/apt/keyrings/ > /dev/null
@@ -197,7 +201,11 @@ function generate_singbox_server() {
           "data_directory": "/etc/sing-box/certs",
           "default_server_name": "$DOMAIN_NAME",
           "email": "hello@banmiya.org",
-          "provider": "zerossl"
+          "provider": "zerossl",
+          "external_account": {
+            "key_id": "$KEY_ID",
+            "mac_key": "$MAC_KEY"
+          }
         },
         "ech": {
           "enabled": false,
