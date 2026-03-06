@@ -20,7 +20,7 @@ fi
 CLOUDFLARE_API_TOKEN="$1"
 DOMAIN_NAME="$2"
 
-apt install -y git jq gcc wget unzip curl socat cron nginx
+apt install -y git jq gcc wget unzip curl socat cron
 mkdir /etc/apt/keyrings/ > /dev/null
 
 sudo apt remove -y sing-box
@@ -28,9 +28,6 @@ sudo apt remove -y sing-box
 # install sing-box-beta
 curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta
 
-# 安装 acme.sh
-curl https://get.acme.sh | sh
-ln -sf /root/.acme.sh/acme.sh /usr/local/bin/acme.sh
 
 function check_and_setup_dns() {
     echo ""
@@ -123,13 +120,20 @@ function generate_esb_config() {
     VPS_ISP=$(echo "$ISP" | sed "s/$ASN//" | xargs)
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
 
+    # 生成 ECH 密钥对
+    ECH_OUTPUT=$(sing-box generate ech-keypair "$DOMAIN_NAME")
+    ECH_CONFIGS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH CONFIGS-----/,/-----END ECH CONFIGS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -R . | jq -sc '.')
+    ECH_KEYS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH KEYS-----/,/-----END ECH KEYS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -R . | jq -sc '.')
+
     cat <<EOF > "$CONFIG_FILE"
 {
   "server_ip": "$SERVER_IP",
   "domain_name": "$DOMAIN_NAME",
   "country": "$COUNTRY",
   "isp": "$VPS_ISP",
-  "password": "$PASSWORD"
+  "password": "$PASSWORD",
+  "ech_configs": $ECH_CONFIGS,
+  "ech_keys": $ECH_KEYS
 }
 EOF
 }
@@ -138,6 +142,8 @@ function load_esb_config() {
     if [[ -f "$CONFIG_FILE" ]]; then
         SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
+        ECH_CONFIGS=$(jq -c '.ech_configs // []' "$CONFIG_FILE")
+        ECH_KEYS=$(jq -c '.ech_keys // []' "$CONFIG_FILE")
     else
         generate_esb_config
         load_esb_config
@@ -150,27 +156,6 @@ function generate_singbox_server() {
 # 重建 sing-box 配置目录
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
-
-    # 申请并安装域名证书
-    echo "=========================================="
-    echo "[证书] 为域名 $DOMAIN_NAME 申请 Let's Encrypt 证书..."
-    echo "=========================================="
-    systemctl start nginx
-    acme.sh --set-default-ca --server letsencrypt
-    CERT_DIR="$HOME/.acme.sh/${DOMAIN_NAME}_ecc"
-    if [ -f "$CERT_DIR/${DOMAIN_NAME}.cer" ]; then
-        echo "✓ 证书已存在，跳过申请直接安装..."
-    else
-        acme.sh --issue -d "$DOMAIN_NAME" --standalone || {
-            echo "✗ 证书申请失败，请检查域名解析是否已生效以及 80 端口是否开放。"
-            exit 1
-        }
-    fi
-    acme.sh --install-cert -d "$DOMAIN_NAME" --ecc \
-        --key-file       "$SING_BOX_CONFIG_DIR/private.key" \
-        --fullchain-file "$SING_BOX_CONFIG_DIR/cert.pem" \
-        --reloadcmd      "systemctl restart sing-box"
-    echo "✓ 证书已安装至 $SING_BOX_CONFIG_DIR"
 
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
@@ -207,8 +192,17 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "server_name": "$DOMAIN_NAME",
-        "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
-        "key_path": "$SING_BOX_CONFIG_DIR/private.key"
+        "acme": {
+          "domain": "$DOMAIN_NAME",
+          "data_directory": "/etc/sing-box/certs",
+          "default_server_name": "$DOMAIN_NAME",
+          "email": "hello@banmiya.org",
+          "provider": "letsencrypt"
+        },
+        "ech": {
+          "enabled": true,
+          "key": $ECH_KEYS
+        }
       },
     }
   ],
@@ -275,23 +269,6 @@ systemctl daemon-reload
 systemctl restart sing-box
 systemctl enable sing-box
 
-echo "配置 nginx 反向代理..."
-cat <<'NGINX_EOF' > "/etc/nginx/sites-available/default"
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    location / {
-        proxy_pass https://www.apple.com;
-        proxy_set_header Host www.apple.com;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_ssl_server_name on;
-    }
-}
-NGINX_EOF
-nginx -t && systemctl restart nginx
-echo "✓ nginx 反向代理已配置 -> https://www.apple.com"
 
 echo -e "\e[1;33mSuccess!\033[0m"
 
