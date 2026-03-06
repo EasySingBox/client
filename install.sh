@@ -469,5 +469,5 @@ systemctl enable sing-box
 
 echo -e "\e[1;33mSuccess!\033[0m"
 
-cat $HOME/esb.config
 cat $SING_BOX_CONFIG_DIR/config.json
+cat $HOME/esb.config
