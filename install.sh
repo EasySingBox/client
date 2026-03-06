@@ -121,10 +121,6 @@ function generate_esb_config() {
     ISP=$(echo "$IP_INFO" | jq -r .isp)
     ASN=$(echo "$IP_INFO" | jq -r .asn)
     VPS_ISP=$(echo "$ISP" | sed "s/$ASN//" | xargs)
-    XRAY_OUT=$(sing-box generate reality-keypair)
-    PRIVATE_KEY=$(echo "$XRAY_OUT" | grep "PrivateKey" | awk '{print $2}')
-    PUBLIC_KEY=$(echo "$XRAY_OUT" | grep "PublicKey" | awk '{print $2}')
-    REALITY_SID=$(sing-box generate rand 4 --hex | tr -d '\n')
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
 
     cat <<EOF > "$CONFIG_FILE"
@@ -133,10 +129,7 @@ function generate_esb_config() {
   "domain_name": "$DOMAIN_NAME",
   "country": "$COUNTRY",
   "isp": "$VPS_ISP",
-  "password": "$PASSWORD",
-  "reality_sid": "$REALITY_SID",
-  "public_key": "$PUBLIC_KEY",
-  "private_key": "$PRIVATE_KEY"
+  "password": "$PASSWORD"
 }
 EOF
 }
@@ -145,9 +138,6 @@ function load_esb_config() {
     if [[ -f "$CONFIG_FILE" ]]; then
         SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
-        REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
-        PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
-        PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
     else
         generate_esb_config
         load_esb_config
@@ -206,47 +196,19 @@ function generate_singbox_server() {
       "sniff": true,
       "sniff_override_destination": true,
       "tcp_fast_open": true,
+      "quic_congestion_control": "bbr2",
       "users": [
         {
           "username": "user-zmlu",
           "password": "$PASSWORD"
         }
       ],
-      "quic_congestion_control": "bbr2",
       "tls": {
         "enabled": true,
         "server_name": "$DOMAIN_NAME",
         "certificate_path": "$SING_BOX_CONFIG_DIR/cert.pem",
         "key_path": "$SING_BOX_CONFIG_DIR/private.key"
       },
-    },
-    {
-      "type": "vless",
-      "tag": "vless-in",
-      "listen": "::",
-      "listen_port": 443,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "tcp_fast_open": true,
-      "users": [
-        {
-          "uuid": "$PASSWORD",
-          "flow": "xtls-rprx-vision"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "reality": {
-          "enabled": true,
-          "handshake": {
-            "server": "www.apple.com",
-            "server_port": 443
-          },
-          "private_key": "$PRIVATE_KEY",
-          "short_id": "$REALITY_SID"
-        }
-      }
     }
   ],
   "outbounds": [
@@ -267,12 +229,6 @@ function generate_singbox_server() {
       {
         "protocol": "dns",
         "action": "hijack-dns"
-      },
-      {
-        "protocol": [
-          "stun"
-        ],
-        "outbound": "direct"
       }
     ],
     "final": "direct",
