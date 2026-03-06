@@ -262,7 +262,7 @@ function generate_singbox_server() {
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
   "log": {
-    "disabled": false,
+    "disabled": true,
     "level": "error",
     "timestamp": true
   },
@@ -281,9 +281,8 @@ function generate_singbox_server() {
       "tag": "naive-in",
       "listen": "::",
       "listen_port": 443,
-      "sniff": true,
-      "sniff_override_destination": true,
       "tcp_fast_open": true,
+      "tcp_multi_path": true,
       "quic_congestion_control": "bbr2",
       "users": [
         {
@@ -314,15 +313,6 @@ function generate_singbox_server() {
     }
   ],
   "route": {
-    "rules": [
-      {
-        "action": "sniff"
-      },
-      {
-        "protocol": "dns",
-        "action": "hijack-dns"
-      }
-    ],
     "final": "direct",
     "default_domain_resolver": "dns"
   }
