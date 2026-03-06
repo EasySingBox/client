@@ -8,18 +8,22 @@ echo "开始生成配置..."
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 
-if [ $# -lt 2 ] || [ $# -gt 2 ]; then
-    echo "用法: $0 <CLOUDFLARE_API_TOKEN> <DOMAIN_NAME>"
+if [ $# -ne 4 ]; then
+    echo "用法: $0 <CLOUDFLARE_API_TOKEN> <DOMAIN_NAME> <ZEROSSL_KEY_ID> <ZEROSSL_MAC_KEY>"
     echo ""
     echo "参数说明:"
     echo "  CLOUDFLARE_API_TOKEN: Cloudflare API Token (需要 Zone:Read 和 DNS:Edit 权限)"
-    echo "  DOMAIN_NAME: 完整域名，例如 app.example.com"
+    echo "  DOMAIN_NAME:          完整域名，例如 app.example.com"
+    echo "  ZEROSSL_KEY_ID:       ZeroSSL EAB Key ID"
+    echo "  ZEROSSL_MAC_KEY:      ZeroSSL EAB MAC Key"
     exit 1
 fi
 
 CLOUDFLARE_API_TOKEN="$1"
 DOMAIN_NAME="$2"
-CERT_DIR="/etc/letsencrypt/live/$DOMAIN_NAME"
+ZEROSSL_KEY_ID="$3"
+ZEROSSL_MAC_KEY="$4"
+CERT_DIR="$SING_BOX_CONFIG_DIR/certs/$DOMAIN_NAME"
 
 apt install -y git jq gcc wget unzip curl socat cron certbot python3-certbot-dns-cloudflare
 mkdir /etc/apt/keyrings/ > /dev/null
@@ -188,6 +192,9 @@ CFEOF
         --dns-cloudflare \
         --dns-cloudflare-credentials "$CF_CREDS_FILE" \
         --dns-cloudflare-propagation-seconds 30 \
+        --server https://acme.zerossl.com/v2/DV90 \
+        --eab-kid "$ZEROSSL_KEY_ID" \
+        --eab-hmac-key "$ZEROSSL_MAC_KEY" \
         -d "$DOMAIN_NAME" \
         --non-interactive \
         --agree-tos \
