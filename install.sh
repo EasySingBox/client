@@ -309,7 +309,7 @@ function generate_singbox_server() {
         "reality": {
           "enabled": true,
           "handshake": {
-            "server": "www.apple.com",
+            "server": "yahoo.com",
             "server_port": 443
           },
           "private_key": "$PRIVATE_KEY",
