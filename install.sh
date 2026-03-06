@@ -200,7 +200,7 @@ function generate_singbox_server() {
           "provider": "letsencrypt"
         },
         "ech": {
-          "enabled": true,
+          "enabled": false,
           "key": $ECH_KEYS
         }
       },
