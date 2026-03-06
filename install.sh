@@ -8,23 +8,20 @@ echo "开始生成配置..."
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 
-if [ $# -lt 4 ] || [ $# -gt 4 ]; then
-    echo "用法: $0 <CLOUDFLARE_API_TOKEN> <DOMAIN_NAME> <KEY_ID> <MAC_KEY>"
+if [ $# -lt 2 ] || [ $# -gt 2 ]; then
+    echo "用法: $0 <CLOUDFLARE_API_TOKEN> <DOMAIN_NAME>"
     echo ""
     echo "参数说明:"
-    echo "  CLOUDFLARE_API_TOKEN: Cloudflare API Token (需要 Zone:Read 和 DNS:Read 权限)"
+    echo "  CLOUDFLARE_API_TOKEN: Cloudflare API Token (需要 Zone:Read 和 DNS:Edit 权限)"
     echo "  DOMAIN_NAME: 完整域名，例如 app.example.com"
-    echo "  KEY_ID: ZeroSSL EAB Key ID"
-    echo "  MAC_KEY: ZeroSSL EAB MAC Key"
     exit 1
 fi
 
 CLOUDFLARE_API_TOKEN="$1"
 DOMAIN_NAME="$2"
-KEY_ID="$3"
-MAC_KEY="$4"
+CERT_DIR="/etc/letsencrypt/live/$DOMAIN_NAME"
 
-apt install -y git jq gcc wget unzip curl socat cron
+apt install -y git jq gcc wget unzip curl socat cron certbot python3-certbot-dns-cloudflare
 mkdir /etc/apt/keyrings/ > /dev/null
 
 sudo apt remove -y sing-box
@@ -154,6 +151,55 @@ function load_esb_config() {
     fi
 }
 
+function obtain_certificate() {
+    echo ""
+    echo "=========================================="
+    echo "[证书] 检查 $DOMAIN_NAME 的 TLS 证书..."
+    echo "=========================================="
+
+    # 续期后自动重启 sing-box 的 deploy hook（每次都确保存在）
+    DEPLOY_HOOK="/etc/letsencrypt/renewal-hooks/deploy/restart-sing-box.sh"
+    cat > "$DEPLOY_HOOK" <<'HOOKEOF'
+#!/bin/bash
+systemctl restart sing-box
+HOOKEOF
+    chmod +x "$DEPLOY_HOOK"
+
+    # 本地证书存在且 30 天内不过期则跳过申请
+    if [ -f "$CERT_DIR/fullchain.pem" ]; then
+        EXPIRY=$(openssl x509 -enddate -noout -in "$CERT_DIR/fullchain.pem" | cut -d= -f2)
+        EXPIRY_EPOCH=$(date -d "$EXPIRY" +%s 2>/dev/null || date -jf "%b %d %T %Y %Z" "$EXPIRY" +%s)
+        NOW_EPOCH=$(date +%s)
+        DAYS_LEFT=$(( (EXPIRY_EPOCH - NOW_EPOCH) / 86400 ))
+        if [ "$DAYS_LEFT" -gt 30 ]; then
+            echo "✓ 本地证书有效，剩余 $DAYS_LEFT 天，跳过申请。"
+            return
+        fi
+        echo "- 证书将在 $DAYS_LEFT 天后过期，重新申请..."
+    fi
+
+    CF_CREDS_FILE="/etc/cloudflare.ini"
+    cat > "$CF_CREDS_FILE" <<CFEOF
+dns_cloudflare_api_token = $CLOUDFLARE_API_TOKEN
+CFEOF
+    chmod 600 "$CF_CREDS_FILE"
+
+    certbot certonly \
+        --dns-cloudflare \
+        --dns-cloudflare-credentials "$CF_CREDS_FILE" \
+        --dns-cloudflare-propagation-seconds 30 \
+        -d "$DOMAIN_NAME" \
+        --non-interactive \
+        --agree-tos \
+        --email hello@banmiya.org
+
+    if [ ! -f "$CERT_DIR/fullchain.pem" ]; then
+        echo "✗ 证书申请失败，请检查日志。"
+        exit 1
+    fi
+    echo "✓ 证书申请成功: $CERT_DIR"
+}
+
 function generate_singbox_server() {
     load_esb_config
 
@@ -196,17 +242,8 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "server_name": "$DOMAIN_NAME",
-        "acme": {
-          "domain": ["$DOMAIN_NAME"],
-          "data_directory": "/etc/sing-box/certs",
-          "default_server_name": "$DOMAIN_NAME",
-          "email": "hello@banmiya.org",
-          "provider": "zerossl",
-          "external_account": {
-            "key_id": "$KEY_ID",
-            "mac_key": "$MAC_KEY"
-          }
-        },
+        "certificate_path": "$CERT_DIR/fullchain.pem",
+        "key_path": "$CERT_DIR/privkey.pem",
         "ech": {
           "enabled": false,
           "key": $ECH_KEYS
@@ -248,6 +285,8 @@ fi
 load_esb_config
 
 check_and_setup_dns
+
+obtain_certificate
 
 generate_singbox_server
 
