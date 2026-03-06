@@ -135,7 +135,7 @@ function generate_esb_config() {
 
     numbers=()
     while [ ${#numbers[@]} -lt 3 ]; do
-        num=$((RANDOM % (65535 - 12345 + 1) + $MIN))
+        num=$((RANDOM % (65535 - 12345 + 1) + 12345))
         if [[ ! " ${numbers[@]} " =~ " $num " ]]; then
             numbers+=($num)
         fi
