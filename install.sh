@@ -331,7 +331,11 @@ function generate_singbox_server() {
         "type": "string",
         "status_code": 500,
         "content": "The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error with request ID: 839-234."
-      }
+      },
+      "sniff": true,
+      "sniff_override_destination": true,
+      "tcp_fast_open": true,
+      "tcp_multi_path": true
     },
     {
       "type": "vless",
@@ -356,38 +360,50 @@ function generate_singbox_server() {
           "private_key": "$PRIVATE_KEY",
           "short_id": "$REALITY_SID"
         }
-      }
+      },
+     "sniff": true,
+     "sniff_override_destination": true,
+     "tcp_fast_open": true,
+     "tcp_multi_path": true
     },
     {
-      "type": "shadowsocks",
-      "tag": "ss-in",
-      "listen": "::",
-      "listen_port": $SS_PORT,
-      "method": "2022-blake3-aes-256-gcm",
-      "password": "$SS_PASSWORD"
+     "type": "shadowsocks",
+     "tag": "ss-in",
+     "listen": "::",
+     "listen_port": $SS_PORT,
+     "method": "2022-blake3-aes-256-gcm",
+     "password": "$SS_PASSWORD",
+     "sniff": true,
+     "sniff_override_destination": true,
+     "tcp_fast_open": true,
+     "tcp_multi_path": true
     },
 	  {
-      "type": "naive",
-      "tag": "naive-in",
-      "listen": "::",
-      "listen_port": 443,
-      "quic_congestion_control": "bbr2",
-      "users": [
-        {
-          "username": "user-zmlu",
-          "password": "$PASSWORD"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "server_name": "$DOMAIN_NAME",
-        "certificate_path": "$CERT_DIR/fullchain.pem",
-        "key_path": "$CERT_DIR/privkey.pem",
-        "ech": {
-          "enabled": false,
-          "key": $ECH_KEYS
-        }
-      },
+     "type": "naive",
+     "tag": "naive-in",
+     "listen": "::",
+     "listen_port": 443,
+     "quic_congestion_control": "bbr2",
+     "users": [
+       {
+         "username": "user-zmlu",
+         "password": "$PASSWORD"
+       }
+     ],
+     "tls": {
+       "enabled": true,
+       "server_name": "$DOMAIN_NAME",
+       "certificate_path": "$CERT_DIR/fullchain.pem",
+       "key_path": "$CERT_DIR/privkey.pem",
+       "ech": {
+         "enabled": false,
+         "key": $ECH_KEYS
+       }
+     },
+     "sniff": true,
+     "sniff_override_destination": true,
+     "tcp_fast_open": true,
+     "tcp_multi_path": true
     }
   ],
   "outbounds": [
