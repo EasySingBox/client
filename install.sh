@@ -309,22 +309,10 @@ function generate_singbox_server() {
   },
   "inbounds": [
     {
-      "type": "shadowsocks",
-      "tag": "ss",
-      "listen": "::",
-      "listen_port": $SS_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
-      "method": "2022-blake3-aes-256-gcm",
-      "password": "$SS_PASSWORD"
-    },
-    {
       "type": "hysteria2",
-      "tag": "hy2",
+      "tag": "hy2-in",
       "listen": "::",
       "listen_port": $H2_PORT,
-      "sniff": true,
-      "sniff_override_destination": true,
       "up_mbps": 1024,
       "down_mbps": 1024,
       "users": [
@@ -347,7 +335,7 @@ function generate_singbox_server() {
     },
     {
       "type": "vless",
-      "tag": "vless",
+      "tag": "vless-in",
       "listen": "::",
       "listen_port": $REALITY_PORT,
       "users": [
@@ -370,13 +358,19 @@ function generate_singbox_server() {
         }
       }
     },
+    {
+      "type": "shadowsocks",
+      "tag": "ss-in",
+      "listen": "::",
+      "listen_port": $SS_PORT,
+      "method": "2022-blake3-aes-256-gcm",
+      "password": "$SS_PASSWORD"
+    },
 	  {
       "type": "naive",
       "tag": "naive-in",
       "listen": "::",
       "listen_port": 443,
-      "tcp_fast_open": true,
-      "tcp_multi_path": true,
       "quic_congestion_control": "bbr2",
       "users": [
         {
