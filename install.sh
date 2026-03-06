@@ -124,13 +124,25 @@ function generate_esb_config() {
     ISP=$(echo "$IP_INFO" | jq -r .isp)
     ASN=$(echo "$IP_INFO" | jq -r .asn)
     VPS_ISP=$(echo "$ISP" | sed "s/$ASN//" | xargs)
+
+    SS_PASSWORD=$(sing-box generate rand --base64 32 | tr -d '\n')
     PASSWORD=$(sing-box generate uuid | tr -d '\n')
 
-    # 生成 Reality 密钥对
     XRAY_OUT=$(sing-box generate reality-keypair)
     PRIVATE_KEY=$(echo "$XRAY_OUT" | grep "PrivateKey" | awk '{print $2}')
     PUBLIC_KEY=$(echo "$XRAY_OUT" | grep "PublicKey" | awk '{print $2}')
     REALITY_SID=$(sing-box generate rand 4 --hex | tr -d '\n')
+
+    numbers=()
+    while [ ${#numbers[@]} -lt 3 ]; do
+        num=$((RANDOM % ($MAX - $MIN + 1) + $MIN))
+        if [[ ! " ${numbers[@]} " =~ " $num " ]]; then
+            numbers+=($num)
+        fi
+    done
+    H2_PORT=${numbers[0]}
+    SS_PORT=${numbers[1]}
+    REALITY_PORT=${numbers[2]}
 
     # 生成 ECH 密钥对
     ECH_OUTPUT=$(sing-box generate ech-keypair "$DOMAIN_NAME")
@@ -144,6 +156,10 @@ function generate_esb_config() {
   "country": "$COUNTRY",
   "isp": "$VPS_ISP",
   "password": "$PASSWORD",
+  "ss_password": "$SS_PASSWORD",
+  "ss_port": $SS_PORT,
+  "h2_port": $H2_PORT,
+  "reality_port": $REALITY_PORT,
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
   "private_key": "$PRIVATE_KEY",
@@ -157,6 +173,10 @@ function load_esb_config() {
     if [[ -f "$CONFIG_FILE" ]]; then
         SERVER_IP=$(jq -r .server_ip "$CONFIG_FILE")
         PASSWORD=$(jq -r .password "$CONFIG_FILE")
+        SS_PASSWORD=$(jq -r .ss_password "$CONFIG_FILE")
+        SS_PORT=$(jq -r .ss_port "$CONFIG_FILE")
+        H2_PORT=$(jq -r .h2_port "$CONFIG_FILE")
+        REALITY_PORT=$(jq -r .reality_port "$CONFIG_FILE")
         REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
         PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
         PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
@@ -289,10 +309,47 @@ function generate_singbox_server() {
   },
   "inbounds": [
     {
+      "type": "shadowsocks",
+      "tag": "ss",
+      "listen": "::",
+      "listen_port": $SS_PORT,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "method": "2022-blake3-aes-256-gcm",
+      "password": "$SS_PASSWORD"
+    },
+    {
+      "type": "hysteria2",
+      "tag": "hy2",
+      "listen": "::",
+      "listen_port": $H2_PORT,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "up_mbps": 1024,
+      "down_mbps": 1024,
+      "users": [
+        {
+          "name": "zmlu",
+          "password": "$PASSWORD"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "alpn": "h3",
+        "certificate_path": "$CERT_DIR/fullchain.pem",
+        "key_path": "$CERT_DIR/privkey.pem",
+      },
+      "masquerade": {
+        "type": "string",
+        "status_code": 500,
+        "content": "The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error with request ID: 839-234."
+      }
+    },
+    {
       "type": "vless",
       "tag": "vless",
       "listen": "::",
-      "listen_port": 443,
+      "listen_port": $REALITY_PORT,
       "users": [
         {
           "uuid": "$PASSWORD",
@@ -312,6 +369,31 @@ function generate_singbox_server() {
           "short_id": "$REALITY_SID"
         }
       }
+    },
+	  {
+      "type": "naive",
+      "tag": "naive-in",
+      "listen": "::",
+      "listen_port": 443,
+      "tcp_fast_open": true,
+      "tcp_multi_path": true,
+      "quic_congestion_control": "bbr2",
+      "users": [
+        {
+          "username": "user-zmlu",
+          "password": "$PASSWORD"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "server_name": "$DOMAIN_NAME",
+        "certificate_path": "$CERT_DIR/fullchain.pem",
+        "key_path": "$CERT_DIR/privkey.pem",
+        "ech": {
+          "enabled": false,
+          "key": $ECH_KEYS
+        }
+      },
     }
   ],
   "outbounds": [
