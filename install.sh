@@ -8,23 +8,27 @@ echo "开始生成配置..."
 CONFIG_FILE="$HOME/esb.config"
 SING_BOX_CONFIG_DIR="/etc/sing-box"
 
-if [ $# -ne 4 ]; then
-    echo "用法: $0 <CLOUDFLARE_API_TOKEN> <DOMAIN_NAME> <ZEROSSL_KEY_ID> <ZEROSSL_MAC_KEY>"
+if [ $# -eq 4 ]; then
+    CLOUDFLARE_API_TOKEN="$1"
+    DOMAIN_NAME="$2"
+    ZEROSSL_KEY_ID="$3"
+    ZEROSSL_MAC_KEY="$4"
+    CERT_DIR="/etc/letsencrypt/live/$DOMAIN_NAME"
+    ACME_WEBROOT="/var/www/certbot"
+    USE_TLS=true
+elif [ $# -eq 0 ]; then
+    USE_TLS=false
+else
+    echo "用法: $0 [CLOUDFLARE_API_TOKEN DOMAIN_NAME ZEROSSL_KEY_ID ZEROSSL_MAC_KEY]"
     echo ""
-    echo "参数说明:"
+    echo "不传参数: 仅生成基础代理配置（无证书、无 DNS、无 naive/hysteria2 入口）"
+    echo "传入4个参数:"
     echo "  CLOUDFLARE_API_TOKEN: Cloudflare API Token (需要 Zone:Read 和 DNS:Edit 权限)"
     echo "  DOMAIN_NAME:          完整域名，例如 app.example.com"
     echo "  ZEROSSL_KEY_ID:       ZeroSSL EAB Key ID"
     echo "  ZEROSSL_MAC_KEY:      ZeroSSL EAB MAC Key"
     exit 1
 fi
-
-CLOUDFLARE_API_TOKEN="$1"
-DOMAIN_NAME="$2"
-ZEROSSL_KEY_ID="$3"
-ZEROSSL_MAC_KEY="$4"
-CERT_DIR="/etc/letsencrypt/live/$DOMAIN_NAME"
-ACME_WEBROOT="/var/www/certbot"
 
 apt install -y git jq gcc wget unzip curl socat cron certbot nginx dnsutils
 mkdir /etc/apt/keyrings/ > /dev/null
@@ -144,12 +148,13 @@ function generate_esb_config() {
     SS_PORT=${numbers[1]}
     REALITY_PORT=${numbers[2]}
 
-    # 生成 ECH 密钥对
-    ECH_OUTPUT=$(sing-box generate ech-keypair "$DOMAIN_NAME")
-    ECH_CONFIGS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH CONFIGS-----/,/-----END ECH CONFIGS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -R . | jq -sc '.')
-    ECH_KEYS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH KEYS-----/,/-----END ECH KEYS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -R . | jq -sc '.')
+    if [ "$USE_TLS" = true ]; then
+        # 生成 ECH 密钥对
+        ECH_OUTPUT=$(sing-box generate ech-keypair "$DOMAIN_NAME")
+        ECH_CONFIGS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH CONFIGS-----/,/-----END ECH CONFIGS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -R . | jq -sc '.')
+        ECH_KEYS=$(echo "$ECH_OUTPUT" | awk '/-----BEGIN ECH KEYS-----/,/-----END ECH KEYS-----/' | grep -v '^[[:space:]]*$' | sed 's/^[[:space:]]*//' | jq -R . | jq -sc '.')
 
-    cat <<EOF > "$CONFIG_FILE"
+        cat <<EOF > "$CONFIG_FILE"
 {
   "server_ip": "$SERVER_IP",
   "domain_name": "$DOMAIN_NAME",
@@ -167,6 +172,22 @@ function generate_esb_config() {
   "ech_keys": $ECH_KEYS
 }
 EOF
+    else
+        cat <<EOF > "$CONFIG_FILE"
+{
+  "server_ip": "$SERVER_IP",
+  "country": "$COUNTRY",
+  "isp": "$VPS_ISP",
+  "password": "$PASSWORD",
+  "ss_password": "$SS_PASSWORD",
+  "ss_port": $SS_PORT,
+  "reality_port": $REALITY_PORT,
+  "reality_sid": "$REALITY_SID",
+  "public_key": "$PUBLIC_KEY",
+  "private_key": "$PRIVATE_KEY"
+}
+EOF
+    fi
 }
 
 function load_esb_config() {
@@ -180,8 +201,10 @@ function load_esb_config() {
         REALITY_SID=$(jq -r .reality_sid "$CONFIG_FILE")
         PUBLIC_KEY=$(jq -r .public_key "$CONFIG_FILE")
         PRIVATE_KEY=$(jq -r .private_key "$CONFIG_FILE")
-        ECH_CONFIGS=$(jq -c '.ech_configs // []' "$CONFIG_FILE")
-        ECH_KEYS=$(jq -c '.ech_keys // []' "$CONFIG_FILE")
+        if [ "$USE_TLS" = true ]; then
+            ECH_CONFIGS=$(jq -c '.ech_configs // []' "$CONFIG_FILE")
+            ECH_KEYS=$(jq -c '.ech_keys // []' "$CONFIG_FILE")
+        fi
     else
         generate_esb_config
         load_esb_config
@@ -287,9 +310,78 @@ HOOKEOF
 function generate_singbox_server() {
     load_esb_config
 
-# 重建 sing-box 配置目录
+    # 重建 sing-box 配置目录
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
+
+    # 构建 TLS 相关入口（需要证书）
+    if [ "$USE_TLS" = true ]; then
+        HY2_BLOCK=$(cat <<HY2BLOCK
+    {
+      "type": "hysteria2",
+      "tag": "hy2-in",
+      "listen": "::",
+      "listen_port": $H2_PORT,
+      "up_mbps": 1024,
+      "down_mbps": 1024,
+      "users": [
+        {
+          "name": "zmlu",
+          "password": "$PASSWORD"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "alpn": "h3",
+        "certificate_path": "$CERT_DIR/fullchain.pem",
+        "key_path": "$CERT_DIR/privkey.pem"
+      },
+      "masquerade": {
+        "type": "string",
+        "status_code": 500,
+        "content": "The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error with request ID: 839-234."
+      },
+      "sniff": true,
+      "sniff_override_destination": true,
+      "tcp_fast_open": true,
+      "tcp_multi_path": true
+    },
+HY2BLOCK
+)
+        NAIVE_BLOCK=$(cat <<NAIVEBLOCK
+    ,{
+      "type": "naive",
+      "tag": "naive-in",
+      "listen": "::",
+      "listen_port": 443,
+      "quic_congestion_control": "bbr2",
+      "users": [
+        {
+          "username": "user-zmlu",
+          "password": "$PASSWORD"
+        }
+      ],
+      "tls": {
+        "enabled": true,
+        "server_name": "$DOMAIN_NAME",
+        "certificate_path": "$CERT_DIR/fullchain.pem",
+        "key_path": "$CERT_DIR/privkey.pem",
+        "ech": {
+          "enabled": false,
+          "key": $ECH_KEYS
+        }
+      },
+      "sniff": true,
+      "sniff_override_destination": true,
+      "tcp_fast_open": true,
+      "tcp_multi_path": true
+    }
+NAIVEBLOCK
+)
+    else
+        HY2_BLOCK=""
+        NAIVE_BLOCK=""
+    fi
 
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
@@ -308,36 +400,7 @@ function generate_singbox_server() {
     "independent_cache": true
   },
   "inbounds": [
-    {
-      "type": "hysteria2",
-      "tag": "hy2-in",
-      "listen": "::",
-      "listen_port": $H2_PORT,
-      "up_mbps": 1024,
-      "down_mbps": 1024,
-      "users": [
-        {
-          "name": "zmlu",
-          "password": "$PASSWORD"
-        }
-      ],
-      "tls": {
-        "enabled": true,
-        "alpn": "h3",
-        "certificate_path": "$CERT_DIR/fullchain.pem",
-        "key_path": "$CERT_DIR/privkey.pem",
-      },
-      "masquerade": {
-        "type": "string",
-        "status_code": 500,
-        "content": "The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error with request ID: 839-234."
-      },
-      "sniff": true,
-      "sniff_override_destination": true,
-      "tcp_fast_open": true,
-      "tcp_multi_path": true
-    },
-    {
+${HY2_BLOCK}    {
       "type": "vless",
       "tag": "vless-in",
       "listen": "::",
@@ -361,50 +424,23 @@ function generate_singbox_server() {
           "short_id": "$REALITY_SID"
         }
       },
-     "sniff": true,
-     "sniff_override_destination": true,
-     "tcp_fast_open": true,
-     "tcp_multi_path": true
+      "sniff": true,
+      "sniff_override_destination": true,
+      "tcp_fast_open": true,
+      "tcp_multi_path": true
     },
     {
-     "type": "shadowsocks",
-     "tag": "ss-in",
-     "listen": "::",
-     "listen_port": $SS_PORT,
-     "method": "2022-blake3-aes-256-gcm",
-     "password": "$SS_PASSWORD",
-     "sniff": true,
-     "sniff_override_destination": true,
-     "tcp_fast_open": true,
-     "tcp_multi_path": true
-    },
-	  {
-     "type": "naive",
-     "tag": "naive-in",
-     "listen": "::",
-     "listen_port": 443,
-     "quic_congestion_control": "bbr2",
-     "users": [
-       {
-         "username": "user-zmlu",
-         "password": "$PASSWORD"
-       }
-     ],
-     "tls": {
-       "enabled": true,
-       "server_name": "$DOMAIN_NAME",
-       "certificate_path": "$CERT_DIR/fullchain.pem",
-       "key_path": "$CERT_DIR/privkey.pem",
-       "ech": {
-         "enabled": false,
-         "key": $ECH_KEYS
-       }
-     },
-     "sniff": true,
-     "sniff_override_destination": true,
-     "tcp_fast_open": true,
-     "tcp_multi_path": true
-    }
+      "type": "shadowsocks",
+      "tag": "ss-in",
+      "listen": "::",
+      "listen_port": $SS_PORT,
+      "method": "2022-blake3-aes-256-gcm",
+      "password": "$SS_PASSWORD",
+      "sniff": true,
+      "sniff_override_destination": true,
+      "tcp_fast_open": true,
+      "tcp_multi_path": true
+    }${NAIVE_BLOCK}
   ],
   "outbounds": [
     {
@@ -430,13 +466,12 @@ fi
 
 load_esb_config
 
-check_and_setup_dns
-
-setup_nginx_for_acme
-
-wait_for_dns_propagation
-
-obtain_certificate
+if [ "$USE_TLS" = true ]; then
+    check_and_setup_dns
+    setup_nginx_for_acme
+    wait_for_dns_propagation
+    obtain_certificate
+fi
 
 generate_singbox_server
 
