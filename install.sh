@@ -184,6 +184,7 @@ EOF
   "password": "$PASSWORD",
   "ss_password": "$SS_PASSWORD",
   "ss_port": $SS_PORT,
+  "h2_port": $H2_PORT,
   "reality_port": $REALITY_PORT,
   "reality_sid": "$REALITY_SID",
   "public_key": "$PUBLIC_KEY",
