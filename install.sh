@@ -148,6 +148,9 @@ function generate_esb_config() {
     SS_PORT=${numbers[1]}
     REALITY_PORT=${numbers[2]}
 
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/self_cert.pem" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/cert.pem
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/self_private.key" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/private.key
+
     if [ "$USE_TLS" = true ]; then
         # 生成 ECH 密钥对
         ECH_OUTPUT=$(sing-box generate ech-keypair "$DOMAIN_NAME")
@@ -313,10 +316,7 @@ function generate_singbox_server() {
     # 重建 sing-box 配置目录
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
-
-    # 构建 TLS 相关入口（需要证书）
-    if [ "$USE_TLS" = true ]; then
-        HY2_BLOCK=$(cat <<HY2BLOCK
+    HY2_BLOCK=$(cat <<HY2BLOCK
     {
       "type": "hysteria2",
       "tag": "hy2-in",
@@ -333,8 +333,8 @@ function generate_singbox_server() {
       "tls": {
         "enabled": true,
         "alpn": "h3",
-        "certificate_path": "$CERT_DIR/fullchain.pem",
-        "key_path": "$CERT_DIR/privkey.pem"
+        "certificate_path": "$SING_BOX_CONFIG_DIR/self_cert.pem",
+        "key_path": "$SING_BOX_CONFIG_DIR/self_private.key"
       },
       "masquerade": {
         "type": "string",
@@ -348,6 +348,8 @@ function generate_singbox_server() {
     },
 HY2BLOCK
 )
+    # 构建 TLS 相关入口（需要证书）
+    if [ "$USE_TLS" = true ]; then
         NAIVE_BLOCK=$(cat <<NAIVEBLOCK
     ,{
       "type": "naive",
@@ -379,7 +381,6 @@ HY2BLOCK
 NAIVEBLOCK
 )
     else
-        HY2_BLOCK=""
         NAIVE_BLOCK=""
     fi
 
