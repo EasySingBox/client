@@ -389,8 +389,8 @@ NAIVEBLOCK
     cat <<EOF > "$SING_BOX_CONFIG_DIR/config.json"
 {
   "log": {
-    "disabled": true,
-    "level": "error",
+    "disabled": false,
+    "level": "info",
     "timestamp": true
   },
   "dns": {
