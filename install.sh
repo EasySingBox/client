@@ -148,9 +148,6 @@ function generate_esb_config() {
     SS_PORT=${numbers[1]}
     REALITY_PORT=${numbers[2]}
 
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/self_cert.pem" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/cert.pem
-    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/self_private.key" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/private.key
-
     if [ "$USE_TLS" = true ]; then
         # 生成 ECH 密钥对
         ECH_OUTPUT=$(sing-box generate ech-keypair "$DOMAIN_NAME")
@@ -317,6 +314,10 @@ function generate_singbox_server() {
     # 重建 sing-box 配置目录
     rm -rf $SING_BOX_CONFIG_DIR
     mkdir -p "$SING_BOX_CONFIG_DIR"
+
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/self_cert.pem" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/cert.pem
+    wget --inet4-only -O "$SING_BOX_CONFIG_DIR/self_private.key" https://raw.githubusercontent.com/EasySingBox/client/refs/heads/main/cert/private.key
+
     HY2_BLOCK=$(cat <<HY2BLOCK
     {
       "type": "hysteria2",
